@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from dsa_starter.views import character_list
-from dsa_starter.views import character_detail
+from dsa_starter.views import character_list, skills, character_detail, skill_types
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^characters', character_list, name='character_list'),
-    url(r'^character', character_detail, name='character_detail')
+    url(r'^character', character_detail, name='character_detail'),
+    url(r'^skills', skills, name='skills'),
+    url(r'^skillTypes', skill_types, name='skillTypes'),
 ]

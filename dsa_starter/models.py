@@ -61,6 +61,7 @@ class Character(models.Model):
     experience = models.SmallIntegerField(default=0)
     life = models.SmallIntegerField(default=30)
     experience_used = models.SmallIntegerField(default=0)
+    life_lost = models.SmallIntegerField(default=30)
 
     attack_basis = models.SmallIntegerField(default=0)
     parade_basis = models.SmallIntegerField(default=0)
@@ -102,7 +103,7 @@ class Skill(models.Model):
         ("FF", "Fingerfertigkeit"),
         ("IN", "Intuition")
     )
-
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SkillType")
     behinderung = models.CharField(max_length=4, default="")
@@ -119,6 +120,7 @@ class Skill(models.Model):
 
 
 class SkillType(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default="")
     skill_group = models.ForeignKey("SkillGroup")
 
@@ -130,6 +132,7 @@ class SkillType(models.Model):
 
 
 class SkillGroup(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1, default="D")
     title = models.CharField(max_length=50, default="")
     cost_per_increase = models.SmallIntegerField(default=5)

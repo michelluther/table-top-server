@@ -25,7 +25,9 @@ SECRET_KEY = 'n0e%t_4p__m&j@11mnze^c&%)w43@&0@^zivbr*)$64#5)28u_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+]
 
 
 # Application definition
@@ -38,17 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dsa_starter',
-    'channels'
+    'channels',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'dsa_cockpit.urls'
@@ -128,3 +132,5 @@ CHANNEL_LAYERS = {
         "ROUTING": "dsa_cockpit.routing.channel_routing",
     },
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
