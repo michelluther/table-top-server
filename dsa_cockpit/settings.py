@@ -126,6 +126,9 @@ USE_TZ = True
 STATIC_URL = '/app/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'my_fav_path')
+MEDIA_URL = '/my_fav_path/'
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",

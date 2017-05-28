@@ -1,6 +1,3 @@
-from django.http import HttpResponse
-from channels.handler import AsgiHandler
-from channels import message
 from dsa_starter.models import Character
 
 import json
@@ -18,9 +15,6 @@ def ws_message(message):
     # Make standard HTTP response - access ASGI path attribute directly
 
     data = json.loads(message.content['text'])
-    print(message.content['text'])
-    #print(dict(heroId=12,name="harald").heroId)
-    print(data["heroId"])
 
     character = Character.objects.get(pk=data["heroId"])
     character.life_lost = character.life_lost - data["value"]
@@ -32,5 +26,3 @@ def ws_message(message):
 
 def ws_disconnect(message):
     Group("heroes").discard(message.reply_channel)
-
-    

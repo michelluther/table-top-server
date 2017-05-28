@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 
 from django.db import models
 from django.utils import timezone
@@ -34,6 +35,9 @@ class Character(models.Model):
 
     id = models.AutoField(primary_key=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="M")
+
+    avatar = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
+    avatar_small = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
 
     name = models.CharField(max_length=200, default="tbd")
     race = models.ForeignKey("Race")

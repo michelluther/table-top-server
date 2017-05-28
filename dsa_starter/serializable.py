@@ -32,6 +32,9 @@ class CharacterSerializable():
         self.gender = character.gender
         self.name = character.name
 
+        self.avatar = character.avatar.url
+        self.avatar_small = character.avatar_small.url
+
         self.assign_race(character.race)
         self.assign_hero_type(character.type)
 
