@@ -19,6 +19,12 @@ class SkillTypeSerializable():
         self.skill_group = dict(id=skillType.skill_group.id,name=skillType.skill_group.name)
         self.id = skillType.id
 
+class SkillGroupSerializable():
+    def __init__(self, skillGroup):
+        self.name = skillGroup.name
+        self.costsPerIncrease = skillGroup.cost_per_increase
+        self.title = skillGroup.title
+        self.id = skillGroup.id
 
 class CharacterSerializable():
 

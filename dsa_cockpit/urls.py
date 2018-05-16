@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from dsa_starter.views import character_list, skills, character_detail, skill_types
+from dsa_starter.views import character_list, skills, character_detail, skill_types, skill_groups
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^character', character_detail, name='character_detail'),
     url(r'^skills', skills, name='skills'),
     url(r'^skillTypes', skill_types, name='skillTypes'),
+    url(r'^skillGroups', skill_groups, name='skillGroups'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

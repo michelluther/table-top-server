@@ -116,6 +116,8 @@ class Skill(models.Model):
     dice2 = models.CharField(max_length=2, choices=EIGENSCHAFTEN, default="")
     dice3 = models.CharField(max_length=2, choices=EIGENSCHAFTEN, default="")
 
+    basis = models.BooleanField()
+
     def __str__(self):
         return self.name
 

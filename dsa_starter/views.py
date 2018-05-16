@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.http import HttpResponse
 from dsa_starter.models import Character, ActualSkill, Skill, SkillType, SkillGroup
-from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable
+from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable
 
 from channels.handler import  AsgiHandler
 
@@ -29,6 +29,17 @@ def skill_types(request):
         skillTypes_serializable.append(skillType_serializable)
     response = jsonpickle.encode(skillTypes_serializable, True)
     return HttpResponse(response, content_type='application/json')
+
+def skill_groups(request):
+    skillGroups = SkillGroup.objects.all()
+    skillGroups_serializable = []
+    for skillGroup in skillGroups:
+        skillGroup_serializable = SkillGroupSerializable(skillGroup)
+        skillGroups_serializable.append(skillGroup_serializable)
+    response = jsonpickle.encode(skillGroups_serializable, True)
+    return HttpResponse(response, content_type='application/json')
+
+
 
 
 def character_list(request):
