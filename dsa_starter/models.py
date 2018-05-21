@@ -59,16 +59,12 @@ class Character(models.Model):
     konstitution = models.SmallIntegerField(default=0)
     koerperkraft = models.SmallIntegerField(default=0)
 
-    #
-    magieresistenz = models.SmallIntegerField(default=0)
 
     experience = models.SmallIntegerField(default=0)
     life = models.SmallIntegerField(default=30)
     experience_used = models.SmallIntegerField(default=0)
     life_lost = models.SmallIntegerField(default=30)
 
-    attack_basis = models.SmallIntegerField(default=0)
-    parade_basis = models.SmallIntegerField(default=0)
     ini_basis = models.SmallIntegerField(default=0)
 
     created_date = models.DateTimeField(
@@ -83,6 +79,13 @@ class Character(models.Model):
 
     def __unicode__(self):  # You have __str__
         return self.name
+
+class WeaponSkillDistribution(models.Model):
+
+    attack = models.SmallIntegerField(default=0)
+    parade = models.SmallIntegerField(default=0)
+    character = models.ForeignKey("Character", default=1)
+    skill = models.ForeignKey("Skill", default=1)
 
 
 class ActualSkill(models.Model):

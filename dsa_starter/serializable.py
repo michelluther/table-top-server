@@ -58,14 +58,17 @@ class CharacterSerializable():
         self.konstitution = character.konstitution
         self.koerperkraft = character.koerperkraft
 
-        self.magieresistenz = character.magieresistenz
         self.experience = character.experience
         self.life = character.life
         self.life_lost = character.life_lost
         self.experience_used = character.experience_used
-        self.attack_basis = character.attack_basis
-        self.parade_basis = character.parade_basis
-        self.ini_basis = character.ini_basis
+
+        self.magieresistenz = (character.konstitution + character.mut + character.klugheit) / 5
+        self.attack_basis = round(( character.mut + character.gewandheit + character.koerperkraft ) / 5)
+        self.parade_basis = round(( character.intuition + character.gewandheit + character.koerperkraft ) / 5)
+        self.ini_basis = round(( character.mut + character.mut + character.intuition + character.gewandheit ) / 5)
+
+        self.fernkampf_basis = round((character.intuition + character.fingerfertigkeit + character.koerperkraft)/5)
 
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
@@ -78,7 +81,7 @@ class CharacterSerializable():
 
 
     def get_skill(self, skill):
-        return dict(id=skill.id, value=skill.value)
+        return dict(id=skill.skill.id, value=skill.value)
 
     def assign_race(self, race):
         self.race = dict(name=race.name, id=race.id )
