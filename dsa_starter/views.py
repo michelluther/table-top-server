@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.http import HttpResponse
-from dsa_starter.models import Character, ActualSkill, Skill, SkillType, SkillGroup
+from dsa_starter.character import Character, ActualSkill, Skill, SkillType, SkillGroup
 from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable
 
 from channels.handler import  AsgiHandler

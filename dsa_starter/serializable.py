@@ -1,4 +1,4 @@
-from dsa_starter.models import Character, ActualSkill, Skill, SkillType, SkillGroup
+from dsa_starter.character import Character, ActualSkill, Skill, SkillType, SkillGroup
 
 class SkillSerializable():
 

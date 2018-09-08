@@ -1,4 +1,4 @@
-from dsa_starter.models import Character
+from dsa_starter.character import Character
 
 import json
 
