@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from dsa_starter.character import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, WeaponSkillDistribution
+from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, WeaponSkillDistribution
 from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
