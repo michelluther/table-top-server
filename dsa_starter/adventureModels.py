@@ -4,7 +4,7 @@ import os
 
 from django.db import models
 from django.utils import timezone
-from .character import Character
+from .characterModels import Character
 
 class Adventure(models.Model):
     id = models.AutoField(primary_key=True)
