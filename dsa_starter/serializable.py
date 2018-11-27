@@ -1,4 +1,6 @@
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup
+from dsa_starter.adventureModels import Adventure, AdventureImage
+
 
 class SkillSerializable():
 
@@ -12,12 +14,15 @@ class SkillSerializable():
         self.dice2 = skill.dice2
         self.dice3 = skill.dice3
 
+
 class SkillTypeSerializable():
 
     def __init__(self, skillType):
         self.name = skillType.name
-        self.skill_group = dict(id=skillType.skill_group.id,name=skillType.skill_group.name)
+        self.skill_group = dict(
+            id=skillType.skill_group.id, name=skillType.skill_group.name)
         self.id = skillType.id
+
 
 class SkillGroupSerializable():
     def __init__(self, skillGroup):
@@ -25,6 +30,7 @@ class SkillGroupSerializable():
         self.costsPerIncrease = skillGroup.cost_per_increase
         self.title = skillGroup.title
         self.id = skillGroup.id
+
 
 class CharacterSerializable():
 
@@ -63,12 +69,17 @@ class CharacterSerializable():
         self.life_lost = character.life_lost
         self.experience_used = character.experience_used
 
-        self.magieresistenz = (character.konstitution + character.mut + character.klugheit) / 5
-        self.attack_basis = round(( character.mut + character.gewandheit + character.koerperkraft ) / 5)
-        self.parade_basis = round(( character.intuition + character.gewandheit + character.koerperkraft ) / 5)
-        self.ini_basis = round(( character.mut + character.mut + character.intuition + character.gewandheit ) / 5)
+        self.magieresistenz = (character.konstitution +
+                               character.mut + character.klugheit) / 5
+        self.attack_basis = round(
+            (character.mut + character.gewandheit + character.koerperkraft) / 5)
+        self.parade_basis = round(
+            (character.intuition + character.gewandheit + character.koerperkraft) / 5)
+        self.ini_basis = round(
+            (character.mut + character.mut + character.intuition + character.gewandheit) / 5)
 
-        self.fernkampf_basis = round((character.intuition + character.fingerfertigkeit + character.koerperkraft)/5)
+        self.fernkampf_basis = round(
+            (character.intuition + character.fingerfertigkeit + character.koerperkraft)/5)
 
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
@@ -79,12 +90,29 @@ class CharacterSerializable():
             skill_serializable = self.get_skill(skill)
             self.skills.append(skill_serializable)
 
-
     def get_skill(self, skill):
         return dict(id=skill.skill.id, value=skill.value)
 
     def assign_race(self, race):
-        self.race = dict(name=race.name, id=race.id )
+        self.race = dict(name=race.name, id=race.id)
 
     def assign_hero_type(self, type):
-        self.hero_type = dict(id=type.id,name=type.name)
+        self.hero_type = dict(id=type.id, name=type.name)
+
+
+class AdventureSerializable():
+
+    def __init__(self, adventure):
+        self.id = adventure.id
+        self.name = adventure.name
+        self.active = adventure.isActive
+        self.images = self.assign_images(adventure)
+
+    def assign_images(self, adventure):
+        images_serializable = []
+        images = AdventureImage.objects.filter(adventure=adventure.id)
+        for image in images:
+            print(image)
+            images_serializable.append(
+                dict(url=image.url.name, caption=image.caption))
+        return images_serializable

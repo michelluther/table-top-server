@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, WeaponSkillDistribution
-from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation
+from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation, AdventureImage
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
 # Register your models here.
@@ -18,6 +18,8 @@ admin.site.register(Fight)
 admin.site.register(FightCharacterParticipation)
 admin.site.register(NonPlayerCharacter)
 admin.site.register(Adventure)
+admin.site.register(AdventureImage)
+
 
 class WeaponSkillDistributionAdmin(admin.ModelAdmin):
 
@@ -31,4 +33,3 @@ class WeaponSkillDistributionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(WeaponSkillDistribution, WeaponSkillDistributionAdmin)
-

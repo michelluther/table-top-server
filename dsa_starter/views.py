@@ -3,14 +3,16 @@ from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.http import HttpResponse
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup
-from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable
+from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, AdventureSerializable
+from dsa_starter.adventureModels import Adventure, AdventureImage
 
-from channels.handler import  AsgiHandler
+from channels.handler import AsgiHandler
 
 import jsonpickle
 from django.shortcuts import render
 
 # Create your views here.
+
 
 def skills(request):
     skillsData = Skill.objects.all()
@@ -21,6 +23,7 @@ def skills(request):
     response = jsonpickle.encode(skills_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
+
 def skill_types(request):
     skillTypes = SkillType.objects.all()
     skillTypes_serializable = []
@@ -30,6 +33,7 @@ def skill_types(request):
     response = jsonpickle.encode(skillTypes_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
+
 def skill_groups(request):
     skillGroups = SkillGroup.objects.all()
     skillGroups_serializable = []
@@ -38,8 +42,6 @@ def skill_groups(request):
         skillGroups_serializable.append(skillGroup_serializable)
     response = jsonpickle.encode(skillGroups_serializable, True)
     return HttpResponse(response, content_type='application/json')
-
-
 
 
 def character_list(request):
@@ -61,3 +63,11 @@ def character_detail(request):
     return HttpResponse(response, content_type='application/json')
 
 
+def adventure_list(request):
+    adventures = Adventure.objects.all()
+    adventures_serializable = []
+    for adventure in adventures:
+        adventure_serializable = AdventureSerializable(adventure)
+        adventures_serializable.append(adventure_serializable)
+    response = jsonpickle.encode(adventures_serializable, True)
+    return HttpResponse(response, content_type='application/json')

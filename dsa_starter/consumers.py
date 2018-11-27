@@ -6,8 +6,7 @@ from channels import Group
 
 
 def connect_to_heroes(message):
-    print(message.name)
-    print("Connected to life service \n")
+    print("Connected to heroes service \n")
     message.reply_channel.send({"accept": True})
     Group("heroes").add(message.reply_channel)
 
@@ -28,20 +27,20 @@ def disconnect_from_heroes(message):
 
 
 def connect_to_remoteControl_receiver(message):
-    print(message.name)
     print("Connected to remoteControl-Receiver service \n")
     message.reply_channel.send({"accept": True})
     Group("remoteControlReceiver").add(message.reply_channel)
-    
-    
+
+
 def connect_to_remoteControl_sender(message):
-    print(message.name)
-    print("Connected to remote control service \n")
+    print("Connected to remote control sender service \n")
     message.reply_channel.send({"accept": True})
     Group("remoteControlSender").add(message.reply_channel)
 
+
 def disconnect_from_remoteControl_receiver(message):
     Group("remoteControlSender").discard(message.reply_channel)
+
 
 def disconnect_from_remoteControl_sender(message):
     Group("remoteControlSender").discard(message.reply_channel)
@@ -50,6 +49,7 @@ def disconnect_from_remoteControl_sender(message):
 def message_to_remote_control_receivers(message):
     # Make standard HTTP response - access ASGI path attribute directly
     data = json.loads(message.content['text'])
+    print(data)
     Group("remoteControlReceiver").send({
         "text": message.content['text'],
     })
