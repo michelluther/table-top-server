@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, WeaponSkillDistribution
+from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, WeaponSkillDistribution, Weapon, CharacterHasWeapon
 from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
@@ -18,17 +18,11 @@ admin.site.register(Fight)
 admin.site.register(FightCharacterParticipation)
 admin.site.register(NonPlayerCharacter)
 admin.site.register(Adventure)
-
-class WeaponSkillDistributionAdmin(admin.ModelAdmin):
-
-    list_display = ['attack']
-
-    def get_changeform_initial_data(self, request):
-        return {'parade': 12}
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        extra_context = extra_context or {}
+admin.site.register(WeaponSkillDistribution)
+admin.site.register(Weapon)
+admin.site.register(CharacterHasWeapon)
 
 
-admin.site.register(WeaponSkillDistribution, WeaponSkillDistributionAdmin)
+# admin.site.admin_view()
+
 

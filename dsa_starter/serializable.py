@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, CharacterHasWeapon, Weapon, WeaponSkillDistribution
 
 class SkillSerializable():
 
@@ -70,6 +70,9 @@ class CharacterSerializable():
 
         self.fernkampf_basis = round((character.intuition + character.fingerfertigkeit + character.koerperkraft)/5)
 
+        self.weapons = self.assign_weapons()
+        self.weaponSkillDistributions = self.assign_weapon_skill_distributions(character)
+
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
 
@@ -78,6 +81,22 @@ class CharacterSerializable():
         for skill in skills:
             skill_serializable = self.get_skill(skill)
             self.skills.append(skill_serializable)
+
+    def assign_weapon_skill_distributions(self, character):
+        serializedWeaponSkillDistributions = []
+        weaponSkillDistributions = WeaponSkillDistribution.objects.filter(character=character.id)
+        for weaponSkillDistribution in weaponSkillDistributions:
+            serializedWeaponSkillDistributions.append(dict(skill = weaponSkillDistribution.skill.id,
+                                                           attack = weaponSkillDistribution.attack,
+                                                           parade = weaponSkillDistribution.parade))
+        return  serializedWeaponSkillDistributions
+
+    def assign_weapons(self):
+        weaponAssignments = CharacterHasWeapon.objects.filter(character=self.id)
+        weapons = []
+        for weaponAssignment in weaponAssignments:
+            weapons.append(WeaponSerializable(weaponAssignment.weapon))
+        return weapons
 
 
     def get_skill(self, skill):
@@ -88,3 +107,11 @@ class CharacterSerializable():
 
     def assign_hero_type(self, type):
         self.hero_type = dict(id=type.id,name=type.name)
+
+
+class WeaponSerializable():
+
+    def __init__(self, weapon):
+        self.name = weapon.name
+        self.tp_dice = weapon.hit_dices
+        self.tp_add_points = weapon.hit_add_points
