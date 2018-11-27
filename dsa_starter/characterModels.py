@@ -98,6 +98,27 @@ class ActualSkill(models.Model):
         return self.character.name + " - " + self.skill.name
 
 
+class Weapon(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    skill_type = models.ForeignKey("Skill")
+    hit_dices = models.SmallIntegerField(default=1)
+    hit_add_points = models.SmallIntegerField(default=2)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class CharacterHasWeapon(models.Model):
+    character = models.ForeignKey("Character")
+    weapon = models.ForeignKey("Weapon")
+
+    def __str__(self):
+        return self.character.name + " / " + self.weapon.name
+
+
 class Skill(models.Model):
 
     EIGENSCHAFTEN = (
