@@ -26,6 +26,8 @@ class HeroType(models.Model):
         return self.name
 
 # Create your models here.
+
+
 class Character(models.Model):
 
     GENDER_CHOICES = (
@@ -34,10 +36,11 @@ class Character(models.Model):
     )
 
     id = models.AutoField(primary_key=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="M")
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, default="M")
 
-    avatar = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
-    avatar_small = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
+    avatar = models.ImageField(upload_to='', blank=True, null=True)
+    avatar_small = models.ImageField(upload_to='', blank=True, null=True)
 
     name = models.CharField(max_length=200, default="tbd")
     race = models.ForeignKey("Race")
@@ -59,7 +62,6 @@ class Character(models.Model):
     konstitution = models.SmallIntegerField(default=0)
     koerperkraft = models.SmallIntegerField(default=0)
 
-
     experience = models.SmallIntegerField(default=0)
     life = models.SmallIntegerField(default=30)
     experience_used = models.SmallIntegerField(default=0)
@@ -79,6 +81,7 @@ class Character(models.Model):
 
     def __unicode__(self):  # You have __str__
         return self.name
+
 
 class WeaponSkillDistribution(models.Model):
 
@@ -110,6 +113,7 @@ class Weapon(models.Model):
 
     def __unicode__(self):  # You have __str__
         return self.name
+
 
 class CharacterHasWeapon(models.Model):
     character = models.ForeignKey("Character")

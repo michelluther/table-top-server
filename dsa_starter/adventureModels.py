@@ -47,7 +47,7 @@ class FightCharacterParticipation(models.Model):
 
 class AdventureImage(models.Model):
     id = models.AutoField(primary_key=True)
-    url = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
+    image = models.ImageField(upload_to='', blank=True, null=True)
     caption = models.CharField(max_length=200, default="tbd")
 
     adventure = models.ForeignKey("Adventure")

@@ -45,6 +45,7 @@ class CharacterSerializable():
         self.name = character.name
 
         self.avatar = character.avatar.url
+        print(character.avatar.url)
         self.avatar_small = character.avatar_small.url
 
         self.assign_race(character.race)
@@ -136,7 +137,7 @@ class AdventureSerializable():
         for image in images:
             print(image)
             images_serializable.append(
-                dict(url=image.url.name, caption=image.caption))
+                dict(url=image.image.url, caption=image.caption))
         return images_serializable
 
 
