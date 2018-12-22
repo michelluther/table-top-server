@@ -5,6 +5,17 @@ import os
 from django.db import models
 from django.utils import timezone
 
+EIGENSCHAFTEN = dict(
+    {"GE": "Gewandheit",
+     "KK": "Körperkraft",
+     "KO": "Konstitution",
+     "KL": "Klugheit",
+     "MU": "Mut",
+     "CH": "Charisma",
+     "FF": "Fingerfertigkeit",
+     "IN": "Intuition"}
+)
+
 
 class Race(models.Model):
     name = models.TextField(default="Mensch")
@@ -90,6 +101,9 @@ class WeaponSkillDistribution(models.Model):
     character = models.ForeignKey("Character", default=1)
     skill = models.ForeignKey("Skill", default=1)
 
+    def __str__(self):
+        return self.character.name + " - " + self.skill.name
+
 
 class ActualSkill(models.Model):
 
@@ -98,7 +112,7 @@ class ActualSkill(models.Model):
     character = models.ForeignKey("Character", default=1)
 
     def __str__(self):
-        return self.character.name + " - " + self.skill.name
+        return self.character.name + " - " + self.skill.name + " - " + str(self.value)
 
 
 class Weapon(models.Model):
@@ -125,24 +139,27 @@ class CharacterHasWeapon(models.Model):
 
 class Skill(models.Model):
 
-    EIGENSCHAFTEN = (
-        ("GE", "Gewandheit"),
-        ("KK", "Körperkraft"),
-        ("KO", "Konstitution"),
-        ("KL", "Klugheit"),
-        ("MU", "Mut"),
-        ("CH", "Charisma"),
-        ("FF", "Fingerfertigkeit"),
-        ("IN", "Intuition")
-    )
+    # EIGENSCHAFTEN = (
+    #     ("GE", "Gewandheit"),
+    #     ("KK", "Körperkraft"),
+    #     ("KO", "Konstitution"),
+    #     ("KL", "Klugheit"),
+    #     ("MU", "Mut"),
+    #     ("CH", "Charisma"),
+    #     ("FF", "Fingerfertigkeit"),
+    #     ("IN", "Intuition")
+    # )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SkillType")
     behinderung = models.CharField(max_length=4, default="")
 
-    dice1 = models.CharField(max_length=2, choices=EIGENSCHAFTEN, default="")
-    dice2 = models.CharField(max_length=2, choices=EIGENSCHAFTEN, default="")
-    dice3 = models.CharField(max_length=2, choices=EIGENSCHAFTEN, default="")
+    dice1 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
+    dice2 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
+    dice3 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
 
     basis = models.BooleanField()
 

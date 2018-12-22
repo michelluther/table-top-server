@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, CharacterHasWeapon, Weapon, WeaponSkillDistribution
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, CharacterHasWeapon, Weapon, WeaponSkillDistribution, EIGENSCHAFTEN
 from dsa_starter.adventureModels import Adventure, AdventureImage
 
 
@@ -10,9 +10,13 @@ class SkillSerializable():
         self.type = skill.type.id
         self.behinderung = skill.behinderung
 
-        self.dice1 = skill.dice1
-        self.dice2 = skill.dice2
-        self.dice3 = skill.dice3
+        if skill.dice1 != '':
+            self.dice1 = {'id': skill.dice1,
+                          'name': EIGENSCHAFTEN[skill.dice1]}
+            self.dice2 = {'id': skill.dice2,
+                          'name': EIGENSCHAFTEN[skill.dice2]}
+            self.dice3 = {'id': skill.dice3,
+                          'name': EIGENSCHAFTEN[skill.dice3]}
 
 
 class SkillTypeSerializable():
@@ -56,14 +60,14 @@ class CharacterSerializable():
         self.size = character.size
 
         # eigenschaften
-        self.mut = character.mut
-        self.klugheit = character.klugheit
-        self.intuition = character.intuition
-        self.charisma = character.charisma
-        self.fingerfertigkeit = character.fingerfertigkeit
-        self.gewandheit = character.gewandheit
-        self.konstitution = character.konstitution
-        self.koerperkraft = character.koerperkraft
+        self.MU = character.mut
+        self.KL = character.klugheit
+        self.IN = character.intuition
+        self.CH = character.charisma
+        self.FF = character.fingerfertigkeit
+        self.GE = character.gewandheit
+        self.KO = character.konstitution
+        self.KK = character.koerperkraft
 
         self.experience = character.experience
         self.life = character.life
@@ -147,3 +151,4 @@ class WeaponSerializable():
         self.name = weapon.name
         self.tp_dice = weapon.hit_dices
         self.tp_add_points = weapon.hit_add_points
+        self.skill = weapon.skill_type.id
