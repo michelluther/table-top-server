@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from dsa_starter.views import character_list, skills, character_detail, skill_types, skill_groups, adventure_list
+from dsa_starter.views import character_list, skills, skill_types, skill_groups, spells, spell_types, adventure_list
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -24,11 +24,13 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^characters', character_list, name='character_list'),
-    url(r'^character', character_detail, name='character_detail'),
     url(r'^skills', skills, name='skills'),
+    url(r'^spells', spells, name='spells'),
     url(r'^skillTypes', skill_types, name='skillTypes'),
+    url(r'^spellTypes', spell_types, name='spellTypes'),
     url(r'^skillGroups', skill_groups, name='skillGroups'),
-    url(r'^adventures', adventure_list, name='adventures')
+    url(r'^adventures', adventure_list, name='adventures'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

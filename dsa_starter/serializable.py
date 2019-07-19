@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, CharacterHasWeapon, Weapon, WeaponSkillDistribution, EIGENSCHAFTEN
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, WeaponSkillDistribution, EIGENSCHAFTEN
 from dsa_starter.adventureModels import Adventure, AdventureImage
 
 
@@ -42,6 +42,9 @@ class CharacterSerializable():
         self.assign_character_attributes(character)
         character_skills = self.get_character_skills(character)
         self.assign_character_skills(character_skills)
+        character_spells = self.get_character_spells(character)
+        self.assign_character_spells(character_spells)
+
 
     def assign_character_attributes(self, character):
         self.id = character.id
@@ -99,6 +102,15 @@ class CharacterSerializable():
             skill_serializable = self.get_skill(skill)
             self.skills.append(skill_serializable)
 
+    def assign_character_spells(self, spells):
+        self.spells = []
+        for spell in spells:
+            spell_serializable = self.get_spell(spell)
+            self.spells.append(spell_serializable)
+
+    def get_character_spells(self, character):
+        return ActualSpellSkill.objects.filter(character=character.pk)
+
     def assign_weapon_skill_distributions(self, character):
         serializedWeaponSkillDistributions = []
         weaponSkillDistributions = WeaponSkillDistribution.objects.filter(
@@ -120,12 +132,30 @@ class CharacterSerializable():
     def get_skill(self, skill):
         return dict(id=skill.skill.id, value=skill.value)
 
+    def get_spell(self, spell):
+        print(spell.spell.id)
+        print(spell.value)
+        return dict(id=spell.spell.id, value=spell.value)
+
     def assign_race(self, race):
         self.race = dict(name=race.name, id=race.id)
 
     def assign_hero_type(self, type):
         self.hero_type = dict(id=type.id, name=type.name)
+        self.knows_magic = type.knowsMagic
 
+class SpellSerializable():
+    def __init__(self, spell):
+        self.id = spell.id
+        self.name = spell.name
+        self.dice1 = spell.dice1
+        self.dice2 = spell.dice2
+        self.dice3 = spell.dice3
+
+class SpellTypeSerializable():
+    def __init__(self, spellType):
+        self.id = spellType.id
+        self.name = spellType.name
 
 class AdventureSerializable():
 

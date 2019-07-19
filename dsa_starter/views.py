@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.http import HttpResponse
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup
-from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, AdventureSerializable
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, Spell, SpellType
+from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, SpellSerializable, SpellTypeSerializable, AdventureSerializable
 from dsa_starter.adventureModels import Adventure, AdventureImage
 
 from channels.handler import AsgiHandler
@@ -43,6 +43,23 @@ def skill_groups(request):
     response = jsonpickle.encode(skillGroups_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
+def spells(request):
+    spells = Spell.objects.all()
+    spells_serializable = []
+    for spell in spells:
+        spell_serializable = SpellSerializable(spell)
+        spells_serializable.append(spell_serializable)
+    response = jsonpickle.encode(spells_serializable, True)
+    return HttpResponse(response, content_type='application/json')
+
+def spell_types(request):
+    spellTypes = SpellType.objects.all()
+    spellTypes_serializable = []
+    for spellType in spellTypes:
+        spellType_serializable = SpellTypeSerializable(spellType)
+        spellTypes_serializable.append(spellType_serializable)
+    response = jsonpickle.encode(spellTypes_serializable, True)
+    return HttpResponse(response, content_type='application/json')
 
 def character_list(request):
     characters = Character.objects.all()
@@ -53,13 +70,6 @@ def character_list(request):
 
     response = jsonpickle.encode(characters_serializable, True)
     #response = jsonpickle.dumps(characters_serializable)
-    return HttpResponse(response, content_type='application/json')
-
-
-def character_detail(request):
-    character_id = request.get_full_path().split('/')[2]
-    character = Character.objects.get(pk=character_id)
-    response = 'huhu'
     return HttpResponse(response, content_type='application/json')
 
 

@@ -29,3 +29,11 @@ class NonPlayerCharacter(models.Model):
     parade = models.SmallIntegerField(default=0)
 
     hit_points = models.CharField(max_length=6, default="1W6+4")
+
+
+class NonPlayerCharacterHasWeapon(models.Model):
+    character = models.ForeignKey("NonPlayerCharacter")
+    weapon = models.ForeignKey("Weapon")
+
+    def __str__(self):
+        return self.character.name + " / " + self.weapon.name

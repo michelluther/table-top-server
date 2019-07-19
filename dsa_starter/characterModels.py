@@ -29,6 +29,7 @@ class Race(models.Model):
 
 class HeroType(models.Model):
     name = models.CharField(max_length=200, default="Krieger")
+    knowsMagic = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -114,6 +115,15 @@ class ActualSkill(models.Model):
     def __str__(self):
         return self.character.name + " - " + self.skill.name + " - " + str(self.value)
 
+class ActualSpellSkill(models.Model):
+
+    value = models.SmallIntegerField(default=0)
+    spell = models.ForeignKey("Spell")
+    character = models.ForeignKey("Character", default=1)
+
+    def __str__(self):
+        return self.character.name + " - " + self.spell.name + " - " + str(self.value)
+
 
 class Weapon(models.Model):
     id = models.AutoField(primary_key=True)
@@ -170,6 +180,7 @@ class Skill(models.Model):
         return self.name
 
 
+
 class SkillType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default="")
@@ -190,6 +201,48 @@ class SkillGroup(models.Model):
 
     def __str__(self):
         return self.title
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class Spell(models.Model):
+
+    # EIGENSCHAFTEN = (
+    #     ("GE", "Gewandheit"),
+    #     ("KK", "Körperkraft"),
+    #     ("KO", "Konstitution"),
+    #     ("KL", "Klugheit"),
+    #     ("MU", "Mut"),
+    #     ("CH", "Charisma"),
+    #     ("FF", "Fingerfertigkeit"),
+    #     ("IN", "Intuition")
+    # )
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, default="")
+    type = models.ForeignKey("SpellType")
+
+    dice1 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
+    dice2 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
+    dice3 = models.CharField(
+        max_length=2, choices=EIGENSCHAFTEN.items(), default="")
+
+    basis = models.BooleanField()
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+
+class SpellType(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, default="")
+
+    def __str__(self):
+        return self.name
 
     def __unicode__(self):  # You have __str__
         return self.name
