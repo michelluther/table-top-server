@@ -1,66 +1,21 @@
 BEGIN TRANSACTION;
 
-CREATE TABLE IF NOT EXISTS `dsa_starter_skillgroup` (
-	`name`	varchar ( 1 ) NOT NULL,
-	`cost_per_increase`	smallint NOT NULL,
-	`title`	varchar ( 50 ) NOT NULL,
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT
-);
-
 CREATE TABLE IF NOT EXISTS `dsa_starter_race` (
 	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name`	text NOT NULL
 );
-
+INSERT INTO `dsa_starter_race` (id,name) VALUES (1,'Mensch'),
+ (2,'Zwerg');
 
 CREATE TABLE IF NOT EXISTS `dsa_starter_herotype` (
 	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name`	varchar ( 200 ) NOT NULL
 );
 
-
-
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_points_spent` (
-	`hero_id`	INTEGER NOT NULL,
-	`points_spent`	INTEGER NOT NULL,
-	`activity_json`	TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_adventure` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	varchar ( 200 ) NOT NULL,
-	`isActive`	bool NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_character` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`created_date`	datetime NOT NULL,
-	`name`	varchar ( 200 ) NOT NULL,
-	`type_id`	integer NOT NULL,
-	`race_id`	integer NOT NULL,
-	`experience`	smallint NOT NULL,
-	`life`	smallint NOT NULL,
-	`charisma`	smallint NOT NULL,
-	`culture`	varchar ( 200 ) NOT NULL,
-	`fingerfertigkeit`	smallint NOT NULL,
-	`gender`	varchar ( 1 ) NOT NULL,
-	`gewandheit`	smallint NOT NULL,
-	`intuition`	smallint NOT NULL,
-	`klugheit`	smallint NOT NULL,
-	`koerperkraft`	smallint NOT NULL,
-	`konstitution`	smallint NOT NULL,
-	`mut`	smallint NOT NULL,
-	`size`	smallint NOT NULL,
-	`social_rank`	smallint NOT NULL,
-	`experience_used`	smallint NOT NULL,
-	`ini_basis`	smallint NOT NULL,
-	`life_lost`	smallint NOT NULL,
-	`avatar`	varchar ( 100 ),
-	`avatar_small`	varchar ( 100 ),
-	FOREIGN KEY(`type_id`) REFERENCES `dsa_starter_herotype`(`id`),
-	FOREIGN KEY(`race_id`) REFERENCES `dsa_starter_race`(`id`)
-);
+INSERT INTO `dsa_starter_herotype` (id,name) VALUES (1,'Krieger'),
+ (2,'Gaukler'),
+ (3,'Jäger'),
+ (4,'Zauberer');
 
 CREATE TABLE IF NOT EXISTS `dsa_starter_skilltype` (
 	`skill_group_id`	integer NOT NULL,
@@ -69,16 +24,26 @@ CREATE TABLE IF NOT EXISTS `dsa_starter_skilltype` (
 	FOREIGN KEY(`skill_group_id`) REFERENCES `dsa_starter_skillgroup`(`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `dsa_starter_abenteuer_punkte` (
-	`hero_id`	INTEGER NOT NULL,
-	`abenteuer_punkte`	INTEGER NOT NULL DEFAULT (0)
+CREATE TABLE IF NOT EXISTS `dsa_starter_skillgroup` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	varchar ( 1 ) NOT NULL,
+	`cost_per_increase`	smallint NOT NULL,
+	`title`	varchar ( 50 ) NOT NULL
 );
-CREATE TABLE IF NOT EXISTS `django_session` (
-	`session_key`	varchar ( 40 ) NOT NULL,
-	`session_data`	text NOT NULL,
-	`expire_date`	datetime NOT NULL,
-	PRIMARY KEY(`session_key`)
-);
+
+INSERT INTO `dsa_starter_skillgroup` (name,cost_per_increase,title,id) VALUES ('D',5,'Schwer zu erwerbende',3),
+ ('B',5,'Leicht zu erwerbende',4),
+ ('F',5,'Gaben',5);
+INSERT INTO `dsa_starter_skilltype` (skill_group_id,name,id) VALUES 
+ (5,'Haeh?',0),
+ (5,'Kampftechniken',1),
+ (3,'Körperliche Talente',2),
+ (4,'Gesellschaftliche Talente',3),
+ (4,'Naturtalente',4),
+ (4,'Wissenstalente',5),
+ (5,'Sprachen und Schriften',6),
+ (4,'Handwerkliche Talente',7),
+ (3,'Fernkampf',8);
 
 CREATE TABLE IF NOT EXISTS `dsa_starter_skill` (
 	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -91,191 +56,6 @@ CREATE TABLE IF NOT EXISTS `dsa_starter_skill` (
 	`basis`	bool NOT NULL,
 	FOREIGN KEY(`type_id`) REFERENCES `dsa_starter_skilltype`(`id`)
 );
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_weapon` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	varchar ( 200 ) NOT NULL,
-	`hit_dices`	smallint NOT NULL,
-	`hit_add_points`	smallint NOT NULL,
-	`skill_type_id`	integer NOT NULL,
-	FOREIGN KEY(`skill_type_id`) REFERENCES `dsa_starter_skill`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_actualskill` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`value`	smallint NOT NULL,
-	`skill_id`	integer NOT NULL,
-	`character_id`	integer NOT NULL,
-	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`),
-	FOREIGN KEY(`skill_id`) REFERENCES `dsa_starter_skill`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_weaponskilldistribution` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`character_id`	integer NOT NULL,
-	`skill_id`	integer NOT NULL,
-	`attack`	smallint NOT NULL,
-	`parade`	smallint NOT NULL,
-	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`),
-	FOREIGN KEY(`skill_id`) REFERENCES `dsa_starter_skill`(`id`)
-);
-CREATE TABLE IF NOT EXISTS `dsa_starter_characterhasweapon` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`character_id`	integer NOT NULL,
-	`weapon_id`	integer NOT NULL,
-	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`),
-	FOREIGN KEY(`weapon_id`) REFERENCES `dsa_starter_weapon`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_nonplayercharacter` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`gender`	varchar ( 1 ) NOT NULL,
-	`avatar`	varchar ( 100 ),
-	`avatar_small`	varchar ( 100 ),
-	`name`	varchar ( 200 ) NOT NULL,
-	`iniitiative`	smallint NOT NULL,
-	`attack`	smallint NOT NULL,
-	`parade`	smallint NOT NULL,
-	`hit_points`	varchar ( 6 ) NOT NULL,
-	`race_id`	integer NOT NULL,
-	`type_id`	integer NOT NULL,
-	FOREIGN KEY(`type_id`) REFERENCES `dsa_starter_herotype`(`id`),
-	FOREIGN KEY(`race_id`) REFERENCES `dsa_starter_race`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_fightcharacterparticipation` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`character_id`	integer NOT NULL,
-	`fight_id`	integer NOT NULL,
-	`position`	varchar ( 1 ) NOT NULL,
-	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`),
-	FOREIGN KEY(`fight_id`) REFERENCES `dsa_starter_fight`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_fight` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	varchar ( 200 ) NOT NULL,
-	`adventure_id`	integer NOT NULL,
-	FOREIGN KEY(`adventure_id`) REFERENCES `dsa_starter_adventure`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `dsa_starter_adventureimage` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`caption`	varchar ( 200 ) NOT NULL,
-	`adventure_id`	integer NOT NULL,
-	`image`	varchar ( 100 ),
-	FOREIGN KEY(`adventure_id`) REFERENCES `dsa_starter_adventure`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `auth_group` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	varchar ( 80 ) NOT NULL UNIQUE
-);
-
-
-CREATE TABLE IF NOT EXISTS `auth_user` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`password`	varchar ( 128 ) NOT NULL,
-	`last_login`	datetime,
-	`is_superuser`	bool NOT NULL,
-	`first_name`	varchar ( 30 ) NOT NULL,
-	`last_name`	varchar ( 30 ) NOT NULL,
-	`email`	varchar ( 254 ) NOT NULL,
-	`is_staff`	bool NOT NULL,
-	`is_active`	bool NOT NULL,
-	`date_joined`	datetime NOT NULL,
-	`username`	varchar ( 150 ) NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS `django_content_type` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`app_label`	varchar ( 100 ) NOT NULL,
-	`model`	varchar ( 100 ) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS `auth_permission` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`content_type_id`	integer NOT NULL,
-	`codename`	varchar ( 100 ) NOT NULL,
-	`name`	varchar ( 255 ) NOT NULL,
-	FOREIGN KEY(`content_type_id`) REFERENCES `django_content_type`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `django_migrations` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`app`	varchar ( 255 ) NOT NULL,
-	`name`	varchar ( 255 ) NOT NULL,
-	`applied`	datetime NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`group_id`	integer NOT NULL,
-	`permission_id`	integer NOT NULL,
-	FOREIGN KEY(`group_id`) REFERENCES `auth_group`(`id`),
-	FOREIGN KEY(`permission_id`) REFERENCES `auth_permission`(`id`)
-);
-
-
-CREATE TABLE IF NOT EXISTS `django_admin_log` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`object_id`	text,
-	`object_repr`	varchar ( 200 ) NOT NULL,
-	`action_flag`	smallint unsigned NOT NULL,
-	`change_message`	text NOT NULL,
-	`content_type_id`	integer,
-	`user_id`	integer NOT NULL,
-	`action_time`	datetime NOT NULL,
-	FOREIGN KEY(`content_type_id`) REFERENCES `django_content_type`(`id`),
-	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`user_id`	integer NOT NULL,
-	`permission_id`	integer NOT NULL,
-	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`),
-	FOREIGN KEY(`permission_id`) REFERENCES `auth_permission`(`id`)
-);
-CREATE TABLE IF NOT EXISTS `auth_user_groups` (
-	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`user_id`	integer NOT NULL,
-	`group_id`	integer NOT NULL,
-	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`),
-	FOREIGN KEY(`group_id`) REFERENCES `auth_group`(`id`)
-);
-
-
-
-
-
-INSERT INTO `dsa_starter_race` (id,name) VALUES (1,'Mensch'),
- (2,'Zwerg');
-
-INSERT INTO `dsa_starter_herotype` (id,name) VALUES (1,'Krieger'),
- (2,'Gaukler'),
- (3,'Jäger'),
- (4,'Zauberer');
-
-INSERT INTO `dsa_starter_skillgroup` (name,cost_per_increase,title,id) VALUES ('D',5,'Schwer zu erwerbende',3),
- ('B',5,'Leicht zu erwerbende',4),
- ('F',5,'Gaben',5);
-INSERT INTO `dsa_starter_skilltype` (skill_group_id,name,id) VALUES (5,'Kampftechniken',1),
- (3,'Körperliche Talente',2),
- (4,'Gesellschaftliche Talente',3),
- (4,'Naturtalente',4),
- (4,'Wissenstalente',5),
- (5,'Sprachen und Schriften',6),
- (4,'Handwerkliche Talente',7),
- (3,'Fernkampf',8);
-
-
-INSERT INTO `dsa_starter_character` (id,created_date,name,type_id,race_id,experience,life,charisma,culture,fingerfertigkeit,gender,gewandheit,intuition,klugheit,koerperkraft,konstitution,mut,size,social_rank,experience_used,ini_basis,life_lost,avatar,avatar_small) VALUES (1,'2017-04-18 16:29:48','Torgal',1,1,0,30,9,'Irgendwas',10,'M',12,11,9,14,11,10,175,0,0,0,0,'torgal_avatar_large.png','torgal_avatar_small_g2VUiQF.png'),
- (2,'2017-04-18 19:18:07','Golini',2,1,1000,33,12,'Garethi',10,'F',10,10,10,12,10,10,175,0,0,0,8,'avatar_golini_large.png','golini_avatar_small_inIB8ij.png'),
- (3,'2017-04-26 21:50:21','Tore',3,1,0,30,0,'Garethi',0,'M',0,0,0,0,0,0,187,2,0,0,25,'tore_avatar_large.png','tore_avatar_small_NoPYBRv.png'),
- (4,'2018-06-06 19:00:18','Modred',4,1,0,30,0,'Andergaster',0,'M',0,0,0,0,0,0,175,0,0,0,0,'modred.jpg','modred_isqvmWp.jpg');
-
-
 INSERT INTO `dsa_starter_skill` (id,name,type_id,behinderung,dice1,dice2,dice3,basis) VALUES (1,'Dolche',1,'BE-1','','','',1),
  (2,'Hiebwaffen',1,'BE-4','','','',1),
  (3,'Raufen',1,'BE','','','',1),
@@ -344,7 +124,65 @@ INSERT INTO `dsa_starter_skill` (id,name,type_id,behinderung,dice1,dice2,dice3,b
  (66,'Tätowieren',7,'-','IN','FF','FF',1),
  (67,'Zimmermann',7,'-','KL','FF','KK',1),
  (68,'Bogen',8,'BE-3','GE','GE','GE',1),
- (69,'Fernkampf',1,'BE-3','GE','GE','GE',1);
+ (69,'Fernkampf',1,'BE-3','GE','GE','GE',1),
+ (70,'Beispiel',3,'123','MU','GE','GE',0);
+
+CREATE TABLE IF NOT EXISTS `dsa_starter_character` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`created_date`	datetime NOT NULL,
+	`name`	varchar ( 200 ) NOT NULL,
+	`type_id`	integer NOT NULL,
+	`race_id`	integer NOT NULL,
+	`experience`	smallint NOT NULL,
+	`life`	smallint NOT NULL,
+	`charisma`	smallint NOT NULL,
+	`culture`	varchar ( 200 ) NOT NULL,
+	`fingerfertigkeit`	smallint NOT NULL,
+	`gender`	varchar ( 1 ) NOT NULL,
+	`gewandheit`	smallint NOT NULL,
+	`intuition`	smallint NOT NULL,
+	`klugheit`	smallint NOT NULL,
+	`koerperkraft`	smallint NOT NULL,
+	`konstitution`	smallint NOT NULL,
+	`mut`	smallint NOT NULL,
+	`size`	smallint NOT NULL,
+	`social_rank`	smallint NOT NULL,
+	`experience_used`	smallint NOT NULL,
+	`ini_basis`	smallint NOT NULL,
+	`life_lost`	smallint NOT NULL,
+	`avatar`	varchar ( 100 ),
+	`avatar_small`	varchar ( 100 ),
+	FOREIGN KEY(`type_id`) REFERENCES `dsa_starter_herotype`(`id`),
+	FOREIGN KEY(`race_id`) REFERENCES `dsa_starter_race`(`id`)
+);
+
+INSERT INTO `dsa_starter_character` (id,created_date,name,type_id,race_id,experience,life,charisma,culture,fingerfertigkeit,gender,gewandheit,intuition,klugheit,koerperkraft,konstitution,mut,size,social_rank,experience_used,ini_basis,life_lost,avatar,avatar_small) VALUES (1,'2017-04-18 16:29:48','Torgal',1,1,0,30,9,'Irgendwas',10,'M',12,11,9,14,11,10,175,0,0,0,9,'torgal_avatar_large.png','torgal_avatar_small_g2VUiQF.png'),
+ (2,'2017-04-18 19:18:07','Golini',2,1,1000,33,12,'Garethi',10,'F',10,10,10,12,10,10,175,0,0,0,14,'avatar_golini_large.png','golini_avatar_small_inIB8ij.png'),
+ (3,'2017-04-26 21:50:21','Tore',3,1,0,30,0,'Garethi',0,'M',0,0,0,0,0,0,187,2,0,0,15,'tore_avatar_large.png','tore_avatar_small_NoPYBRv.png'),
+ (4,'2018-06-06 19:00:18','Modred',4,1,0,30,0,'Andergaster',0,'M',0,0,0,0,0,0,175,0,0,0,5,'modred.jpg','modred_isqvmWp.jpg');
+
+CREATE TABLE IF NOT EXISTS `dsa_starter_weapon` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	varchar ( 200 ) NOT NULL,
+	`hit_dices`	smallint NOT NULL,
+	`hit_add_points`	smallint NOT NULL,
+	`skill_type_id`	integer NOT NULL,
+	FOREIGN KEY(`skill_type_id`) REFERENCES `dsa_starter_skill`(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `dsa_starter_weaponskilldistribution` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`character_id`	integer NOT NULL,
+	`skill_id`	integer NOT NULL,
+	`attack`	smallint NOT NULL,
+	`parade`	smallint NOT NULL,
+	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`),
+	FOREIGN KEY(`skill_id`) REFERENCES `dsa_starter_skill`(`id`)
+);
+
+INSERT INTO `dsa_starter_weaponskilldistribution` (id,character_id,skill_id,attack,parade) VALUES (3,1,1,4,0),
+ (4,1,2,4,4),
+ (6,1,5,2,1);
 
 INSERT INTO `dsa_starter_weapon` (id,name,hit_dices,hit_add_points,skill_type_id) VALUES (1,'Langschwert',1,4,2),
  (2,'Dolch',1,1,1),
@@ -354,6 +192,56 @@ INSERT INTO `dsa_starter_weapon` (id,name,hit_dices,hit_add_points,skill_type_id
  (6,'Magierstab',1,2,2),
  (7,'Langbogen',1,4,69);
 
+CREATE TABLE IF NOT EXISTS `dsa_starter_points_spent` (
+	`hero_id`	INTEGER NOT NULL,
+	`points_spent`	INTEGER NOT NULL,
+	`activity_json`	TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `dsa_starter_nonplayercharacter` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`gender`	varchar ( 1 ) NOT NULL,
+	`avatar`	varchar ( 100 ),
+	`avatar_small`	varchar ( 100 ),
+	`name`	varchar ( 200 ) NOT NULL,
+	`iniitiative`	smallint NOT NULL,
+	`attack`	smallint NOT NULL,
+	`parade`	smallint NOT NULL,
+	`hit_points`	varchar ( 6 ) NOT NULL,
+	`race_id`	integer NOT NULL,
+	`type_id`	integer NOT NULL,
+	FOREIGN KEY(`race_id`) REFERENCES `dsa_starter_race`(`id`),
+	FOREIGN KEY(`type_id`) REFERENCES `dsa_starter_herotype`(`id`)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS `dsa_starter_fightcharacterparticipation` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`character_id`	integer NOT NULL,
+	`fight_id`	integer NOT NULL,
+	`position`	varchar ( 1 ) NOT NULL,
+	FOREIGN KEY(`fight_id`) REFERENCES `dsa_starter_fight`(`id`),
+	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`)
+);
+PRAGMA foreign_keys = OFF;
+INSERT INTO `dsa_starter_fightcharacterparticipation` (id,character_id,fight_id,position) VALUES (4,1,1,'B'),
+ (5,2,1,'B'),
+ (6,3,1,'B'),
+ (7,4,1,'B');
+CREATE TABLE IF NOT EXISTS `dsa_starter_fight` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	varchar ( 200 ) NOT NULL,
+	`adventure_id`	integer NOT NULL,
+	FOREIGN KEY(`adventure_id`) REFERENCES `dsa_starter_adventure`(`id`)
+);
+INSERT INTO `dsa_starter_fight` (id,name,adventure_id) VALUES (1,'Bar Brawl 1',1);
+CREATE TABLE IF NOT EXISTS `dsa_starter_characterhasweapon` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`character_id`	integer NOT NULL,
+	`weapon_id`	integer NOT NULL,
+	FOREIGN KEY(`weapon_id`) REFERENCES `dsa_starter_weapon`(`id`),
+	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`)
+);
 INSERT INTO `dsa_starter_characterhasweapon` (id,character_id,weapon_id) VALUES (1,1,1),
  (2,1,3),
  (3,2,2),
@@ -363,20 +251,29 @@ INSERT INTO `dsa_starter_characterhasweapon` (id,character_id,weapon_id) VALUES 
  (7,3,7);
 
 
-
-
-INSERT INTO `dsa_starter_adventure` (id,name,isActive) VALUES (1,'Reise zum Horizont',0);
-
-INSERT INTO `dsa_starter_fight` (id,name,adventure_id) VALUES (1,'Bar Brawl 1',1);
-
-INSERT INTO `dsa_starter_fightcharacterparticipation` (id,character_id,fight_id,position) VALUES (4,1,1,'B'),
- (5,2,1,'B'),
- (6,3,1,'B'),
- (7,4,1,'B');
-
+CREATE TABLE IF NOT EXISTS `dsa_starter_adventureimage` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`caption`	varchar ( 200 ) NOT NULL,
+	`adventure_id`	integer NOT NULL,
+	`image`	varchar ( 100 ),
+	FOREIGN KEY(`adventure_id`) REFERENCES `dsa_starter_adventure`(`id`)
+);
 INSERT INTO `dsa_starter_adventureimage` (id,caption,adventure_id,image) VALUES (1,'A deer, my friend',1,'Selection_003.png'),
  (2,'Many Deers',1,'Selection_004_fT1KkzV.png');
-
+CREATE TABLE IF NOT EXISTS `dsa_starter_adventure` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	varchar ( 200 ) NOT NULL,
+	`isActive`	bool NOT NULL
+);
+INSERT INTO `dsa_starter_adventure` (id,name,isActive) VALUES (1,'Reise zum Horizont',0);
+CREATE TABLE IF NOT EXISTS `dsa_starter_actualskill` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`value`	smallint NOT NULL,
+	`skill_id`	integer NOT NULL,
+	`character_id`	integer NOT NULL,
+	FOREIGN KEY(`skill_id`) REFERENCES `dsa_starter_skill`(`id`),
+	FOREIGN KEY(`character_id`) REFERENCES `dsa_starter_character`(`id`)
+);
 INSERT INTO `dsa_starter_actualskill` (id,value,skill_id,character_id) VALUES (1,4,1,1),
  (2,8,6,1),
  (3,8,2,1),
@@ -386,7 +283,16 @@ INSERT INTO `dsa_starter_actualskill` (id,value,skill_id,character_id) VALUES (1
  (7,3,5,1),
  (8,2,3,2),
  (9,8,11,2);
-
+CREATE TABLE IF NOT EXISTS `dsa_starter_abenteuer_punkte` (
+	`hero_id`	INTEGER NOT NULL,
+	`abenteuer_punkte`	INTEGER NOT NULL DEFAULT (0)
+);
+CREATE TABLE IF NOT EXISTS `django_session` (
+	`session_key`	varchar ( 40 ) NOT NULL,
+	`session_data`	text NOT NULL,
+	`expire_date`	datetime NOT NULL,
+	PRIMARY KEY(`session_key`)
+);
 INSERT INTO `django_session` (session_key,session_data,expire_date) VALUES ('x0vs1rq3ch5eo0x1wyu3b13vlddhdf8e','ZDU4YTlmYzcxMDc3ZTAxZjAxNzdlZmE0MDJlZWUxMjI3Y2E3ODdkMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjhlN2RlOTg0NjZmYmRkMWZjNjQxMTM5MjE4Yjc1M2MwNDg0MTY0MzgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2017-05-02 10:28:45.262423'),
  ('l7u9kwgm8wbixw1p210ilej48z4ep666','ZjIxY2JlYTVjMjgxMmViNDQ3YTVkZGUyNDg1YzUyNTJlMWFmYzcyZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTdkZTk4NDY2ZmJkZDFmYzY0MTEzOTIxOGI3NTNjMDQ4NDE2NDM4In0=','2017-05-10 21:39:12.364548'),
  ('bkce2fu0vt5p1qpra6wopre80qg1xjej','OWI0Zjk0ODJhM2MzNzg5NWM5YjMwMGUxMWI2NzhkMWJmMjJlYjE0Yjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9oYXNoIjoiOGU3ZGU5ODQ2NmZiZGQxZmM2NDExMzkyMThiNzUzYzA0ODQxNjQzOCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2017-05-19 15:18:25.907403'),
@@ -398,7 +304,12 @@ INSERT INTO `django_session` (session_key,session_data,expire_date) VALUES ('x0v
  ('f3rle9lyy6hpt7qyz5p4mfyqi3di8i09','ZjIxY2JlYTVjMjgxMmViNDQ3YTVkZGUyNDg1YzUyNTJlMWFmYzcyZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTdkZTk4NDY2ZmJkZDFmYzY0MTEzOTIxOGI3NTNjMDQ4NDE2NDM4In0=','2018-12-01 10:32:25.390374'),
  ('qcgfe77wssz97xn81b1vfwmr24s2vp2a','ZjIxY2JlYTVjMjgxMmViNDQ3YTVkZGUyNDg1YzUyNTJlMWFmYzcyZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTdkZTk4NDY2ZmJkZDFmYzY0MTEzOTIxOGI3NTNjMDQ4NDE2NDM4In0=','2018-12-11 14:35:53.713348'),
  ('k8mfdeuejj28afwa6itu54qs69p2i00f','ZjIxY2JlYTVjMjgxMmViNDQ3YTVkZGUyNDg1YzUyNTJlMWFmYzcyZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI4ZTdkZTk4NDY2ZmJkZDFmYzY0MTEzOTIxOGI3NTNjMDQ4NDE2NDM4In0=','2018-12-12 07:53:57.390652');
-
+CREATE TABLE IF NOT EXISTS `django_migrations` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`app`	varchar ( 255 ) NOT NULL,
+	`name`	varchar ( 255 ) NOT NULL,
+	`applied`	datetime NOT NULL
+);
 INSERT INTO `django_migrations` (id,app,name,applied) VALUES (1,'contenttypes','0001_initial','2017-04-17 14:00:23.054726'),
  (2,'auth','0001_initial','2017-04-17 14:00:23.081767'),
  (3,'admin','0001_initial','2017-04-17 14:00:23.096283'),
@@ -448,7 +359,11 @@ INSERT INTO `django_migrations` (id,app,name,applied) VALUES (1,'contenttypes','
  (47,'dsa_starter','0030_auto_20181126_1203','2018-11-28 07:51:11.288779'),
  (48,'dsa_starter','0031_merge_20181128_0851','2018-11-28 07:51:11.295260'),
  (49,'dsa_starter','0032_auto_20181129_1033','2018-11-29 09:34:09.654846');
-
+CREATE TABLE IF NOT EXISTS `django_content_type` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`app_label`	varchar ( 100 ) NOT NULL,
+	`model`	varchar ( 100 ) NOT NULL
+);
 INSERT INTO `django_content_type` (id,app_label,model) VALUES (1,'admin','logentry'),
  (2,'auth','permission'),
  (3,'auth','user'),
@@ -470,73 +385,18 @@ INSERT INTO `django_content_type` (id,app_label,model) VALUES (1,'admin','logent
  (19,'dsa_starter','weapon'),
  (20,'dsa_starter','characterhasweapon'),
  (21,'dsa_starter','adventureimage');
-
-
-INSERT INTO `auth_user_groups` (id,user_id,group_id) VALUES (1,2,1),
- (2,3,1);
-
-INSERT INTO `auth_user` (id,password,last_login,is_superuser,first_name,last_name,email,is_staff,is_active,date_joined,username) VALUES (1,'pbkdf2_sha256$36000$Nq39ZESgsmhr$J+/r3uVHVWsfqMbq3wD5NFmh4St9eiVXRwbAkqCGJgU=','2018-11-28 07:53:57.387976',1,'','','luther@lutherundwinter.de',1,1,'2017-04-18 10:28:33.983715','michel'),
- (2,'pbkdf2_sha256$36000$NTq1tE9Ubysv$TQaEIBUTrhjlK5/bk2kWZZVS3HgLhlJCc7zPV4006Us=',NULL,0,'Jonas','Kapteyn','michel@lutherundwinter.de',0,1,'2017-04-18 10:39:01','jones'),
- (3,'pbkdf2_sha256$36000$94uilYNRl0mG$7/WZOQSnPuueuxVXCfgIifL4SLY1iB61Vd6grBQFHS0=',NULL,0,'Golo','Grajewski','golo@lutherundwinter.de',0,1,'2017-04-18 10:41:48','golo');
-
-INSERT INTO `auth_permission` (id,content_type_id,codename,name) VALUES (1,1,'add_logentry','Can add log entry'),
- (2,1,'change_logentry','Can change log entry'),
- (3,1,'delete_logentry','Can delete log entry'),
- (4,2,'add_permission','Can add permission'),
- (5,2,'change_permission','Can change permission'),
- (6,2,'delete_permission','Can delete permission'),
- (7,3,'add_user','Can add user'),
- (8,3,'change_user','Can change user'),
- (9,3,'delete_user','Can delete user'),
- (10,4,'add_group','Can add group'),
- (11,4,'change_group','Can change group'),
- (12,4,'delete_group','Can delete group'),
- (13,5,'add_contenttype','Can add content type'),
- (14,5,'change_contenttype','Can change content type'),
- (15,5,'delete_contenttype','Can delete content type'),
- (16,6,'add_session','Can add session'),
- (17,6,'change_session','Can change session'),
- (18,6,'delete_session','Can delete session'),
- (19,7,'add_character','Can add character'),
- (20,7,'change_character','Can change character'),
- (21,7,'delete_character','Can delete character'),
- (22,8,'add_race','Can add race'),
- (23,8,'change_race','Can change race'),
- (24,8,'delete_race','Can delete race'),
- (25,9,'add_herotype','Can add hero type'),
- (26,9,'change_herotype','Can change hero type'),
- (27,9,'delete_herotype','Can delete hero type'),
- (28,10,'add_skilltype','Can add skill type'),
- (29,10,'change_skilltype','Can change skill type'),
- (30,10,'delete_skilltype','Can delete skill type'),
- (31,11,'add_skills','Can add skills'),
- (32,11,'change_skills','Can change skills'),
- (33,11,'delete_skills','Can delete skills'),
- (34,12,'add_skillgroup','Can add skill group'),
- (35,12,'change_skillgroup','Can change skill group'),
- (36,12,'delete_skillgroup','Can delete skill group'),
- (37,11,'add_skill','Can add skill'),
- (38,11,'change_skill','Can change skill'),
- (39,11,'delete_skill','Can delete skill'),
- (40,13,'add_actualskill','Can add actual skill'),
- (41,13,'change_actualskill','Can change actual skill'),
- (42,13,'delete_actualskill','Can delete actual skill'),
- (43,14,'add_weaponskilldistribution','Can add weapon skill distribution'),
- (44,14,'change_weaponskilldistribution','Can change weapon skill distribution'),
- (45,14,'delete_weaponskilldistribution','Can delete weapon skill distribution');
-
- INSERT INTO `dsa_starter_weaponskilldistribution` (id,character_id,skill_id,attack,parade) VALUES (3,1,1,4,0);
-
-INSERT INTO `auth_group_permissions` (id,group_id,permission_id) VALUES (1,1,16),
- (2,1,17),
- (3,1,18),
- (4,2,16),
- (5,2,17),
- (6,2,18);
-
-INSERT INTO `auth_group` (id,name) VALUES (1,'player'),
- (2,'master');
-
+CREATE TABLE IF NOT EXISTS `django_admin_log` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`object_id`	text,
+	`object_repr`	varchar ( 200 ) NOT NULL,
+	`action_flag`	smallint unsigned NOT NULL,
+	`change_message`	text NOT NULL,
+	`content_type_id`	integer,
+	`user_id`	integer NOT NULL,
+	`action_time`	datetime NOT NULL,
+	FOREIGN KEY(`content_type_id`) REFERENCES `django_content_type`(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`)
+);
 INSERT INTO `django_admin_log` (id,object_id,object_repr,action_flag,change_message,content_type_id,user_id,action_time) VALUES (1,'1','players',1,'[{"added": {}}]',4,1,'2017-04-18 10:37:20.725697'),
  (2,'1','player',2,'[{"changed": {"fields": ["name"]}}]',4,1,'2017-04-18 10:37:35.236632'),
  (3,'2','master',1,'[{"added": {}}]',4,1,'2017-04-18 10:38:11.143230'),
@@ -678,9 +538,117 @@ INSERT INTO `django_admin_log` (id,object_id,object_repr,action_flag,change_mess
  (139,'69','Fernkampf',1,'[{"added": {}}]',11,1,'2018-11-29 18:02:39.499797'),
  (140,'7','Langbogen',1,'[{"added": {}}]',19,1,'2018-11-29 18:02:43.360038'),
  (141,'7','Tore / Langbogen',1,'[{"added": {}}]',20,1,'2018-11-29 18:02:46.142486'),
- (142,'5','Deer',3,'',7,1,'2018-11-29 18:03:33.147386');
-
-
+ (142,'5','Deer',3,'',7,1,'2018-11-29 18:03:33.147386'),
+ (143,'10','Torgal - Hiebwaffen',1,'[{"added": {}}]',13,1,'2018-11-30 18:13:44.733551'),
+ (144,'4','Torgal - Hiebwaffen',1,'[{"added": {}}]',14,1,'2018-12-09 17:38:43.972873'),
+ (145,'10','Torgal - Hiebwaffen - 7',3,'',13,1,'2018-12-09 17:39:02.203194'),
+ (146,'5','Torgal - Dolche',1,'[{"added": {}}]',14,1,'2018-12-09 17:39:21.830644'),
+ (147,'5','Torgal - Dolche',3,'',14,1,'2018-12-09 17:39:33.296109'),
+ (148,'6','Torgal - Säbel',1,'[{"added": {}}]',14,1,'2018-12-09 17:41:05.191695'),
+ (149,'70','Beispiel',1,'[{"added": {}}]',11,1,'2018-12-11 16:31:45.841394');
+CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`user_id`	integer NOT NULL,
+	`permission_id`	integer NOT NULL,
+	FOREIGN KEY(`permission_id`) REFERENCES `auth_permission`(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`)
+);
+CREATE TABLE IF NOT EXISTS `auth_user_groups` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`user_id`	integer NOT NULL,
+	`group_id`	integer NOT NULL,
+	FOREIGN KEY(`group_id`) REFERENCES `auth_group`(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `auth_user`(`id`)
+);
+INSERT INTO `auth_user_groups` (id,user_id,group_id) VALUES (1,2,1),
+ (2,3,1);
+CREATE TABLE IF NOT EXISTS `auth_user` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`password`	varchar ( 128 ) NOT NULL,
+	`last_login`	datetime,
+	`is_superuser`	bool NOT NULL,
+	`first_name`	varchar ( 30 ) NOT NULL,
+	`last_name`	varchar ( 30 ) NOT NULL,
+	`email`	varchar ( 254 ) NOT NULL,
+	`is_staff`	bool NOT NULL,
+	`is_active`	bool NOT NULL,
+	`date_joined`	datetime NOT NULL,
+	`username`	varchar ( 150 ) NOT NULL UNIQUE
+);
+INSERT INTO `auth_user` (id,password,last_login,is_superuser,first_name,last_name,email,is_staff,is_active,date_joined,username) VALUES (1,'pbkdf2_sha256$36000$Nq39ZESgsmhr$J+/r3uVHVWsfqMbq3wD5NFmh4St9eiVXRwbAkqCGJgU=','2018-11-28 07:53:57.387976',1,'','','luther@lutherundwinter.de',1,1,'2017-04-18 10:28:33.983715','michel'),
+ (2,'pbkdf2_sha256$36000$NTq1tE9Ubysv$TQaEIBUTrhjlK5/bk2kWZZVS3HgLhlJCc7zPV4006Us=',NULL,0,'Jonas','Kapteyn','michel@lutherundwinter.de',0,1,'2017-04-18 10:39:01','jones'),
+ (3,'pbkdf2_sha256$36000$94uilYNRl0mG$7/WZOQSnPuueuxVXCfgIifL4SLY1iB61Vd6grBQFHS0=',NULL,0,'Golo','Grajewski','golo@lutherundwinter.de',0,1,'2017-04-18 10:41:48','golo');
+CREATE TABLE IF NOT EXISTS `auth_permission` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`content_type_id`	integer NOT NULL,
+	`codename`	varchar ( 100 ) NOT NULL,
+	`name`	varchar ( 255 ) NOT NULL,
+	FOREIGN KEY(`content_type_id`) REFERENCES `django_content_type`(`id`)
+);
+INSERT INTO `auth_permission` (id,content_type_id,codename,name) VALUES (1,1,'add_logentry','Can add log entry'),
+ (2,1,'change_logentry','Can change log entry'),
+ (3,1,'delete_logentry','Can delete log entry'),
+ (4,2,'add_permission','Can add permission'),
+ (5,2,'change_permission','Can change permission'),
+ (6,2,'delete_permission','Can delete permission'),
+ (7,3,'add_user','Can add user'),
+ (8,3,'change_user','Can change user'),
+ (9,3,'delete_user','Can delete user'),
+ (10,4,'add_group','Can add group'),
+ (11,4,'change_group','Can change group'),
+ (12,4,'delete_group','Can delete group'),
+ (13,5,'add_contenttype','Can add content type'),
+ (14,5,'change_contenttype','Can change content type'),
+ (15,5,'delete_contenttype','Can delete content type'),
+ (16,6,'add_session','Can add session'),
+ (17,6,'change_session','Can change session'),
+ (18,6,'delete_session','Can delete session'),
+ (19,7,'add_character','Can add character'),
+ (20,7,'change_character','Can change character'),
+ (21,7,'delete_character','Can delete character'),
+ (22,8,'add_race','Can add race'),
+ (23,8,'change_race','Can change race'),
+ (24,8,'delete_race','Can delete race'),
+ (25,9,'add_herotype','Can add hero type'),
+ (26,9,'change_herotype','Can change hero type'),
+ (27,9,'delete_herotype','Can delete hero type'),
+ (28,10,'add_skilltype','Can add skill type'),
+ (29,10,'change_skilltype','Can change skill type'),
+ (30,10,'delete_skilltype','Can delete skill type'),
+ (31,11,'add_skills','Can add skills'),
+ (32,11,'change_skills','Can change skills'),
+ (33,11,'delete_skills','Can delete skills'),
+ (34,12,'add_skillgroup','Can add skill group'),
+ (35,12,'change_skillgroup','Can change skill group'),
+ (36,12,'delete_skillgroup','Can delete skill group'),
+ (37,11,'add_skill','Can add skill'),
+ (38,11,'change_skill','Can change skill'),
+ (39,11,'delete_skill','Can delete skill'),
+ (40,13,'add_actualskill','Can add actual skill'),
+ (41,13,'change_actualskill','Can change actual skill'),
+ (42,13,'delete_actualskill','Can delete actual skill'),
+ (43,14,'add_weaponskilldistribution','Can add weapon skill distribution'),
+ (44,14,'change_weaponskilldistribution','Can change weapon skill distribution'),
+ (45,14,'delete_weaponskilldistribution','Can delete weapon skill distribution');
+CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`group_id`	integer NOT NULL,
+	`permission_id`	integer NOT NULL,
+	FOREIGN KEY(`group_id`) REFERENCES `auth_group`(`id`),
+	FOREIGN KEY(`permission_id`) REFERENCES `auth_permission`(`id`)
+);
+INSERT INTO `auth_group_permissions` (id,group_id,permission_id) VALUES (1,1,16),
+ (2,1,17),
+ (3,1,18),
+ (4,2,16),
+ (5,2,17),
+ (6,2,18);
+CREATE TABLE IF NOT EXISTS `auth_group` (
+	`id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	varchar ( 80 ) NOT NULL UNIQUE
+);
+INSERT INTO `auth_group` (id,name) VALUES (1,'player'),
+ (2,'master');
 CREATE INDEX IF NOT EXISTS `dsa_starter_weaponskilldistribution_skill_id_56deed96` ON `dsa_starter_weaponskilldistribution` (
 	`skill_id`
 );

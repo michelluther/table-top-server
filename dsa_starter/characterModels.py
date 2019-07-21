@@ -207,16 +207,6 @@ class SkillGroup(models.Model):
 
 class Spell(models.Model):
 
-    # EIGENSCHAFTEN = (
-    #     ("GE", "Gewandheit"),
-    #     ("KK", "Körperkraft"),
-    #     ("KO", "Konstitution"),
-    #     ("KL", "Klugheit"),
-    #     ("MU", "Mut"),
-    #     ("CH", "Charisma"),
-    #     ("FF", "Fingerfertigkeit"),
-    #     ("IN", "Intuition")
-    # )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SpellType")

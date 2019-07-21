@@ -9,6 +9,7 @@ from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
 # Register your models here.
 admin.site.register(Character)
+
 admin.site.register(Race)
 admin.site.register(HeroType)
 admin.site.register(Skill)

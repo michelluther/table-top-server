@@ -151,6 +151,7 @@ class SpellSerializable():
         self.dice1 = spell.dice1
         self.dice2 = spell.dice2
         self.dice3 = spell.dice3
+        self.type = spell.type.id
 
 class SpellTypeSerializable():
     def __init__(self, spellType):
