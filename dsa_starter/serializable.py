@@ -73,9 +73,11 @@ class CharacterSerializable():
         self.KK = character.koerperkraft
 
         self.experience = character.experience
+        self.experience_used = character.experience_used
         self.life = character.life
         self.life_lost = character.life_lost
-        self.experience_used = character.experience_used
+        self.magic_energy = character.magic_energy
+        self.magic_energy_lost = character.magic_energy_lost
 
         self.magieresistenz = (character.konstitution +
                                character.mut + character.klugheit) / 5

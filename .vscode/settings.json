@@ -1,6 +1,7 @@
 {
-    "python.pythonPath": "${workspaceFolder}/dsavenv/bin/python",
+    "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": false,
     "python.linting.mypyEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "workbench.colorTheme": "Material Theme"
 }
