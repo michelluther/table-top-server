@@ -15,7 +15,11 @@ def message_to_heroes(message):
     # Make standard HTTP response - access ASGI path attribute directly
     data = json.loads(message.content['text'])
     character = Character.objects.get(pk=data["heroId"])
-    character.life_lost = character.life_lost - data["value"]
+    if data["type"] == "lifeUpdate":
+        character.life_lost = character.life_lost - data["value"]
+    elif data["type"] == "magicUpdate":
+        character.magic_energy_lost = character.magic_energy_lost - data["value"]
+
     character.save()
     Group("heroes").send({
         "text": message.content['text'],

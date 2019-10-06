@@ -75,9 +75,13 @@ class Character(models.Model):
     koerperkraft = models.SmallIntegerField(default=0)
 
     experience = models.SmallIntegerField(default=0)
-    life = models.SmallIntegerField(default=30)
     experience_used = models.SmallIntegerField(default=0)
+
+    life = models.SmallIntegerField(default=30)
     life_lost = models.SmallIntegerField(default=30)
+
+    magic_energy = models.SmallIntegerField(default=30)
+    magic_energy_lost = models.SmallIntegerField(default=0)
 
     ini_basis = models.SmallIntegerField(default=0)
 

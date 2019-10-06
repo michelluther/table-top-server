@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "${workspaceFolder}/dsavenv/bin/python",
+    "python.pythonPath": "dsavenv\\Scripts\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true
