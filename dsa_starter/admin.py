@@ -7,9 +7,28 @@ from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillT
 from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation, AdventureImage
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
-# Register your models here.
-admin.site.register(Character)
 
+class SkillInline(admin.StackedInline):
+    model = ActualSkill
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "car":
+            kwargs["queryset"] = Car.objects.filter(owner=request.user)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class CharacterAdmin(admin.ModelAdmin):
+    model = Character
+    inlines = [
+        SkillInline
+    ]
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "car":
+            kwargs["queryset"] = Car.objects.filter(owner=request.user)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+# Register your models here.
+# admin.site.register(Character)
+
+admin.site.register(Character, CharacterAdmin)
 admin.site.register(Race)
 admin.site.register(HeroType)
 admin.site.register(Skill)

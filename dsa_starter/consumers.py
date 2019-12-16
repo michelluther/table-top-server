@@ -4,6 +4,20 @@ import json
 
 from channels import Group
 
+def updateLife(data):
+    character = Character.objects.get(pk=data["heroId"])
+    character.life_lost = character.life_lost - data["value"]
+    character.save()
+
+def updateMagic(data):
+    character = Character.objects.get(pk=data["heroId"])
+    character.magic_energy_lost = character.magic_energy_lost - data["value"]
+    character.save()
+
+messageTypeMap = {
+    'lifeUpdate': updateLife,
+    'magicUpdate': updateMagic
+}
 
 def connect_to_heroes(message):
     print("Connected to heroes service \n")
@@ -15,8 +29,8 @@ def message_to_heroes(message):
     # Make standard HTTP response - access ASGI path attribute directly
     data = json.loads(message.content['text'])
     character = Character.objects.get(pk=data["heroId"])
-    character.life_lost = character.life_lost - data["value"]
-    character.save()
+    messageTypeMap.get(data['type'])(data)
+    
     Group("heroes").send({
         "text": message.content['text'],
     })
