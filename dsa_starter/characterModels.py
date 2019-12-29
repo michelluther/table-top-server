@@ -81,6 +81,9 @@ class Character(models.Model):
     magic_energy = models.SmallIntegerField(default=30)
     magic_energy_lost = models.SmallIntegerField(default=30)
 
+    magic_energy = models.SmallIntegerField(default=30)
+    magic_energy_lost = models.SmallIntegerField(default=0)
+
     ini_basis = models.SmallIntegerField(default=0)
 
     created_date = models.DateTimeField(
