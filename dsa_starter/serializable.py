@@ -95,6 +95,8 @@ class CharacterSerializable():
         self.weaponSkillDistributions = self.assign_weapon_skill_distributions(
             character)
 
+        self.armor = character.armor
+
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
 

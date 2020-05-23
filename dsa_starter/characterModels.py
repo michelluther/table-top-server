@@ -57,6 +57,10 @@ class Character(models.Model):
     name = models.CharField(max_length=200, default="tbd")
     race = models.ForeignKey("Race")
     type = models.ForeignKey("HeroType")
+    
+    money_dukaten = models.SmallIntegerField(default=0)
+
+    armor = models.SmallIntegerField(default=1)
 
     culture = models.CharField(max_length=200, default="")
 
@@ -235,6 +239,19 @@ class Spell(models.Model):
 class SpellType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default="")
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class InventoryItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    character = models.ForeignKey("Character")
+    
+    name = models.CharField(max_length=200, default="")
+    amount = models.SmallIntegerField(default=1)
 
     def __str__(self):
         return self.name

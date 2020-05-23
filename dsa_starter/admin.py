@@ -15,10 +15,18 @@ class SkillInline(admin.StackedInline):
             kwargs["queryset"] = Car.objects.filter(owner=request.user)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+class SpellInline(admin.StackedInline):
+    model = ActualSpellSkill
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "car":
+            kwargs["queryset"] = Car.objects.filter(owner=request.user)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 class CharacterAdmin(admin.ModelAdmin):
     model = Character
     inlines = [
-        SkillInline
+        SkillInline,
+        SpellInline
     ]
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "car":
