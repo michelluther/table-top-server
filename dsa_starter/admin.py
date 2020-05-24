@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, \
-    WeaponSkillDistribution, Weapon, CharacterHasWeapon, Spell, SpellType, ActualSpellSkill
+    WeaponSkillDistribution, Weapon, CharacterHasWeapon, Spell, SpellType, ActualSpellSkill, InventoryItem
 from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation, AdventureImage
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 
@@ -54,3 +54,4 @@ admin.site.register(CharacterHasWeapon)
 admin.site.register(Spell)
 admin.site.register(SpellType)
 admin.site.register(ActualSpellSkill)
+admin.site.register(InventoryItem)

@@ -16,6 +16,16 @@ EIGENSCHAFTEN = dict(
      "IN": "Intuition"}
 )
 
+UNITS = dict(
+    {"SK": "Stück",
+     "ST": "Stein",
+     "UZ": "Unze",
+     "SR": "Skrupel",
+     "MS": "Maß",
+     "SN": "Schank",
+     "FX": "Flux"}
+)
+
 
 class Race(models.Model):
     name = models.TextField(default="Mensch")
@@ -59,6 +69,9 @@ class Character(models.Model):
     type = models.ForeignKey("HeroType")
     
     money_dukaten = models.SmallIntegerField(default=0)
+    money_silbertaler = models.SmallIntegerField(default=0)
+    money_heller = models.SmallIntegerField(default=0)
+    money_kreuzer = models.SmallIntegerField(default=0)
 
     armor = models.SmallIntegerField(default=1)
 
@@ -252,6 +265,8 @@ class InventoryItem(models.Model):
     
     name = models.CharField(max_length=200, default="")
     amount = models.SmallIntegerField(default=1)
+    unit = models.CharField(
+        max_length=2, choices=UNITS.items(), default="SK")
 
     def __str__(self):
         return self.name

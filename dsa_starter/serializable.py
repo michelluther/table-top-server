@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, WeaponSkillDistribution, EIGENSCHAFTEN
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, WeaponSkillDistribution, InventoryItem, EIGENSCHAFTEN
 from dsa_starter.adventureModels import Adventure, AdventureImage
 
 
@@ -97,6 +97,8 @@ class CharacterSerializable():
 
         self.armor = character.armor
 
+        self.assign_inventory_items()
+
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
 
@@ -148,6 +150,14 @@ class CharacterSerializable():
         self.hero_type = dict(id=type.id, name=type.name)
         self.knows_magic = type.knowsMagic
 
+    def assign_inventory_items(self):
+        self.inventoryItems = []
+        inventoryItems = InventoryItem.objects.filter(
+            character=self.id
+        )
+        for inventoryItem in inventoryItems:
+            self.inventoryItems.append(InventoryItemSerializable(inventoryItem))
+
 class SpellSerializable():
     def __init__(self, spell):
         self.id = spell.id
@@ -187,3 +197,10 @@ class WeaponSerializable():
         self.tp_dice = weapon.hit_dices
         self.tp_add_points = weapon.hit_add_points
         self.skill = weapon.skill_type.id
+
+class InventoryItemSerializable():
+
+    def __init__(self, inventoryItem):
+        self.name = inventoryItem.name
+        self.amount = inventoryItem.amount
+        self.unit = inventoryItem.unit

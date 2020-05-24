@@ -15,8 +15,10 @@ making the app available over the network
 - modifikatoren (rasse, sonderfertigkeiten etc.)
 - sonderfertigkeiten
 - gute und schlechte Eigenschaften
-- key values for WeaponSkillDistribution
-- waffen-model
 - rüstung-model
 - money
+
+done
+- key values for WeaponSkillDistribution
+- waffen-model
 - magic
