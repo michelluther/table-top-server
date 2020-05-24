@@ -161,6 +161,7 @@ class Weapon(models.Model):
         return self.name
 
 
+
 class CharacterHasWeapon(models.Model):
     character = models.ForeignKey("Character")
     weapon = models.ForeignKey("Weapon")
@@ -168,6 +169,24 @@ class CharacterHasWeapon(models.Model):
     def __str__(self):
         return self.character.name + " / " + self.weapon.name
 
+class Armor(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    ruestungs_schutz = models.SmallIntegerField(default=1)
+    behinderung = models.SmallIntegerField(default=2)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class CharacterHasArmor(models.Model):
+    character = models.ForeignKey("Character")
+    armor = models.ForeignKey("Armor")
+
+    def __str__(self):
+        return self.character.name + " / " + self.armor.name
 
 class Skill(models.Model):
 

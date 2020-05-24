@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, WeaponSkillDistribution, InventoryItem, EIGENSCHAFTEN
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, CharacterHasArmor, Armor, WeaponSkillDistribution, InventoryItem, EIGENSCHAFTEN
 from dsa_starter.adventureModels import Adventure, AdventureImage
 
 
@@ -98,6 +98,7 @@ class CharacterSerializable():
         self.armor = character.armor
 
         self.assign_inventory_items()
+        self.assign_armor()
 
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
@@ -134,6 +135,13 @@ class CharacterSerializable():
         for weaponAssignment in weaponAssignments:
             weapons.append(WeaponSerializable(weaponAssignment.weapon))
         return weapons
+    
+    def assign_armor(self):
+        armorAssignments = CharacterHasArmor.objects.filter(
+            character=self.id)
+        self.armor = []
+        for armorAssignment in armorAssignments:
+            self.armor.append(ArmorSerializable(armorAssignment.armor))
 
     def get_skill(self, skill):
         return dict(id=skill.skill.id, value=skill.value)
@@ -197,6 +205,13 @@ class WeaponSerializable():
         self.tp_dice = weapon.hit_dices
         self.tp_add_points = weapon.hit_add_points
         self.skill = weapon.skill_type.id
+
+class ArmorSerializable():
+
+    def __init__(self, armor):
+        self.name = armor.name
+        self.rs = armor.ruestungs_schutz
+        self.be = armor.behinderung
 
 class InventoryItemSerializable():
 
