@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.http import HttpResponse
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, Spell, SpellType
-from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, SpellSerializable, SpellTypeSerializable, AdventureSerializable
+from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, SpellSerializable, SpellTypeSerializable, AdventureSerializable, AscensionSerializable
 from dsa_starter.adventureModels import Adventure, AdventureImage
+
+from dsa_starter.ruleModels import Ascensions
 
 from channels.handler import AsgiHandler
 
@@ -81,3 +83,11 @@ def adventure_list(request):
         adventures_serializable.append(adventure_serializable)
     response = jsonpickle.encode(adventures_serializable, True)
     return HttpResponse(response, content_type='application/json')
+
+def ascensions(request):
+    ascensions = Ascensions.objects.all()
+    response = []
+    for ascension in ascensions:
+        response.append(AscensionSerializable(ascension)        )
+
+    return HttpResponse(jsonpickle.encode(response, True), content_type='application/json')

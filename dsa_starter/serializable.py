@@ -219,3 +219,16 @@ class InventoryItemSerializable():
         self.name = inventoryItem.name
         self.amount = inventoryItem.amount
         self.unit = inventoryItem.unit
+
+class AscensionSerializable():
+
+    def __init__(self, ascension):
+        self.level = ascension.level
+        self.cost_a = ascension.cost_a
+        self.cost_b = ascension.cost_b
+        self.cost_c = ascension.cost_c
+        self.cost_d = ascension.cost_d
+        self.cost_e = ascension.cost_e
+        self.cost_f = ascension.cost_f
+        self.cost_g = ascension.cost_g
+        self.cost_h = ascension.cost_h

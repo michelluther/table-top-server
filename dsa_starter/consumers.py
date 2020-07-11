@@ -14,9 +14,15 @@ def updateMagic(data):
     character.magic_energy_lost = character.magic_energy_lost - data["value"]
     character.save()
 
+def updateAttribute(data):
+    character = Character.objects.get(pk=data["heroId"])
+    character[data["attribute"]] = data["value"]
+    character.save()
+
 messageTypeMap = {
     'lifeUpdate': updateLife,
-    'magicUpdate': updateMagic
+    'magicUpdate': updateMagic,
+    'updateAttribute': updateAttribute
 }
 
 def connect_to_heroes(message):

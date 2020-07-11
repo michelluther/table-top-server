@@ -190,16 +190,6 @@ class CharacterHasArmor(models.Model):
 
 class Skill(models.Model):
 
-    # EIGENSCHAFTEN = (
-    #     ("GE", "Gewandheit"),
-    #     ("KK", "Körperkraft"),
-    #     ("KO", "Konstitution"),
-    #     ("KL", "Klugheit"),
-    #     ("MU", "Mut"),
-    #     ("CH", "Charisma"),
-    #     ("FF", "Fingerfertigkeit"),
-    #     ("IN", "Intuition")
-    # )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SkillType")
@@ -241,7 +231,7 @@ class SkillGroup(models.Model):
     cost_per_increase = models.SmallIntegerField(default=5)
 
     def __str__(self):
-        return self.title
+        return self.name + ": " + self.title
 
     def __unicode__(self):  # You have __str__
         return self.name

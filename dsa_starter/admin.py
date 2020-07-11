@@ -6,7 +6,7 @@ from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillT
     WeaponSkillDistribution, Weapon, CharacterHasWeapon, Armor, CharacterHasArmor, Spell, SpellType, ActualSpellSkill, InventoryItem
 from dsa_starter.adventureModels import Adventure, Fight, FightCharacterParticipation, AdventureImage
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
-
+from dsa_starter.ruleModels import Ascensions
 
 class SkillInline(admin.StackedInline):
     model = ActualSkill
@@ -57,3 +57,4 @@ admin.site.register(Spell)
 admin.site.register(SpellType)
 admin.site.register(ActualSpellSkill)
 admin.site.register(InventoryItem)
+admin.site.register(Ascensions)
