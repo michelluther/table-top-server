@@ -16,6 +16,16 @@ EIGENSCHAFTEN = dict(
      "IN": "Intuition"}
 )
 
+UNITS = dict(
+    {"SK": "Stück",
+     "ST": "Stein",
+     "UZ": "Unze",
+     "SR": "Skrupel",
+     "MS": "Maß",
+     "SN": "Schank",
+     "FX": "Flux"}
+)
+
 
 class Race(models.Model):
     name = models.TextField(default="Mensch")
@@ -57,6 +67,13 @@ class Character(models.Model):
     name = models.CharField(max_length=200, default="tbd")
     race = models.ForeignKey("Race")
     type = models.ForeignKey("HeroType")
+    
+    money_dukaten = models.SmallIntegerField(default=0)
+    money_silbertaler = models.SmallIntegerField(default=0)
+    money_heller = models.SmallIntegerField(default=0)
+    money_kreuzer = models.SmallIntegerField(default=0)
+
+    armor = models.SmallIntegerField(default=1)
 
     culture = models.CharField(max_length=200, default="")
 
@@ -144,6 +161,7 @@ class Weapon(models.Model):
         return self.name
 
 
+
 class CharacterHasWeapon(models.Model):
     character = models.ForeignKey("Character")
     weapon = models.ForeignKey("Weapon")
@@ -151,19 +169,27 @@ class CharacterHasWeapon(models.Model):
     def __str__(self):
         return self.character.name + " / " + self.weapon.name
 
+class Armor(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    ruestungs_schutz = models.SmallIntegerField(default=1)
+    behinderung = models.SmallIntegerField(default=2)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class CharacterHasArmor(models.Model):
+    character = models.ForeignKey("Character")
+    armor = models.ForeignKey("Armor")
+
+    def __str__(self):
+        return self.character.name + " / " + self.armor.name
 
 class Skill(models.Model):
 
-    # EIGENSCHAFTEN = (
-    #     ("GE", "Gewandheit"),
-    #     ("KK", "Körperkraft"),
-    #     ("KO", "Konstitution"),
-    #     ("KL", "Klugheit"),
-    #     ("MU", "Mut"),
-    #     ("CH", "Charisma"),
-    #     ("FF", "Fingerfertigkeit"),
-    #     ("IN", "Intuition")
-    # )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SkillType")
@@ -205,7 +231,7 @@ class SkillGroup(models.Model):
     cost_per_increase = models.SmallIntegerField(default=5)
 
     def __str__(self):
-        return self.title
+        return self.name + ": " + self.title
 
     def __unicode__(self):  # You have __str__
         return self.name
@@ -235,6 +261,21 @@ class Spell(models.Model):
 class SpellType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default="")
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):  # You have __str__
+        return self.name
+
+class InventoryItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    character = models.ForeignKey("Character")
+    
+    name = models.CharField(max_length=200, default="")
+    amount = models.SmallIntegerField(default=1)
+    unit = models.CharField(
+        max_length=2, choices=UNITS.items(), default="SK")
 
     def __str__(self):
         return self.name
