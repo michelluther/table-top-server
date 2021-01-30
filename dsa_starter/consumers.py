@@ -16,8 +16,14 @@ def updateMagic(data):
 
 def updateAttribute(data):
     character = Character.objects.get(pk=data["heroId"])
-    character[data["attribute"]] = data["value"]
+    print('heeey')
+    character.setAttribute(data["attribute"], data["value"])
+    character.experience_used += data["price"]
     character.save()
+
+def updateSkill(data):
+    actualSkill = ActualSkill.objects.get(pk=data["skillId"])
+    actualSkill = actualSkill.value = data["value"]
 
 messageTypeMap = {
     'lifeUpdate': updateLife,

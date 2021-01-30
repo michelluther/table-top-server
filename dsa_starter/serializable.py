@@ -63,14 +63,14 @@ class CharacterSerializable():
         self.size = character.size
 
         # eigenschaften
-        self.MU = character.mut
-        self.KL = character.klugheit
-        self.IN = character.intuition
-        self.CH = character.charisma
-        self.FF = character.fingerfertigkeit
-        self.GE = character.gewandheit
-        self.KO = character.konstitution
-        self.KK = character.koerperkraft
+        self.mut = character.mut
+        self.klugheit = character.klugheit
+        self.intuition = character.intuition
+        self.charisma = character.charisma
+        self.fingerfertigkeit = character.fingerfertigkeit
+        self.gewandheit = character.gewandheit
+        self.konstitution = character.konstitution
+        self.koerperkraft = character.koerperkraft
 
         self.experience = character.experience
         self.experience_used = character.experience_used

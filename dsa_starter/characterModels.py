@@ -103,6 +103,7 @@ class Character(models.Model):
 
     ini_basis = models.SmallIntegerField(default=0)
 
+
     created_date = models.DateTimeField(
         default=timezone.now)
 
@@ -116,6 +117,11 @@ class Character(models.Model):
     def __unicode__(self):  # You have __str__
         return self.name
 
+    def setAttribute(self, attribute, value):
+        setattr(self, attribute, value)
+    
+    def __getitem__(self, key):
+        return getattr(self, key)
 
 class WeaponSkillDistribution(models.Model):
 
