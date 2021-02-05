@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character
+from dsa_starter.characterModels import Character, ActualSkill, Skill
 
 import json
 
@@ -21,14 +21,31 @@ def updateAttribute(data):
     character.experience_used += data["price"]
     character.save()
 
+def addInventoryItem(data):
+    character = Character.objects.get(pk=data["heroId"])
+    name = data
+
+# def removeInventoryItem(data):
+
+
 def updateSkill(data):
-    actualSkill = ActualSkill.objects.get(pk=data["skillId"])
-    actualSkill = actualSkill.value = data["value"]
+    try:
+        actualSkill = ActualSkill.objects.get(pk=data["assignmentId"])
+    except:
+        skill = Skill.objects.get(pk=data["skillId"])
+        hero = Character.objects.get(pk=data["heroId"])
+        actualSkill = ActualSkill.objects.create(value=data["value"], skill=skill, character=hero)
+    actualSkill.value = data["value"]
+    actualSkill.save()
+
 
 messageTypeMap = {
     'lifeUpdate': updateLife,
     'magicUpdate': updateMagic,
-    'updateAttribute': updateAttribute
+    'updateAttribute': updateAttribute,
+    'updateSkill': updateSkill,
+    'addInventory': addInventoryItem #,
+    # 'removeInventor': removeInventoryItem
 }
 
 def connect_to_heroes(message):

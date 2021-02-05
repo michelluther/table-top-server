@@ -82,14 +82,14 @@ class Character(models.Model):
     size = models.SmallIntegerField(default=175)
 
     # eigenschaften
-    mut = models.SmallIntegerField(default=0)
-    klugheit = models.SmallIntegerField(default=0)
-    intuition = models.SmallIntegerField(default=0)
-    charisma = models.SmallIntegerField(default=0)
-    fingerfertigkeit = models.SmallIntegerField(default=0)
-    gewandheit = models.SmallIntegerField(default=0)
-    konstitution = models.SmallIntegerField(default=0)
-    koerperkraft = models.SmallIntegerField(default=0)
+    MU = models.SmallIntegerField(default=0)
+    KL = models.SmallIntegerField(default=0)
+    IN = models.SmallIntegerField(default=0)
+    CH = models.SmallIntegerField(default=0)
+    FF = models.SmallIntegerField(default=0)
+    GE = models.SmallIntegerField(default=0)
+    KO = models.SmallIntegerField(default=0)
+    KK = models.SmallIntegerField(default=0)
 
     experience = models.SmallIntegerField(default=0)
     experience_used = models.SmallIntegerField(default=0)

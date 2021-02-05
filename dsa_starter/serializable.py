@@ -63,14 +63,14 @@ class CharacterSerializable():
         self.size = character.size
 
         # eigenschaften
-        self.mut = character.mut
-        self.klugheit = character.klugheit
-        self.intuition = character.intuition
-        self.charisma = character.charisma
-        self.fingerfertigkeit = character.fingerfertigkeit
-        self.gewandheit = character.gewandheit
-        self.konstitution = character.konstitution
-        self.koerperkraft = character.koerperkraft
+        self.MU = character.MU
+        self.KL = character.KL
+        self.IN = character.IN
+        self.CH = character.CH
+        self.FF = character.FF
+        self.GE = character.GE
+        self.KO = character.KO
+        self.KK = character.KK
 
         self.experience = character.experience
         self.experience_used = character.experience_used
@@ -79,17 +79,17 @@ class CharacterSerializable():
         self.magic_energy = character.magic_energy
         self.magic_energy_lost = character.magic_energy_lost
 
-        self.magieresistenz = (character.konstitution +
-                               character.mut + character.klugheit) / 5
+        self.magieresistenz = (character.KO +
+                               character.MU + character.KL) / 5
         self.attack_basis = round(
-            (character.mut + character.gewandheit + character.koerperkraft) / 5)
+            (character.MU + character.GE + character.KK) / 5)
         self.parade_basis = round(
-            (character.intuition + character.gewandheit + character.koerperkraft) / 5)
+            (character.IN + character.GE + character.KK) / 5)
         self.ini_basis = round(
-            (character.mut + character.mut + character.intuition + character.gewandheit) / 5)
+            (character.MU + character.MU + character.IN + character.GE) / 5)
 
         self.fernkampf_basis = round(
-            (character.intuition + character.fingerfertigkeit + character.koerperkraft)/5)
+            (character.IN + character.FF + character.KK)/5)
 
         self.weapons = self.assign_weapons()
         self.weaponSkillDistributions = self.assign_weapon_skill_distributions(
@@ -144,7 +144,7 @@ class CharacterSerializable():
             self.armor.append(ArmorSerializable(armorAssignment.armor))
 
     def get_skill(self, skill):
-        return dict(id=skill.skill.id, value=skill.value)
+        return dict(assignmentId = skill.pk, id=skill.skill.id, value=skill.value)
 
     def get_spell(self, spell):
         print(spell.spell.id)
