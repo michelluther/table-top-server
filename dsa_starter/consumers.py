@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon
 
 import json
 
@@ -16,17 +16,26 @@ def updateMagic(data):
 
 def updateAttribute(data):
     character = Character.objects.get(pk=data["heroId"])
-    print('heeey')
     character.setAttribute(data["attribute"], data["value"])
     character.experience_used += data["price"]
     character.save()
 
 def addInventoryItem(data):
     character = Character.objects.get(pk=data["heroId"])
-    name = data
+    name = data["name"]
+    amount = data["amount"]
+    unit = data["unit"]
 
 # def removeInventoryItem(data):
 
+def addWeapon(data):
+    character = Character.objects.get(pk=data["heroId"])
+    
+    skill = Skill.objects.get(pk=data["skill"])
+    weapon = Weapon.objects.create(name=data["weaponName"], skill=skill, hit_dices=data["damageDice"], hit_add_points=data["damageAddPoints"], hit_extra_from_kk=data["extraPointsFromKk"])
+    weapon.save()
+    characterHasWeapon = CharacterHasWeapon.objects.create(character=character, weapon=weapon)
+    character.save()
 
 def updateSkill(data):
     try:
@@ -44,7 +53,8 @@ messageTypeMap = {
     'magicUpdate': updateMagic,
     'updateAttribute': updateAttribute,
     'updateSkill': updateSkill,
-    'addInventory': addInventoryItem #,
+    'addInventory': addInventoryItem,
+    'addWeapon': addWeapon #,
     # 'removeInventor': removeInventoryItem
 }
 

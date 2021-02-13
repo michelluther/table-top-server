@@ -156,9 +156,10 @@ class ActualSpellSkill(models.Model):
 class Weapon(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    skill_type = models.ForeignKey("Skill")
+    skill = models.ForeignKey("Skill")
     hit_dices = models.SmallIntegerField(default=1)
     hit_add_points = models.SmallIntegerField(default=2)
+    hit_extra_from_kk = models.SmallIntegerField(default=14)
 
     def __str__(self):
         return self.name

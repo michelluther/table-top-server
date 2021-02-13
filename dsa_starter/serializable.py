@@ -204,7 +204,8 @@ class WeaponSerializable():
         self.name = weapon.name
         self.tp_dice = weapon.hit_dices
         self.tp_add_points = weapon.hit_add_points
-        self.skill = weapon.skill_type.id
+        self.skill = weapon.skill.id
+        self.extra_tp_from_kk = weapon.hit_extra_from_kk
 
 class ArmorSerializable():
 
