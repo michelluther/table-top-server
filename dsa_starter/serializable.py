@@ -9,6 +9,7 @@ class SkillSerializable():
         self.name = skill.name
         self.type = skill.type.id
         self.behinderung = skill.behinderung
+        self.isWeaponSkill = skill.weaponSkill
 
         if skill.dice1 != '':
             self.dice1 = {'id': skill.dice1,

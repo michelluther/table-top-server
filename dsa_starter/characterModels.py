@@ -201,6 +201,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SkillType")
     behinderung = models.CharField(max_length=4, default="")
+    weaponSkill = models.BooleanField(default=False)
 
     dice1 = models.CharField(
         max_length=2, choices=EIGENSCHAFTEN.items(), default="")
