@@ -284,6 +284,7 @@ class InventoryItem(models.Model):
     amount = models.SmallIntegerField(default=1)
     unit = models.CharField(
         max_length=2, choices=UNITS.items(), default="SK")
+    weight = models.SmallIntegerField(default=1)
 
     def __str__(self):
         return self.name

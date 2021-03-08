@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon, Armor, CharacterHasArmor, InventoryItem
 
 import json
 
@@ -24,18 +24,49 @@ def addInventoryItem(data):
     character = Character.objects.get(pk=data["heroId"])
     name = data["name"]
     amount = data["amount"]
-    unit = data["unit"]
+    weight = data["weight"]
+    inventoryItem = InventoryItem.objects.create(character=character, name=name, amount=amount, unit='SK', weight=weight)
+    inventoryItem.save()
+    data["inventoryId"] = inventoryItem.id
+
+def deleteInventory(data):
+    character = Character.objects.get(pk=data["heroId"])
+    inventoryItem = InventoryItem.objects.get(pk=data["inventoryItemId"])
+    inventoryItem.delete()
 
 # def removeInventoryItem(data):
 
 def addWeapon(data):
     character = Character.objects.get(pk=data["heroId"])
-    
     skill = Skill.objects.get(pk=data["skill"])
     weapon = Weapon.objects.create(name=data["weaponName"], skill=skill, hit_dices=data["damageDice"], hit_add_points=data["damageAddPoints"], hit_extra_from_kk=data["extraPointsFromKk"])
     weapon.save()
     characterHasWeapon = CharacterHasWeapon.objects.create(character=character, weapon=weapon)
-    character.save()
+    characterHasWeapon.save()
+    data["weaponId"] = weapon.id
+
+def deleteWeapon(data):
+    character = Character.objects.get(pk=data["heroId"])
+    weapon = Weapon.objects.get(pk=data["weaponId"])
+    characterHasWeapon = CharacterHasWeapon.objects.get(character=character, weapon=weapon)
+    characterHasWeapon.delete()
+    weapon.delete()
+
+def addArmor(data):
+    character = Character.objects.get(pk=data["heroId"])
+    armor = Armor.objects.create(name=data["armorName"], ruestungs_schutz=data["armorRS"], behinderung=data["armorBE"])
+    armor.save()
+    characterHasArmor = CharacterHasArmor.objects.create(character=character, armor=armor)
+    characterHasArmor.save()
+    data["armorId"] = armor.id
+
+def deleteArmor(data):
+    character = Character.objects.get(pk=data["heroId"])
+    armor = Armor.objects.get(pk=data["armorId"])
+    characterHasArmor = CharacterHasArmor.objects.get(character=character, armor=armor)
+    characterHasArmor.delete()
+    armor.delete()
+
 
 def updateSkill(data):
     try:
@@ -53,8 +84,12 @@ messageTypeMap = {
     'magicUpdate': updateMagic,
     'updateAttribute': updateAttribute,
     'updateSkill': updateSkill,
-    'addInventory': addInventoryItem,
-    'addWeapon': addWeapon #,
+    'addInventoryItem': addInventoryItem,
+    'deleteInventoryItem': deleteInventory,
+    'addWeapon': addWeapon,
+    'deleteWeapon': deleteWeapon,
+    'addArmor': addArmor,
+    'deleteArmor': deleteArmor
     # 'removeInventor': removeInventoryItem
 }
 
@@ -71,7 +106,7 @@ def message_to_heroes(message):
     messageTypeMap.get(data['type'])(data)
     
     Group("heroes").send({
-        "text": message.content['text'],
+        "text": json.dumps(data),
     })
 
 

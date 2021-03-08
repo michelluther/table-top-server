@@ -202,6 +202,7 @@ class AdventureSerializable():
 class WeaponSerializable():
 
     def __init__(self, weapon):
+        self.id = weapon.id
         self.name = weapon.name
         self.tp_dice = weapon.hit_dices
         self.tp_add_points = weapon.hit_add_points
@@ -218,8 +219,10 @@ class ArmorSerializable():
 class InventoryItemSerializable():
 
     def __init__(self, inventoryItem):
+        self.id = inventoryItem.id
         self.name = inventoryItem.name
         self.amount = inventoryItem.amount
+        self.weight = inventoryItem.weight
         self.unit = inventoryItem.unit
 
 class AscensionSerializable():
