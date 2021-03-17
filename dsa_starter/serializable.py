@@ -212,6 +212,7 @@ class WeaponSerializable():
 class ArmorSerializable():
 
     def __init__(self, armor):
+        self.id = armor.id
         self.name = armor.name
         self.rs = armor.ruestungs_schutz
         self.be = armor.behinderung

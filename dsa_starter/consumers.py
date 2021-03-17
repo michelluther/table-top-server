@@ -29,6 +29,13 @@ def addInventoryItem(data):
     inventoryItem.save()
     data["inventoryId"] = inventoryItem.id
 
+def updateInventoryItem(data):
+    character = Character.objects.get(pk=data["heroId"])
+    inventoryItem = InventoryItem.objects.get(pk=data["inventoryItemId"])
+    inventoryItem.amount = data["amount"]
+    inventoryItem.save()
+
+
 def deleteInventory(data):
     character = Character.objects.get(pk=data["heroId"])
     inventoryItem = InventoryItem.objects.get(pk=data["inventoryItemId"])
@@ -85,6 +92,7 @@ messageTypeMap = {
     'updateAttribute': updateAttribute,
     'updateSkill': updateSkill,
     'addInventoryItem': addInventoryItem,
+    'updateInventoryItem': updateInventoryItem,
     'deleteInventoryItem': deleteInventory,
     'addWeapon': addWeapon,
     'deleteWeapon': deleteWeapon,
