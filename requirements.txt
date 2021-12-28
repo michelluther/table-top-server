@@ -12,7 +12,7 @@ Django==1.11
 django-cors-headers==2.0.2
 django-filter==1.0.2
 django-mongodb-engine==0.6.0
-djangorestframework==3.6.2
+djangorestframework==3.11.2
 djangotoolbox==1.8.0
 incremental==16.10.1
 ipykernel==5.5.0
