@@ -1,0 +1,6 @@
+[{ "id": 11, "name": "Mr. Nice", "life": 35, "life_left": 20, "stamina": 40 },
+ { "id": 12, "name": "Narco", "life": 36, "life_left": 20, "stamina": 40 },
+ { "id": 13, "name": "Bombasto", "life": 37, "life_left": 20, "stamina": 40 },
+ { "id": 14, "name": "Celeritas", "life": 32, "life_left": 20, "stamina": 40 },
+ { "id": 15, "name": "Magneta", "life": 31, "life_left": 20, "stamina": 40 }
+]
