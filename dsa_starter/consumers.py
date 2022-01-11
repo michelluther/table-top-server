@@ -85,6 +85,24 @@ def updateSkill(data):
     actualSkill.value = data["value"]
     actualSkill.save()
 
+def addExperiencePoints(data):
+    character = Character.objects.get(pk=data["heroId"])
+    character.experience = character.experience + data["additionalPoints"]
+    character.save()
+
+def updateAccountEntry(data):
+    character = Character.objects.get(pk=data["heroId"])
+    if data['unit'] == 'dukaten':     # we are currently using python 2.7 ... no match statements here ...
+        character.money_dukaten = data['amount']
+    elif data['unit'] == 'silbertaler':    
+        character.money_silbertaler = data['amount']
+    elif data['unit'] == 'heller':    
+        character.money_heller = data['amount']
+    else:    
+        character.money_kreuzer = data['amount']
+    character.save()
+# def forwardMessage
+
 
 messageTypeMap = {
     'lifeUpdate': updateLife,
@@ -97,8 +115,10 @@ messageTypeMap = {
     'addWeapon': addWeapon,
     'deleteWeapon': deleteWeapon,
     'addArmor': addArmor,
-    'deleteArmor': deleteArmor
-    # 'removeInventor': removeInventoryItem
+    'deleteArmor': deleteArmor,
+    'addExperiencePoints': addExperiencePoints,
+    'updateAccountEntry': updateAccountEntry
+    # 'updateCurrentWeapon': 
 }
 
 def connect_to_heroes(message):

@@ -2,6 +2,10 @@
 
 # Running the app for development
 
+# Switching to the virtual environment
+
+`source dsavenv/bin/activate`
+
 Since it is a django app, call
 
 `python manage.py runserver`

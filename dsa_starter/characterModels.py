@@ -101,9 +101,11 @@ class Character(models.Model):
     magic_energy = models.SmallIntegerField(default=30)
     magic_energy_lost = models.SmallIntegerField(default=0)
 
-    ini_basis = models.SmallIntegerField(default=0)
+    hair_color = models.CharField(max_length=200, default="")
+    eye_color = models.CharField(max_length=200, default="")
 
-
+    weight = models.SmallIntegerField(default=70)
+                                           
     created_date = models.DateTimeField(
         default=timezone.now)
 

@@ -101,6 +101,15 @@ class CharacterSerializable():
         self.assign_inventory_items()
         self.assign_armor()
 
+        self.money_dukaten = character.money_dukaten
+        self.money_silbertaler = character.money_silbertaler
+        self.money_heller = character.money_heller
+        self.money_kreuzer = character.money_kreuzer
+
+        self.hair_color = character.hair_color
+        self.eye_color = character.eye_color
+        self.weight = character.weight
+
     def get_character_skills(self, character):
         return ActualSkill.objects.filter(character=character.pk)
 
