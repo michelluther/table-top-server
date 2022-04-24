@@ -1,5 +1,8 @@
 # Installation
 
+This application runs with python 3.6. Anything newer fails. Upgrade is planned, but not there yet
+
+
 # Running the app for development
 
 # Switching to the virtual environment
@@ -15,6 +18,11 @@ making the app available over the network
 `python manage.py runserver 0.0.0.0:8000`
 
 # to dos
+
+- Magieresistenz
+- "Rasse": Tulamidin, Thorwaller etc.
+- Sprachen
+- Alter
 
 - modifikatoren (rasse, sonderfertigkeiten etc.)
 - sonderfertigkeiten
