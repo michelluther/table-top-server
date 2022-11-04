@@ -19,7 +19,6 @@ making the app available over the network
 
 # to dos
 
-- Magieresistenz
 - "Rasse": Tulamidin, Thorwaller etc.
 - Sprachen
 - Alter
