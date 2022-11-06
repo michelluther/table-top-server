@@ -9,7 +9,7 @@ colorama==0.4.4
 constantly==15.1.0
 daphne==1.2.0
 decorator==4.4.2
-Django==1.11
+Django==2.2.25
 django-cors-headers==2.0.2
 django-filter==1.0.2
 django-mongodb-engine==0.6.0
