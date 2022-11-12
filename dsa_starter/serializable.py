@@ -1,5 +1,5 @@
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, CharacterHasArmor, Armor, WeaponSkillDistribution, InventoryItem, EIGENSCHAFTEN
-from dsa_starter.adventureModels import Adventure, AdventureImage
+from dsa_starter.adventureModels import Adventure, AdventureImage, AdventureCharacter, AdventureLocation
 
 
 class SkillSerializable():
@@ -197,16 +197,24 @@ class AdventureSerializable():
         self.name = adventure.name
         self.active = adventure.isActive
         self.images = self.assign_images(adventure)
+        self.characters = self.assign_characters(adventure)
 
     def assign_images(self, adventure):
         images_serializable = []
-        images = AdventureImage.objects.filter(adventure=adventure.id)
+        images = AdventureImage.objects.filter(adventure=adventure.id,isActive=1)
         for image in images:
-            print(image)
             images_serializable.append(
-                dict(url=image.image.url, caption=image.caption))
+                dict(url=image.image.url, caption=image.caption,sequence=image.sequenceInAdventure))
         return images_serializable
 
+    def assign_characters(self, adventure):
+        characters_serializable = []
+        characters = AdventureCharacter.objects.filter(adventure=adventure.id,isActive=1)
+        for character in characters:
+            characters_serializable.append(
+                dict(name=character.name,sequence=character.sequenceInAdventure,imageUrl=character.image.url)
+            )
+        return characters_serializable
 
 class WeaponSerializable():
 
