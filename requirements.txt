@@ -17,7 +17,7 @@ djangorestframework==3.6.2
 djangotoolbox==1.8.0
 incremental==16.10.1
 ipykernel==5.5.0
-ipython==7.16.1
+ipython==8.10.0
 ipython-genutils==0.2.0
 jedi==0.18.0
 jsonpickle==0.9.4
