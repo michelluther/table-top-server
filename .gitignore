@@ -2,6 +2,7 @@
 *~
 __pycache__
 dsavenv
+dsavenv-3.7
 /static
 .DS_Store
 db.sqlite3 
