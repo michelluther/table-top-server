@@ -65,8 +65,8 @@ class Character(models.Model):
     avatar_small = models.ImageField(upload_to='', blank=True, null=True)
 
     name = models.CharField(max_length=200, default="tbd")
-    race = models.ForeignKey("Race")
-    type = models.ForeignKey("HeroType")
+    race = models.ForeignKey("Race",on_delete=models.CASCADE)
+    type = models.ForeignKey("HeroType",on_delete=models.CASCADE)
     
     money_dukaten = models.SmallIntegerField(default=0)
     money_silbertaler = models.SmallIntegerField(default=0)
@@ -129,8 +129,8 @@ class WeaponSkillDistribution(models.Model):
 
     attack = models.SmallIntegerField(default=0)
     parade = models.SmallIntegerField(default=0)
-    character = models.ForeignKey("Character", default=1)
-    skill = models.ForeignKey("Skill", default=1)
+    character = models.ForeignKey("Character", default=1, on_delete=models.CASCADE)
+    skill = models.ForeignKey("Skill", default=1,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " - " + self.skill.name
@@ -139,8 +139,8 @@ class WeaponSkillDistribution(models.Model):
 class ActualSkill(models.Model):
 
     value = models.SmallIntegerField(default=0)
-    skill = models.ForeignKey("Skill")
-    character = models.ForeignKey("Character", default=1)
+    skill = models.ForeignKey("Skill",on_delete=models.CASCADE)
+    character = models.ForeignKey("Character", default=1,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " - " + self.skill.name + " - " + str(self.value)
@@ -148,8 +148,8 @@ class ActualSkill(models.Model):
 class ActualSpellSkill(models.Model):
 
     value = models.SmallIntegerField(default=0)
-    spell = models.ForeignKey("Spell")
-    character = models.ForeignKey("Character", default=1)
+    spell = models.ForeignKey("Spell",on_delete=models.CASCADE)
+    character = models.ForeignKey("Character", default=1,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " - " + self.spell.name + " - " + str(self.value)
@@ -158,7 +158,7 @@ class ActualSpellSkill(models.Model):
 class Weapon(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    skill = models.ForeignKey("Skill")
+    skill = models.ForeignKey("Skill",on_delete=models.CASCADE)
     hit_dices = models.SmallIntegerField(default=1)
     hit_add_points = models.SmallIntegerField(default=2)
     hit_extra_from_kk = models.SmallIntegerField(default=14)
@@ -172,8 +172,8 @@ class Weapon(models.Model):
 
 
 class CharacterHasWeapon(models.Model):
-    character = models.ForeignKey("Character")
-    weapon = models.ForeignKey("Weapon")
+    character = models.ForeignKey("Character",on_delete=models.CASCADE)
+    weapon = models.ForeignKey("Weapon",on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " / " + self.weapon.name
@@ -191,8 +191,8 @@ class Armor(models.Model):
         return self.name
 
 class CharacterHasArmor(models.Model):
-    character = models.ForeignKey("Character")
-    armor = models.ForeignKey("Armor")
+    character = models.ForeignKey("Character",on_delete=models.CASCADE)
+    armor = models.ForeignKey("Armor",on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " / " + self.armor.name
@@ -201,7 +201,7 @@ class Skill(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
-    type = models.ForeignKey("SkillType")
+    type = models.ForeignKey("SkillType",on_delete=models.CASCADE)
     behinderung = models.CharField(max_length=4, default="")
     weaponSkill = models.BooleanField(default=False)
 
@@ -225,7 +225,7 @@ class Skill(models.Model):
 class SkillType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default="")
-    skill_group = models.ForeignKey("SkillGroup")
+    skill_group = models.ForeignKey("SkillGroup",on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -250,7 +250,7 @@ class Spell(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
-    type = models.ForeignKey("SpellType")
+    type = models.ForeignKey("SpellType",on_delete=models.CASCADE)
 
     dice1 = models.CharField(
         max_length=2, choices=EIGENSCHAFTEN.items(), default="")
@@ -280,7 +280,7 @@ class SpellType(models.Model):
 
 class InventoryItem(models.Model):
     id = models.AutoField(primary_key=True)
-    character = models.ForeignKey("Character")
+    character = models.ForeignKey("Character",on_delete=models.CASCADE)
     
     name = models.CharField(max_length=200, default="")
     amount = models.SmallIntegerField(default=1)

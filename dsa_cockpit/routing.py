@@ -10,5 +10,4 @@ channel_routing = [
     route("websocket.receive", message_to_remote_control_receivers, path=r"^/remoteControlSender"),
     route("websocket.disconnect", disconnect_from_remoteControl_sender, path=r"^/remoteControlSender"),
     route("websocket.disconnect", disconnect_from_remoteControl_receiver, path=r"^/remoteControlReceiver"),
-
 ]

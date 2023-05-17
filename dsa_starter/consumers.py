@@ -1,8 +1,9 @@
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon, Armor, CharacterHasArmor, InventoryItem
-
+from asgiref.sync import async_to_sync
 import json
 
-from channels import Group
+# from channels import Group
+from channels.generic.websocket import WebsocketConsumer
 
 def updateLife(data):
     character = Character.objects.get(pk=data["heroId"])
@@ -121,51 +122,56 @@ messageTypeMap = {
     # 'updateCurrentWeapon': 
 }
 
-def connect_to_heroes(message):
-    print("Connected to heroes service \n")
-    message.reply_channel.send({"accept": True})
-    Group("heroes").add(message.reply_channel)
+class HeroConsumer(WebsocketConsumer):
+    groups = ["heroes"]
+
+    def connect(self):
+        async_to_sync(self.channel_layer.group_add)(
+            "heroes", self.channel_name
+        )
+        self.accept()
+        print('connection received to heroes')
 
 
-def message_to_heroes(message):
-    # Make standard HTTP response - access ASGI path attribute directly
-    data = json.loads(message.content['text'])
-    character = Character.objects.get(pk=data["heroId"])
-    messageTypeMap.get(data['type'])(data)
-    
-    Group("heroes").send({
-        "text": json.dumps(data),
-    })
+    def receive(self, text_data=None):
+        # Make standard HTTP response - access ASGI path attribute directly
+        print('data received at heroes')
+        data = json.loads(text_data)
+        character = Character.objects.get(pk=data["heroId"])
+        messageTypeMap.get(data['type'])(data)
+        async_to_sync(self.channel_layer.group_send)(
+            "heroes", {"type": "hero_update", "message": {"data":text_data }}
+        )
+        print('data sent')
+
+    def disconnect(self, close_code):
+        # nothing happens here
+        print('connection closed')
+
+    def hero_update(self, event):
+        message = event["message"]
+
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({type: message.type, value: message}))
+
+class RemoteControlConsumer(WebsocketConsumer):
+
+    groups = ["heroes"]
+
+    def connect(self):
+        self.accept()
+        print('connection received to heroes')
 
 
-def disconnect_from_heroes(message):
-    Group("heroes").discard(message.reply_channel)
+    def receive(self, text_data=None, bytes_data=None):
+        # Make standard HTTP response - access ASGI path attribute directly
+        print('data received at heroes')
+        data = json.loads(text_data)
+        character = Character.objects.get(pk=data["heroId"])
+        messageTypeMap.get(data['type'])(data)
+        self.send(text_data=json.dumps(data))
+        print('data sent')
 
-
-def connect_to_remoteControl_receiver(message):
-    print("Connected to remoteControl-Receiver service \n")
-    message.reply_channel.send({"accept": True})
-    Group("remoteControlReceiver").add(message.reply_channel)
-
-
-def connect_to_remoteControl_sender(message):
-    print("Connected to remote control sender service \n")
-    message.reply_channel.send({"accept": True})
-    Group("remoteControlSender").add(message.reply_channel)
-
-
-def disconnect_from_remoteControl_receiver(message):
-    Group("remoteControlSender").discard(message.reply_channel)
-
-
-def disconnect_from_remoteControl_sender(message):
-    Group("remoteControlSender").discard(message.reply_channel)
-
-
-def message_to_remote_control_receivers(message):
-    # Make standard HTTP response - access ASGI path attribute directly
-    data = json.loads(message.content['text'])
-    print(data)
-    Group("remoteControlReceiver").send({
-        "text": message.content['text'],
-    })
+    def disconnect(self, close_code):
+        # nothing happens here
+        print('connection closed') 

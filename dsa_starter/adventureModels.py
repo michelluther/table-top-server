@@ -19,7 +19,7 @@ class Adventure(models.Model):
 
 class Fight(models.Model):
     id = models.AutoField(primary_key=True)
-    adventure = models.ForeignKey("Adventure", default=1)
+    adventure = models.ForeignKey("Adventure", default=1,on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default="")
 
     def __str__(self):
@@ -36,10 +36,10 @@ class FightCharacterParticipation(models.Model):
         ('VF', 'Very Front'),
     )
 
-    fight = models.ForeignKey("Fight", default=1)
-    character = models.ForeignKey("Character", default=1)
+    fight = models.ForeignKey("Fight", default=1,on_delete=models.CASCADE)
+    character = models.ForeignKey("Character", default=1,on_delete=models.CASCADE)
     position = models.CharField(
-        max_length=1, choices=POSITION_CHOICES, default="B")
+        max_length=2, choices=POSITION_CHOICES, default="B")
 
     def __str__(self):
         return self.fight.name + ' ' + self.character.name
@@ -55,7 +55,7 @@ class AdventureImage(models.Model):
     isActive = models.BooleanField(default=False)
     caption = models.CharField(max_length=200, default="tbd")
     sequenceInAdventure = models.SmallIntegerField(default=0)
-    adventure = models.ForeignKey("Adventure")
+    adventure = models.ForeignKey("Adventure",on_delete=models.CASCADE)
 
     def __str__(self):
         return "Adventure " + str(self.adventure) + ": " + str(self.sequenceInAdventure) + " " + self.caption
@@ -67,7 +67,7 @@ class AdventureCharacter(models.Model):
     sequenceInAdventure = models.SmallIntegerField(default=0)
     isActive = models.BooleanField(default=False)
     
-    adventure = models.ForeignKey("Adventure")
+    adventure = models.ForeignKey("Adventure",on_delete=models.CASCADE)
 
     def __str__(self):
         return "Adventure " + str(self.adventure) + ": " + str(self.sequenceInAdventure) + " " + self.name
@@ -79,7 +79,7 @@ class AdventureLocation(models.Model):
     image = models.ImageField(upload_to='', blank=True, null=True)
     isActive = models.BooleanField(default=False)
 
-    adventure = models.ForeignKey("Adventure")
+    adventure = models.ForeignKey("Adventure",on_delete=models.CASCADE)
 
     def __str__(self):
         return "Adventure " + str(self.adventure) + ": " + str(self.sequenceInAdventure) + " " + self.name

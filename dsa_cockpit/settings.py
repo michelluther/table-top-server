@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'dsa_starter',
     'channels',
@@ -73,7 +74,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'dsa_cockpit.wsgi.application'
+# WSGI_APPLICATION = 'dsa_cockpit.wsgi.application'
+ASGI_APPLICATION = 'dsa_cockpit.asgi.application'
 
 
 # Database
@@ -131,9 +133,12 @@ MEDIA_URL = '/media/'
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "dsa_cockpit.routing.channel_routing",
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
 
+
+
 CORS_ORIGIN_ALLOW_ALL = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

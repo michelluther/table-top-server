@@ -20,8 +20,8 @@ class NonPlayerCharacter(models.Model):
     avatar_small = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
 
     name = models.CharField(max_length=200, default="tbd")
-    race = models.ForeignKey("Race")
-    type = models.ForeignKey("HeroType")
+    race = models.ForeignKey("Race",on_delete=models.CASCADE)
+    type = models.ForeignKey("HeroType",on_delete=models.CASCADE)
 
     iniitiative = models.SmallIntegerField(default=0)
 
@@ -32,8 +32,8 @@ class NonPlayerCharacter(models.Model):
 
 
 class NonPlayerCharacterHasWeapon(models.Model):
-    character = models.ForeignKey("NonPlayerCharacter")
-    weapon = models.ForeignKey("Weapon")
+    character = models.ForeignKey("NonPlayerCharacter",on_delete=models.CASCADE)
+    weapon = models.ForeignKey("Weapon",on_delete=models.CASCADE)
 
     def __str__(self):
         return self.character.name + " / " + self.weapon.name

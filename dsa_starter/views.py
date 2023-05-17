@@ -8,7 +8,7 @@ from dsa_starter.adventureModels import Adventure, AdventureImage
 
 from dsa_starter.ruleModels import Ascensions
 
-from channels.handler import AsgiHandler
+# from channels.handler import AsgiHandler
 
 import jsonpickle
 from django.shortcuts import render
