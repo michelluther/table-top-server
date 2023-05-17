@@ -140,7 +140,7 @@ class HeroConsumer(WebsocketConsumer):
         character = Character.objects.get(pk=data["heroId"])
         messageTypeMap.get(data['type'])(data)
         async_to_sync(self.channel_layer.group_send)(
-            "heroes", {"type": "hero_update", "message": {"data":text_data }}
+            "heroes", {"type": "hero_update", "message": text_data}
         )
         print('data sent')
 
@@ -152,7 +152,7 @@ class HeroConsumer(WebsocketConsumer):
         message = event["message"]
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({type: message.type, value: message}))
+        self.send(text_data=message)
 
 class RemoteControlConsumer(WebsocketConsumer):
 
