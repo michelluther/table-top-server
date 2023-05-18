@@ -102,7 +102,10 @@ def updateAccountEntry(data):
     else:    
         character.money_kreuzer = data['amount']
     character.save()
-# def forwardMessage
+
+def doNothing(data):
+    print('I do not persist this kind of thing')
+
 
 
 messageTypeMap = {
@@ -118,7 +121,8 @@ messageTypeMap = {
     'addArmor': addArmor,
     'deleteArmor': deleteArmor,
     'addExperiencePoints': addExperiencePoints,
-    'updateAccountEntry': updateAccountEntry
+    'updateAccountEntry': updateAccountEntry,
+    'setCurrentWeapon': doNothing
     # 'updateCurrentWeapon': 
 }
 
