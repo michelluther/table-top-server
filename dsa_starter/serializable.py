@@ -53,7 +53,6 @@ class CharacterSerializable():
         self.name = character.name
 
         self.avatar = character.avatar.url
-        print(character.avatar.url)
         self.avatar_small = character.avatar_small.url
 
         self.assign_race(character.race)
@@ -157,8 +156,6 @@ class CharacterSerializable():
         return dict(assignmentId = skill.pk, id=skill.skill.id, value=skill.value)
 
     def get_spell(self, spell):
-        print(spell.spell.id)
-        print(spell.value)
         return dict(id=spell.spell.id, value=spell.value)
 
     def assign_race(self, race):
@@ -212,9 +209,24 @@ class AdventureSerializable():
         characters = AdventureCharacter.objects.filter(adventure=adventure.id,isActive=1)
         for character in characters:
             characters_serializable.append(
-                dict(name=character.name,sequence=character.sequenceInAdventure,imageUrl=character.image.url)
+                AdventureCharacterSerializable(character)
             )
         return characters_serializable
+
+class AdventureCharacterSerializable:
+    def __init__(self, adventureCharacter):
+
+        self.sequence=adventureCharacter.sequenceInAdventure
+        if(adventureCharacter.character):
+            self.character = CharacterSerializable(adventureCharacter.character)
+            self.name = adventureCharacter.character.name
+            self.imageUrl = adventureCharacter.character.avatar_small.url
+        else:
+            self.npc = adventureCharacter.npc
+            self.name = adventureCharacter.npc.name
+            self.imageUrl = adventureCharacter.npc.avatar_small.url
+        
+        
 
 class WeaponSerializable():
 
@@ -255,3 +267,21 @@ class AscensionSerializable():
         self.cost_f = ascension.cost_f
         self.cost_g = ascension.cost_g
         self.cost_h = ascension.cost_h
+
+class NPCTypeSerializable():
+
+    def __init__(self, npcType):
+        self.id = npcType.id
+        self.name = npcType.name
+        self.race = npcType.race
+        self.attack = npcType.attack
+        self.parade = npcType.parade
+        self.weapon_1_name = npcType.weapon_1_name
+        self.weapon_1_damage = npcType.weapon_1_damage
+        self.weapon_2_name = npcType.weapon_2_name
+        self.weapon_2_damage = npcType.weapon_2_damage
+        self.initiative = npcType.initiative
+        self.ruestung = npcType.ruestung
+        self.life = npcType.life
+        self.magic_energy = npcType.magic_energy
+        self.knowsMagic = npcType.knowsMagic

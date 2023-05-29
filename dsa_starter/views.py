@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, Spell, SpellType
-from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, SpellSerializable, SpellTypeSerializable, AdventureSerializable, AscensionSerializable
-from dsa_starter.adventureModels import Adventure, AdventureImage
+from dsa_starter.serializable import CharacterSerializable, SkillSerializable, SkillTypeSerializable, SkillGroupSerializable, SpellSerializable, SpellTypeSerializable, AdventureSerializable, AdventureCharacterSerializable, AscensionSerializable, NPCTypeSerializable
+from dsa_starter.adventureModels import Adventure, AdventureImage, AdventureCharacter
+from dsa_starter.npcGenerator import generateNames, NPCType
 
 from dsa_starter.ruleModels import Ascensions
 
@@ -64,7 +66,7 @@ def spell_types(request):
     return HttpResponse(response, content_type='application/json')
 
 def character_list(request):
-    characters = Character.objects.all()
+    characters = Character.objects.filter(isHero=True)
     characters_serializable = []
     for character in characters:
         character_serializable = CharacterSerializable(character)
@@ -84,6 +86,25 @@ def adventure_list(request):
     response = jsonpickle.encode(adventures_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
+def adventureById(request, adventureId):
+    try:
+        adventure = Adventure.objects.get(pk=int(adventureId))
+        adventure_serializable = AdventureSerializable(adventure)
+        response = jsonpickle.encode(adventure_serializable, True)
+        return HttpResponse(response, content_type='application/json')        
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1>Adventure not found</h1>')
+
+def adventureNPCs(request, adventureId):
+    adventureCharacters = AdventureCharacter.objects.filter(adventure=adventureId)
+    characters_serializable = []
+    for character in adventureCharacters:
+        character_serializable = AdventureCharacterSerializable(character)
+        characters_serializable.append(character_serializable)
+    response = jsonpickle.encode(characters_serializable, True)
+    return HttpResponse(response, content_type='application/json')
+    
+
 def ascensions(request):
     ascensions = Ascensions.objects.all()
     response = []
@@ -91,3 +112,17 @@ def ascensions(request):
         response.append(AscensionSerializable(ascension)        )
 
     return HttpResponse(jsonpickle.encode(response, True), content_type='application/json')
+
+def npcTypes(request):
+    npcTypes = NPCType.objects.all();
+    response = []
+    for npcType in npcTypes:
+        response.append(NPCTypeSerializable(npcType))
+    return HttpResponse(jsonpickle.encode(response, True), content_type='application/json')
+
+def nameList(request):
+    gender = request.GET.get('gender')
+    type = request.GET.get('type')
+    generatedNames = generateNames(type, gender)
+    
+    return HttpResponse(jsonpickle.encode(generatedNames, True), content_type='application/json')

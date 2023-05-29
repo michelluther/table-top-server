@@ -52,6 +52,8 @@ class HeroType(models.Model):
 
 class Character(models.Model):
 
+    isHero = models.BooleanField(default=True)
+
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),

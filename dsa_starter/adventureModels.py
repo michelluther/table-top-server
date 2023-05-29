@@ -5,6 +5,7 @@ import os
 from django.db import models
 from django.utils import timezone
 from .characterModels import Character
+from .nonPlayerCharacter import Character as NPC
 
 
 class Adventure(models.Model):
@@ -62,15 +63,29 @@ class AdventureImage(models.Model):
 
 class AdventureCharacter(models.Model):
     id = models.AutoField(primary_key=True)
-    image = image = models.ImageField(upload_to='', blank=True, null=True)
-    name = models.CharField(max_length=200, default="tbd")
+    adventure = models.ForeignKey("Adventure", on_delete=models.DO_NOTHING, default="1")
     sequenceInAdventure = models.SmallIntegerField(default=0)
     isActive = models.BooleanField(default=False)
-    
+    character = models.ForeignKey("Character", 
+                                  on_delete=models.DO_NOTHING, 
+                                  default=None,
+                                  blank=True,
+                                  null=True)
+    npc = models.ForeignKey("NonPlayerCharacter", 
+                            on_delete=models.DO_NOTHING, 
+                            default=None,
+                            blank=True,
+                            null=True)
+
+
+
     adventure = models.ForeignKey("Adventure",on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Adventure " + str(self.adventure) + ": " + str(self.sequenceInAdventure) + " " + self.name
+        if(self.character != None):
+            return str(self.adventure) + ": " + str(self.character)
+        else:
+            return str(self.adventure) + ": " + str(self.npc)
 
 
 class AdventureLocation(models.Model):

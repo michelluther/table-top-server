@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import re_path as url
 from django.contrib import admin
-from dsa_starter.views import character_list, skills, skill_types, skill_groups, spells, spell_types, adventure_list, ascensions
+from dsa_starter.views import character_list, skills, skill_types, skill_groups, spells, spell_types, adventure_list, adventureNPCs, adventureById, ascensions, nameList, npcTypes
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -29,8 +29,13 @@ urlpatterns = [
     url(r'^skillTypes', skill_types, name='skillTypes'),
     url(r'^spellTypes', spell_types, name='spellTypes'),
     url(r'^skillGroups', skill_groups, name='skillGroups'),
+    url(r'^adventures/(?P<adventureId>\d+)/npcs', adventureNPCs, name='adventure'),
+    url(r'^adventures/(?P<adventureId>\d+)', adventureById, name='adventure'),
     url(r'^adventures', adventure_list, name='adventures'),
     url(r'^ascensions', ascensions, name='ascensions'),
+    url(r'^names', nameList, name='names'),
+    url(r'^npcTypes', npcTypes, name='npcTypes'),
+
 
 ]
 

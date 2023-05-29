@@ -103,6 +103,12 @@ def updateAccountEntry(data):
         character.money_kreuzer = data['amount']
     character.save()
 
+def sendImage(data):
+    print('I do not persist this kind of thing')
+
+def generateNPC(data):
+    print('I will generate an NPC.')
+
 def doNothing(data):
     print('I do not persist this kind of thing')
 
@@ -122,7 +128,9 @@ messageTypeMap = {
     'deleteArmor': deleteArmor,
     'addExperiencePoints': addExperiencePoints,
     'updateAccountEntry': updateAccountEntry,
-    'setCurrentWeapon': doNothing
+    'setCurrentWeapon': doNothing,
+    'sendImage': sendImage,
+    'createNPC': generateNPC
     # 'updateCurrentWeapon': 
 }
 
@@ -133,8 +141,8 @@ class HeroConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(
             "heroes", self.channel_name
         )
-        self.accept()
         print('connection received to heroes')
+        self.accept()
 
 
     def receive(self, text_data=None):
@@ -163,18 +171,23 @@ class RemoteControlConsumer(WebsocketConsumer):
     groups = ["heroes"]
 
     def connect(self):
+        async_to_sync(self.channel_layer.group_add)(
+            "heroes", self.channel_name
+        )
         self.accept()
-        print('connection received to heroes')
+        print('connection received to remote control heroes')
 
 
     def receive(self, text_data=None, bytes_data=None):
         # Make standard HTTP response - access ASGI path attribute directly
-        print('data received at heroes')
         data = json.loads(text_data)
-        character = Character.objects.get(pk=data["heroId"])
         messageTypeMap.get(data['type'])(data)
-        self.send(text_data=json.dumps(data))
-        print('data sent')
+        if(data.get('target') != 'self'):
+            async_to_sync(self.channel_layer.group_send)(
+                "heroes", {"type": "hero_update", "message": text_data}
+            )
+            print('data sent')
+        
 
     def disconnect(self, close_code):
         # nothing happens here

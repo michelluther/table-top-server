@@ -15,20 +15,21 @@ class NonPlayerCharacter(models.Model):
 
     id = models.AutoField(primary_key=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="M")
-
-    avatar = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
     avatar_small = models.ImageField(upload_to='my_fav_path', blank=True, null=True)
 
     name = models.CharField(max_length=200, default="tbd")
     race = models.ForeignKey("Race",on_delete=models.CASCADE)
     type = models.ForeignKey("HeroType",on_delete=models.CASCADE)
 
-    iniitiative = models.SmallIntegerField(default=0)
+    initiative = models.SmallIntegerField(default=0)
 
     attack = models.SmallIntegerField(default=0)
     parade = models.SmallIntegerField(default=0)
 
     hit_points = models.CharField(max_length=6, default="1W6+4")
+
+    def __str__(self):
+        return self.name
 
 
 class NonPlayerCharacterHasWeapon(models.Model):

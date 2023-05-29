@@ -9,8 +9,6 @@ from django.urls import path
 from dsa_starter.consumers import HeroConsumer, RemoteControlConsumer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dsa_cockpit.settings')
-# django.setup()
-print('hahah und hihi')
 
 application = ProtocolTypeRouter({
   "http": get_asgi_application(),
@@ -18,7 +16,7 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter([
                 path('heroes', HeroConsumer.as_asgi()),
-                path("remoteControl", RemoteControlConsumer.as_asgi()),
+                path("remoteControlSender", RemoteControlConsumer.as_asgi()),
             ])
         )
     )

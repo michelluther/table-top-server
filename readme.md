@@ -7,7 +7,7 @@ This application runs with python 3.6. Anything newer fails. Upgrade is planned,
 
 # Switching to the virtual environment
 
-`source dsavenv/bin/activate`
+`source dsavenv-upgrade/bin/activate`
 
 Since it is a django app, call
 
@@ -19,17 +19,29 @@ making the app available over the network
 
 # to dos
 
-- "Rasse": Tulamidin, Thorwaller etc.
-- Sprachen
-- Alter
+- vielleicht doch das mit dem serilizable irgendwie weg machen ... das ist doch nur Auwand eigentlich
 
-- modifikatoren (rasse, sonderfertigkeiten etc.)
-- sonderfertigkeiten
-- gute und schlechte Eigenschaften
-- rüstung-model
-- money
+- [ ] NPCs aufbauen
+  - [x] CharacterModels müssen NPCs unterstützen
+  - [x] NPC Abenteuer hinzufügen
+  - [ ] Basiswerte?
+
+
+- [ ] NPC-Generator
+  - [ ] Templates?
+  - [ ] Namen einbauen?
+  - [ ] 
+
+- [x] "Rasse": Tulamidin, Thorwaller etc.
+- [ ] Sprachen
+- [ ] Alter
+- [ ] modifikatoren (rasse, sonderfertigkeiten etc.)
+- [ ] sonderfertigkeiten
+- [ ] gute und schlechte Eigenschaften
+- [ ] rüstung-model
 
 done
-- key values for WeaponSkillDistribution
-- waffen-model
-- magic
+- [x] money
+- [x] key values for WeaponSkillDistribution
+- [x] waffen-model
+- [x] magic
