@@ -1,21 +1,21 @@
 from django.db import models
-import fantasynames as fantasynames
+# import fantasynames as fantasynames
 from dsa_starter.characterModels import Race
 
 def generateNames(type, gender):
-    nameGenerators = {
-        'dwarf': fantasynames.dwarf,
-        'human': fantasynames.human,
-        'elf': fantasynames.elf,
-    } 
-    # generate 10 names via fantasynames using type and gender
+    # nameGenerators = {
+    #     'dwarf': fantasynames.dwarf,
+    #     'human': fantasynames.human,
+    #     'elf': fantasynames.elf,
+    # } 
+    # # generate 10 names via fantasynames using type and gender
     
-    names = []
-    i = 0
-    while i < 10:
-        names.append(nameGenerators.get(type)(gender=gender))
-        i += 1
-    return names
+    # names = []
+    # i = 0
+    # while i < 10:
+    #     names.append(nameGenerators.get(type)(gender=gender))
+    #     i += 1
+    return []
 
 def generateNPC(templateId, name):
     print('nothing yet')    

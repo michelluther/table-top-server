@@ -2,6 +2,7 @@
 *~
 __pycache__
 dsavenv
+elasticBeanstalk
 .mypy_cache
 /static
 .DS_Store
