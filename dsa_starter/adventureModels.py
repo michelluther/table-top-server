@@ -22,6 +22,7 @@ class Fight(models.Model):
     id = models.AutoField(primary_key=True)
     adventure = models.ForeignKey("Adventure", default=1,on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default="")
+    nextUp = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -30,20 +31,37 @@ class Fight(models.Model):
         return self.name
 
 
-class FightCharacterParticipation(models.Model):
+class FightParticipation(models.Model):
     POSITION_CHOICES = (
         ('B', 'Back'),
         ('F', 'Front'),
         ('VF', 'Very Front'),
     )
 
+
+    id = models.AutoField(primary_key=True)
     fight = models.ForeignKey("Fight", default=1,on_delete=models.CASCADE)
-    character = models.ForeignKey("Character", default=1,on_delete=models.CASCADE)
+    character = models.ForeignKey("Character", 
+                                  on_delete=models.DO_NOTHING, 
+                                  default=None,
+                                  blank=True,
+                                  null=True)
+    npc = models.ForeignKey("NonPlayerCharacter", 
+                            on_delete=models.DO_NOTHING, 
+                            default=None,
+                            blank=True,
+                            null=True)
+
+    isGood = models.BooleanField(default=True)
     position = models.CharField(
         max_length=2, choices=POSITION_CHOICES, default="B")
+    calculatedInitiative = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.fight.name + ' ' + self.character.name
+        if(self.character != None):
+            return self.fight.name + ' ' + self.character.name
+        else:
+            return self.fight.name + ' ' + self.npc.name
 
 class AdventureSection(models.Model):
     id = models.AutoField(primary_key=True)

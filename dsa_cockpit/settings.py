@@ -25,6 +25,8 @@ SECRET_KEY = 'n0e%t_4p__m&j@11mnze^c&%)w43@&0@^zivbr*)$64#5)28u_'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost:4200',
+    'localhost',
     '*',
 ]
 
@@ -45,14 +47,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'dsa_cockpit.urls'
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'dsa_cockpit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['dsa_cockpit/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,5 +140,18 @@ CHANNEL_LAYERS = {
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-xsrf-token',
+    'x-requested-with',
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

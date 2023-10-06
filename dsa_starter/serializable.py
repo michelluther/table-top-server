@@ -1,5 +1,5 @@
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, SkillGroup, ActualSpellSkill, Spell, SpellType, CharacterHasWeapon, Weapon, CharacterHasArmor, Armor, WeaponSkillDistribution, InventoryItem, EIGENSCHAFTEN
-from dsa_starter.adventureModels import Adventure, AdventureImage, AdventureCharacter, AdventureLocation
+from dsa_starter.adventureModels import Adventure, AdventureImage, AdventureCharacter, AdventureLocation, FightParticipation
 
 
 class SkillSerializable():
@@ -222,12 +222,35 @@ class AdventureCharacterSerializable:
             self.name = adventureCharacter.character.name
             self.imageUrl = adventureCharacter.character.avatar_small.url
         else:
-            self.npc = adventureCharacter.npc
+            self.npc = NPCSerializable(adventureCharacter.npc)
             self.name = adventureCharacter.npc.name
-            self.imageUrl = adventureCharacter.npc.avatar_small.url
+            if adventureCharacter.npc.avatar_small:
+                self.imageUrl = adventureCharacter.npc.avatar_small.url
         
-        
+class NPCSerializable:
+    def __init__(self, npc):
+        self.id = npc.id
+        self.name = npc.name
+        self.assign_race(npc.race)
+        self.attack = npc.attack
+        self.parade = npc.parade
+        self.weapon_1_name = npc.weapon_1_name
+        self.weapon_1_damage = npc.weapon_1_damage
+        self.weapon_1_attack = npc.weapon_1_attack
+        self.weapon_1_parade = npc.weapon_1_parade
+        self.weapon_2_name = npc.weapon_2_name
+        self.weapon_2_damage = npc.weapon_2_damage
+        self.weapon_2_attack = npc.weapon_2_attack
+        self.weapon_2_parade = npc.weapon_2_parade
+        self.initiative = npc.initiative
+        self.ruestung = npc.ruestung
+        self.life = npc.life
+        self.magic_energy = npc.magic_energy
+        self.knowsMagic = npc.knowsMagic
 
+    def assign_race(self, race):
+        self.race = dict(name=race.name, id=race.id)
+        
 class WeaponSerializable():
 
     def __init__(self, weapon):
@@ -285,3 +308,27 @@ class NPCTypeSerializable():
         self.life = npcType.life
         self.magic_energy = npcType.magic_energy
         self.knowsMagic = npcType.knowsMagic
+
+class FightSerializable():
+    def __init__(self, fight):
+        self.name = fight.name
+        self.id = fight.id
+
+        self.participations = []
+        participations = FightParticipation.objects.filter(fight=fight)
+        for participation in participations:
+            self.participations.append(FigthParticipationSerializable(participation))
+        if(fight.nextUp != 0):
+            nextUp = FigthParticipationSerializable(FightParticipation.objects.get(pk=fight.nextUp))
+            self.nextUp = nextUp
+
+class FigthParticipationSerializable():
+    def __init__(self, fightParticipation):
+        if(fightParticipation.character):
+            self.participantType = "character"
+            self.participant = CharacterSerializable(fightParticipation.character)
+        else:
+            self.participantType = "npc"
+            self.participantId = NPCSerializable(fightParticipation.npc)
+        self.initiative = fightParticipation.calculatedInitiative
+        

@@ -2,12 +2,11 @@
 *~
 __pycache__
 dsavenv
-dsavenv-3.7
-dsavenv-upgrade
 .mypy_cache
 /static
 .DS_Store
 db.sqlite3 
+dsa_cockpit.sqlite3
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

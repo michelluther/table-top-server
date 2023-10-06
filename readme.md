@@ -7,7 +7,7 @@ This application runs with python 3.6. Anything newer fails. Upgrade is planned,
 
 # Switching to the virtual environment
 
-`source dsavenv-upgrade/bin/activate`
+`source dsavenv/bin/activate`
 
 Since it is a django app, call
 
@@ -19,7 +19,21 @@ making the app available over the network
 
 # to dos
 
-- vielleicht doch das mit dem serilizable irgendwie weg machen ... das ist doch nur Auwand eigentlich
+## Cloud-readiness
+
+- [ ] Test on elastic beanstalk
+- [ ] Find the newest sqlite-db-version
+- [ ] Make the frontend play nice when delivered by the django app
+  - [x] Consider different ports
+  - [ ] How does routing work in here?
+    - [ ] Set up separate directory for app? 
+    - [ ] Or use S3 for this?
+      - [ ] If we use S3, how do we make sure that this works in development as well as in production?... we do not serve via S3 in development anyway ...
+- [ ] Login für REST
+- [ ] Login für WebSocket-Kommunikation
+- [ ] Login für Angular-App anbinden
+
+- vielleicht doch das mit dem serializable irgendwie weg machen ... das ist doch nur Aufwand eigentlich
 
 - [ ] NPCs aufbauen
   - [x] CharacterModels müssen NPCs unterstützen

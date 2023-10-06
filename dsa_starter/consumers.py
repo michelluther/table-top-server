@@ -1,4 +1,6 @@
 from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon, Armor, CharacterHasArmor, InventoryItem
+from dsa_starter.adventureModels import Fight, FightParticipation, Adventure
+from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 from asgiref.sync import async_to_sync
 import json
 
@@ -109,6 +111,27 @@ def sendImage(data):
 def generateNPC(data):
     print('I will generate an NPC.')
 
+def startFight(data):
+    adventure= Adventure.objects.get(pk=data.get('params').get("adventureId"))
+    fight = Fight.objects.create(name=data.get('params').get("name"), adventure=adventure)
+    participants = data.get('params').get("participants")
+    fight.save()
+    for participant in participants:
+        if participant.get('isCharacter') == True:
+            character = Character.objects.get(pk=participant.get("id"))
+            fightParticipant = FightParticipation.objects.create(character=character, fight=fight, calculatedInitiative=participant.get("initiative"))
+            fightParticipant.save()
+        else:
+            npc = NonPlayerCharacter.objects.get(pk=participant.get("id"))
+            fightParticipant = FightParticipation.objects.create(npc=npc, fight=fight, calculatedInitiative=participant.get("initiative"))
+            fightParticipant.save()
+
+def setNextUp(data):
+    params = data.get('params')
+    fight = Fight.objects.get(pk=params.get('fight'))
+    fight.nextUp = params.get('nextUp')
+    fight.save()
+
 def doNothing(data):
     print('I do not persist this kind of thing')
 
@@ -130,7 +153,8 @@ messageTypeMap = {
     'updateAccountEntry': updateAccountEntry,
     'setCurrentWeapon': doNothing,
     'sendImage': sendImage,
-    'createNPC': generateNPC
+    'createNPC': generateNPC,
+    'startFight': startFight
     # 'updateCurrentWeapon': 
 }
 
