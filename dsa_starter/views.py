@@ -20,7 +20,6 @@ from django.shortcuts import render
 
 # Create your views here.
 
-@permission_required('use_rest_api', raise_exception=True)
 def skills(request):
    
     skillsData = Skill.objects.all()
@@ -31,7 +30,7 @@ def skills(request):
     response = jsonpickle.encode(skills_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def skill_types(request):
     skillTypes = SkillType.objects.all()
     skillTypes_serializable = []
@@ -41,7 +40,7 @@ def skill_types(request):
     response = jsonpickle.encode(skillTypes_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def skill_groups(request):
     skillGroups = SkillGroup.objects.all()
     skillGroups_serializable = []
@@ -51,7 +50,7 @@ def skill_groups(request):
     response = jsonpickle.encode(skillGroups_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def spells(request):
     spells = Spell.objects.all()
     spells_serializable = []
@@ -61,7 +60,7 @@ def spells(request):
     response = jsonpickle.encode(spells_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def spell_types(request):
     spellTypes = SpellType.objects.all()
     spellTypes_serializable = []
@@ -84,7 +83,7 @@ def character_list(request):
     #response = jsonpickle.dumps(characters_serializable)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def adventure_list(request):
     adventures = Adventure.objects.all()
     adventures_serializable = []
@@ -94,7 +93,7 @@ def adventure_list(request):
     response = jsonpickle.encode(adventures_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def adventureById(request, adventureId):
     try:
         adventure = Adventure.objects.get(pk=int(adventureId))
@@ -104,7 +103,7 @@ def adventureById(request, adventureId):
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1>Adventure not found</h1>')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def adventureNPCs(request, adventureId):
     adventureCharacters = AdventureCharacter.objects.filter(adventure=adventureId)
     characters_serializable = []
@@ -114,7 +113,7 @@ def adventureNPCs(request, adventureId):
     response = jsonpickle.encode(characters_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True) 
+ 
 def adventureFights(request, adventureId):
     adventureFights = Fight.objects.filter(adventure=adventureId)
     fights_serializable = []
@@ -124,7 +123,7 @@ def adventureFights(request, adventureId):
     response = jsonpickle.encode(fights_serializable, True)
     return HttpResponse(response, content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def ascensions(request):
     ascensions = Ascensions.objects.all()
     response = []
@@ -133,7 +132,7 @@ def ascensions(request):
 
     return HttpResponse(jsonpickle.encode(response, True), content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def npcTypes(request):
     npcTypes = NPCType.objects.all();
     response = []
@@ -141,7 +140,7 @@ def npcTypes(request):
         response.append(NPCTypeSerializable(npcType))
     return HttpResponse(jsonpickle.encode(response, True), content_type='application/json')
 
-@permission_required('use_rest_api', raise_exception=True)
+
 def nameList(request):
     gender = request.GET.get('gender')
     type = request.GET.get('type')
