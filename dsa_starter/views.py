@@ -71,7 +71,7 @@ def spell_types(request):
     return HttpResponse(response, content_type='application/json')
 
 # @permission_required('app.use_rest_api', raise_exception=True)
-@login_required
+
 def character_list(request):
     characters = Character.objects.filter(isHero=True)
     characters_serializable = []
