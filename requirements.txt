@@ -16,7 +16,6 @@ cryptography==40.0.2
 daphne==4.0.0
 Django==3.2.19
 django-cors-headers==4.0.0
-fantasynames==0.1.2
 flake8==3.9.2
 gunicorn==21.2.0
 hyperlink==21.0.0
