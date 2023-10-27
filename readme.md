@@ -17,18 +17,35 @@ making the app available over the network
 
 `python manage.py runserver 0.0.0.0:8000`
 
+## Deployment
+
+````shell
+
+eb create -d -r eu-central-1 --single
+
+````
+![](2023-10-27-03-34-32.png)
+![](2023-10-27-03-33-57.png)
+![](2023-10-27-03-33-09.png)
+
+
 # to dos
+
 
 ## Cloud-readiness
 
-- [ ] Test on elastic beanstalk
+- [ ] Websockets on elastic beanstalk
+  - [x] Install Requirements daphne and so forth
+  - [x] Set up Application Loadbalancer
+  - [x] Create Procfile
+  - [x] set up Listener, Rules and Processes in Configuration 
 - [ ] Find the newest sqlite-db-version
-- [ ] Make the frontend play nice when delivered by the django app
+- [x] Make the frontend play nice when delivered by the django app
   - [x] Consider different ports
-  - [ ] How does routing work in here?
-    - [ ] Set up separate directory for app? 
-    - [ ] Or use S3 for this?
-      - [ ] If we use S3, how do we make sure that this works in development as well as in production?... we do not serve via S3 in development anyway ...
+  - [x] How does routing work in here?
+    - [x] Set up separate directory for app? 
+    - [x] Or use S3 for this?
+      - [x] If we use S3, how do we make sure that this works in development as well as in production?... we do not serve via S3 in development anyway ...
 - [ ] Login für REST
 - [ ] Login für WebSocket-Kommunikation
 - [ ] Login für Angular-App anbinden
