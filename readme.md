@@ -76,3 +76,4 @@ done
 - [x] key values for WeaponSkillDistribution
 - [x] waffen-model
 - [x] magic
+

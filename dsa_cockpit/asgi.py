@@ -1,17 +1,17 @@
 import os
-
-import django
 from django.core.asgi import get_asgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dsa_cockpit.settings')
+asgi_application = get_asgi_application()
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
 from dsa_starter.consumers import HeroConsumer, RemoteControlConsumer
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dsa_cockpit.settings')
-
 application = ProtocolTypeRouter({
-  "http": get_asgi_application(),
+  "http": asgi_application,
   "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
             URLRouter([
