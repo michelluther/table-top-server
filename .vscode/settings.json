@@ -3,7 +3,7 @@
     "python.linting.pylintEnabled": false,
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
-    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.colorTheme": "Default Light+",
     "python.venvFolders": [
         "dsavenv"
     ]
