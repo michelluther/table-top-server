@@ -135,8 +135,6 @@ def setNextUp(data):
 def doNothing(data):
     print('I do not persist this kind of thing')
 
-
-
 messageTypeMap = {
     'lifeUpdate': updateLife,
     'magicUpdate': updateMagic,
@@ -154,7 +152,8 @@ messageTypeMap = {
     'setCurrentWeapon': doNothing,
     'sendImage': sendImage,
     'createNPC': generateNPC,
-    'startFight': startFight
+    'startFight': startFight,
+    'startTimer': doNothing
     # 'updateCurrentWeapon': 
 }
 
@@ -178,11 +177,11 @@ class HeroConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_send)(
             "heroes", {"type": "hero_update", "message": text_data}
         )
-        print('data sent')
+        print('data sent via heroes')
 
     def disconnect(self, close_code):
         # nothing happens here
-        print('connection closed')
+        print('heroes connection closed')
 
     def hero_update(self, event):
         message = event["message"]
@@ -192,27 +191,36 @@ class HeroConsumer(WebsocketConsumer):
 
 class RemoteControlConsumer(WebsocketConsumer):
 
-    groups = ["heroes"]
+    groups = ["remoteControlReceiver"]
 
     def connect(self):
         async_to_sync(self.channel_layer.group_add)(
-            "heroes", self.channel_name
+            "remoteControlReceiver", self.channel_name
         )
         self.accept()
-        print('connection received to remote control heroes')
+        print('connection received to remote control')
 
 
     def receive(self, text_data=None, bytes_data=None):
         # Make standard HTTP response - access ASGI path attribute directly
         data = json.loads(text_data)
+        
         messageTypeMap.get(data['type'])(data)
         if(data.get('target') != 'self'):
             async_to_sync(self.channel_layer.group_send)(
-                "heroes", {"type": "hero_update", "message": text_data}
+                "remoteControlReceiver", {"type": "remote_control_instruction", "message": text_data}
             )
-            print('data sent')
+            print('data sent via remote control')
+        else:
+            print('got something for everyone')
+
+    def remote_control_instruction(self, event):
+        message = event["message"]
+
+        # Send message to WebSocket
+        self.send(text_data=message)
         
 
     def disconnect(self, close_code):
         # nothing happens here
-        print('connection closed') 
+        print('remote control sender connection closed') 

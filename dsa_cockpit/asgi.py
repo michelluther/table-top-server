@@ -16,7 +16,7 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter([
                 path('heroes', HeroConsumer.as_asgi()),
-                path("remoteControlSender", RemoteControlConsumer.as_asgi()),
+                path('remoteControl', RemoteControlConsumer.as_asgi()),
             ])
         )
     )
