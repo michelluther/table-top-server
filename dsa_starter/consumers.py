@@ -153,7 +153,9 @@ messageTypeMap = {
     'sendImage': sendImage,
     'createNPC': generateNPC,
     'startFight': startFight,
-    'startTimer': doNothing
+    'startTimer': doNothing,
+    'timerFinished': doNothing,
+    'timerStopped': doNothing
     # 'updateCurrentWeapon': 
 }
 
