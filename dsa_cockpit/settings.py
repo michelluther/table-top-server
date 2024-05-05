@@ -83,8 +83,12 @@ ASGI_APPLICATION = 'dsa_cockpit.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dsa_cockpit.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django-images',
+        'USER': 'django-images',
+        'PASSWORD': 'complexpassword123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

@@ -12,16 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='character',
-            name='magic_energy',
-            field=models.SmallIntegerField(default=30),
-        ),
-        migrations.AddField(
-            model_name='character',
-            name='magic_energy_lost',
-            field=models.SmallIntegerField(default=30),
-        ),
         migrations.AlterField(
             model_name='character',
             name='life_lost',

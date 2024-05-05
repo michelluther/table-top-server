@@ -22,9 +22,4 @@ class Migration(migrations.Migration):
                 ('adventure', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dsa_starter.Adventure')),
             ],
         ),
-        migrations.AddField(
-            model_name='fightcharacterparticipation',
-            name='position',
-            field=models.CharField(choices=[('B', 'Back'), ('F', 'Front'), ('VF', 'Very Front')], default='B', max_length=1),
-        ),
     ]

@@ -3,9 +3,17 @@
 This application runs with python 3.6. Anything newer fails. Upgrade is planned, but not there yet
 
 
+# Installing the posgres docker container
+
+````shell
+docker run --name django-images-postgres -p 5432:5432 \
+    -e POSTGRES_USER=django-images -e POSTGRES_PASSWORD=complexpassword123 \
+    -e POSTGRES_DB=django-images -d postgres
+````
+
 # Running the app for development
 
-# Switching to the virtual environment
+## Switching to the virtual environment
 
 `source dsavenv/bin/activate`
 
