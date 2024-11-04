@@ -253,6 +253,7 @@ class Spell(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     type = models.ForeignKey("SpellType",on_delete=models.CASCADE)
+    complexity = models.ForeignKey("SkillGroup", on_delete=models.CASCADE)
 
     dice1 = models.CharField(
         max_length=2, choices=EIGENSCHAFTEN.items(), default="")

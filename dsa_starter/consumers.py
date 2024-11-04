@@ -1,4 +1,4 @@
-from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon, Armor, CharacterHasArmor, InventoryItem
+from dsa_starter.characterModels import Character, ActualSkill, Skill, SkillType, CharacterHasWeapon, Weapon, Armor, CharacterHasArmor, InventoryItem, ActualSpellSkill, Spell
 from dsa_starter.adventureModels import Fight, FightParticipation, Adventure
 from dsa_starter.nonPlayerCharacter import NonPlayerCharacter
 from asgiref.sync import async_to_sync
@@ -88,6 +88,16 @@ def updateSkill(data):
     actualSkill.value = data["value"]
     actualSkill.save()
 
+def updateSpell(data):
+    try:
+        actualSpell = ActualSpellSkill.objects.get(pk=data["assignmentId"])
+    except:
+        spell = Spell.objects.get(pk=data["spellId"])
+        hero = Character.objects.get(pk=data["heroId"])
+        actualSpell = ActualSpellSkill.objects.create(value=data["value"], spell=spell, character=hero)
+    actualSpell.value = data["value"]
+    actualSpell.save()
+
 def addExperiencePoints(data):
     character = Character.objects.get(pk=data["heroId"])
     character.experience = character.experience + data["additionalPoints"]
@@ -140,6 +150,7 @@ messageTypeMap = {
     'magicUpdate': updateMagic,
     'updateAttribute': updateAttribute,
     'updateSkill': updateSkill,
+    'updateSpell': updateSpell,
     'addInventoryItem': addInventoryItem,
     'updateInventoryItem': updateInventoryItem,
     'deleteInventoryItem': deleteInventory,

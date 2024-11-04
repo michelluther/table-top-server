@@ -156,7 +156,7 @@ class CharacterSerializable():
         return dict(assignmentId = skill.pk, id=skill.skill.id, value=skill.value)
 
     def get_spell(self, spell):
-        return dict(id=spell.spell.id, value=spell.value)
+        return dict(assignmentId = spell.pk, id=spell.spell.id, value=spell.value)
 
     def assign_race(self, race):
         self.race = dict(name=race.name, id=race.id)
@@ -181,11 +181,15 @@ class SpellSerializable():
         self.dice2 = spell.dice2
         self.dice3 = spell.dice3
         self.type = spell.type.id
+        self.complexity = name=spell.complexity.nametable-top-client-backup
+        table-top-server
+        
 
 class SpellTypeSerializable():
     def __init__(self, spellType):
         self.id = spellType.id
         self.name = spellType.name
+        
 
 class AdventureSerializable():
 
