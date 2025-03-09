@@ -181,8 +181,6 @@ class SpellSerializable():
         self.dice2 = spell.dice2
         self.dice3 = spell.dice3
         self.type = spell.type.id
-        self.complexity = name=spell.complexity.nametable-top-client-backup
-        table-top-server
         
 
 class SpellTypeSerializable():
