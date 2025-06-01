@@ -81,21 +81,25 @@ def deleteArmor(data):
 def updateSkill(data):
     try:
         actualSkill = ActualSkill.objects.get(pk=data["assignmentId"])
+        hero = Character.objects.get(pk=data["heroId"])
     except:
         skill = Skill.objects.get(pk=data["skillId"])
-        hero = Character.objects.get(pk=data["heroId"])
         actualSkill = ActualSkill.objects.create(value=data["value"], skill=skill, character=hero)
     actualSkill.value = data["value"]
+    hero.experience_used += data["price"]
+    hero.save()
     actualSkill.save()
 
 def updateSpell(data):
     try:
         actualSpell = ActualSpellSkill.objects.get(pk=data["assignmentId"])
+        hero = Character.objects.get(pk=data["heroId"])
     except:
         spell = Spell.objects.get(pk=data["spellId"])
-        hero = Character.objects.get(pk=data["heroId"])
         actualSpell = ActualSpellSkill.objects.create(value=data["value"], spell=spell, character=hero)
     actualSpell.value = data["value"]
+    hero.experience_used += data["price"]
+    hero.save()
     actualSpell.save()
 
 def addExperiencePoints(data):
