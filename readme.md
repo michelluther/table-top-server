@@ -31,26 +31,19 @@ eb create -d -r eu-central-1 --single
 
 # to dos
 
-
-## Cloud-readiness
-
-- [ ] Websockets on elastic beanstalk
-  - [x] Install Requirements daphne and so forth
-  - [x] Set up Application Loadbalancer
-  - [x] Create Procfile
-  - [x] set up Listener, Rules and Processes in Configuration 
-- [ ] Find the newest sqlite-db-version
-- [x] Make the frontend play nice when delivered by the django app
-  - [x] Consider different ports
-  - [x] How does routing work in here?
-    - [x] Set up separate directory for app? 
-    - [x] Or use S3 for this?
-      - [x] If we use S3, how do we make sure that this works in development as well as in production?... we do not serve via S3 in development anyway ...
-- [ ] Login für REST
-- [ ] Login für WebSocket-Kommunikation
-- [ ] Login für Angular-App anbinden
-
 - vielleicht doch das mit dem serializable irgendwie weg machen ... das ist doch nur Aufwand eigentlich
+
+## Abenteuerverwaltung
+
+Aktuell ist es auf der Datenbank möglich, ein Abenteuer als "aktiv" zu setzen. Folgende Entitäten haben einen Abenteuerbezug:
+
+- Bilder
+- Locations
+- NPCs
+
+Über das Django-Frontend kann man aktuell Abenteuer anlegen etc.
+
+  - [ ]  
 
 - [ ] NPCs aufbauen
   - [x] CharacterModels müssen NPCs unterstützen
