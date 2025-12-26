@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import os
 
 from django.db import models
@@ -25,9 +24,6 @@ class Fight(models.Model):
     nextUp = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
-
-    def __unicode__(self):  # You have __str__
         return self.name
 
 

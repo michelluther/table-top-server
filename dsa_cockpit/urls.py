@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.urls import re_path as url
+from django.urls import re_path as url, include
 from django.contrib import admin
 from dsa_starter.views import character_list, skills, skill_types, skill_groups, spells, spell_types, adventure_list, adventureNPCs, adventureFights, adventureById, ascensions, nameList, npcTypes
 
@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^ascensions', ascensions, name='ascensions'),
     url(r'^names', nameList, name='names'),
     url(r'^npcTypes', npcTypes, name='npcTypes'),
+    # MCP Server endpoint
+    url(r'', include('mcp_server.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

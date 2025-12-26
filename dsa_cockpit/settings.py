@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'dsa_starter',
     'channels',
-    'corsheaders'
+    'corsheaders',
+    'mcp_server',
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,19 @@ CORS_ALLOW_HEADERS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# MCP Server Configuration
+DJANGO_MCP_GLOBAL_SERVER_CONFIG = {
+    'name': 'dsa-tabletop-server',
+    'instructions': 'DSA (Das Schwarze Auge / The Dark Eye) tabletop RPG management system. Use these tools to manage characters, adventures, combat, and apply DSA game rules.',
+    'stateless': False
+}
+
+# No authentication required for development
+DJANGO_MCP_AUTHENTICATION_CLASSES = []
+
+# Enable the server instructions tool
+DJANGO_MCP_GET_SERVER_INSTRUCTIONS_TOOL = True
+
+# MCP endpoint path
+DJANGO_MCP_ENDPOINT = "mcp"

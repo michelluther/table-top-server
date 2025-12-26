@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import os
 
 from django.db import models
@@ -33,7 +32,6 @@ class Race(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 
@@ -44,7 +42,6 @@ class HeroType(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 # Create your models here.
@@ -118,7 +115,6 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
     def setAttribute(self, attribute, value):
@@ -168,7 +164,6 @@ class Weapon(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 
@@ -189,7 +184,6 @@ class Armor(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 class CharacterHasArmor(models.Model):
@@ -219,7 +213,6 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 
@@ -232,7 +225,6 @@ class SkillType(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 
@@ -245,7 +237,6 @@ class SkillGroup(models.Model):
     def __str__(self):
         return self.name + ": " + self.title
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 class Spell(models.Model):
@@ -267,7 +258,6 @@ class Spell(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 
@@ -278,7 +268,6 @@ class SpellType(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
         return self.name
 
 class InventoryItem(models.Model):
@@ -294,5 +283,3 @@ class InventoryItem(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):  # You have __str__
-        return self.name

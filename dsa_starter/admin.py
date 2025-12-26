@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 from django.contrib import admin
 from dsa_starter.characterModels import Character, Race, HeroType, Skill, SkillType, SkillGroup, ActualSkill, \
