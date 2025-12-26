@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'daphne',
     'django.contrib.staticfiles',
+    'rest_framework',
     'dsa_starter',
     'channels',
     'corsheaders'
