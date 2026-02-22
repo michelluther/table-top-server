@@ -1,13 +1,12 @@
 # Installation
 
-This application runs with python 3.6. Anything newer fails. Upgrade is planned, but not there yet
-
+This application runs with python 3.13.
 
 # Running the app for development
 
 # Switching to the virtual environment
 
-`source dsavenv/bin/activate`
+`source dsavenv_313/bin/activate`
 
 Since it is a django app, call
 
@@ -19,54 +18,54 @@ making the app available over the network
 
 ## Deployment
 
-````shell
-
+```shell
 eb create -d -r eu-central-1 --single
+```
 
-````
-![](2023-10-27-03-34-32.png)
-![](2023-10-27-03-33-57.png)
-![](2023-10-27-03-33-09.png)
-
-
-# to dos
-
-- vielleicht doch das mit dem serializable irgendwie weg machen ... das ist doch nur Aufwand eigentlich
+# To dos
 
 ## Abenteuerverwaltung
 
-Aktuell ist es auf der Datenbank möglich, ein Abenteuer als "aktiv" zu setzen. Folgende Entitäten haben einen Abenteuerbezug:
+MPC-basierte Abenteuerverwaltung soll es ermöglichen, dass man in der Vorbereitung eines Abenteuers bestimmte Elemente, die man während des Abenteuers gut gebrauchen kann, der App verfügbar machen kann.
 
-- Bilder
-- Locations
-- NPCs
+### NPC-Erstellung
+
+1. Erzeugung aus der Abenteuerbeschreibung heraus.
+
+In einer Abenteuerbeschreibung ist werden Charaktere beschrieben. Für diese hätte man gerne eine Repräsentation in der App, damit man für sie bspw. auch Proben ausführen kann. Schritt eins ist aber natürlich erst mal, dass man die Charaktere erst mal in die App bekommt.
+
+2. Erzeugung aus Vorlagen heraus.
+
+Einfache Charaktere und Gegner wie Wölfe, einfache Gardisten etc. braucht man ja auch noch .... Diese sollen auch Ad-hoc erzeugt werden können. bspw. wenn man einen Kampf beginnt. Hierfür bräuchte es dann vielleicht eher so etwas wie eine "Aktion" oder so was, was man bei einem GPT erzeugen kann.
+
+## Locations
 
 Über das Django-Frontend kann man aktuell Abenteuer anlegen etc.
 
-  - [ ]  
+- [ ] 
 
 - [ ] NPCs aufbauen
   - [x] CharacterModels müssen NPCs unterstützen
   - [x] NPC Abenteuer hinzufügen
   - [ ] Basiswerte?
 
-
 - [ ] NPC-Generator
+  
   - [ ] Templates?
   - [ ] Namen einbauen?
-  - [ ] 
 
-- [x] "Rasse": Tulamidin, Thorwaller etc.
+
+
+# Was noch fehlt
+
 - [ ] Sprachen
+
 - [ ] Alter
-- [ ] modifikatoren (rasse, sonderfertigkeiten etc.)
-- [ ] sonderfertigkeiten
+
+- [ ] Modifikatoren (rasse, sonderfertigkeiten etc.)
+
+- [ ] Sonderfertigkeiten
+
 - [ ] gute und schlechte Eigenschaften
-- [ ] rüstung-model
 
-done
-- [x] money
-- [x] key values for WeaponSkillDistribution
-- [x] waffen-model
-- [x] magic
-
+- [ ] Rüstungsmodel

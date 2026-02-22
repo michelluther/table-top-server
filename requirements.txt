@@ -14,3 +14,8 @@ supervisor
 pytest
 black
 flake8
+# PostgreSQL support
+psycopg2-binary
+# Production dependencies
+whitenoise
+django-environ

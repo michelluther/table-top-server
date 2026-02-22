@@ -2,6 +2,7 @@
 *~
 __pycache__
 dsavenv
+dsavenv_313
 elasticBeanstalk
 .mypy_cache
 /static
@@ -9,6 +10,20 @@ elasticBeanstalk
 db.sqlite3 
 cloud-deployment-notes.md
 dsa_cockpit.sqlite3
+
+# Docker & Environment files
+.env
+.env.local
+.env.production
+docker-compose.override.yml
+
+# Logs
+logs/
+*.log
+
+# Volumes
+postgres_data/
+redis_data/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

@@ -1,5 +1,7 @@
 # Exclude virtual environment
 dsavenv/
+dsavenv_313/
+dsavenv*/
 __pycache__/
 *.pyc
 *.pyo
@@ -31,6 +33,7 @@ ENV/
 env/
 local_settings.py
 *_local.py
+local.*
 
 # IDE files
 .vscode/
@@ -38,6 +41,15 @@ local_settings.py
 *.swp
 *.swo
 *~
+
+# Docker files (not needed for EB deployment)
+docker/
+docker-compose.yml
+Dockerfile
+DOCKER_SETUP.md
+docker-containerization-plan.md
+manage_docker.py
+nginx.conf
 
 # OS generated files
 .DS_Store
