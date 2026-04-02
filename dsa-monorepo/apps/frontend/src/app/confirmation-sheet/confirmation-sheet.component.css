@@ -1,0 +1,31 @@
+.messageToConfirm {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+
+.confirmationButtons {
+    background-color: #fff;
+    margin-top: -3px;
+    padding-top: 15px;
+    width: 180px;
+    border: 1px solid #aaa;
+    box-shadow: 1px 2px 0px #999;
+}
+
+.confirmationButton {
+    height: 30px;
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.confirmationButton.accept {
+    background-color: #8DC071;
+    border-right: 1px solid #999;
+}
+.confirmationButton.reject {
+    background-color: #eee;
+ 
+}

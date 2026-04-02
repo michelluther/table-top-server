@@ -1,0 +1,169 @@
+<div class="flex-col center page">
+  <div class="pageContent">
+    <div *ngIf="state === 'initial'">
+      <button (click)="startNewFight()">Neuen Kampf starten</button>
+      <div id="existingFights">
+        <ul>
+          <li *ngFor="let fight of existingFights">
+            <span>{{ fight.name }}</span
+            ><button (click)="continueFight(fight)">Weiter kämpfen</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="fight-setup-step-1" *ngIf="state === 'setup_1'" class="flex-col">
+      <div class="flex-row space-between">
+        <h2>1. Die Guten</h2>
+        <button (click)="goToStep2()">> 2. Gegner</button>
+      </div>
+      <div class="Grid">
+        <div class="Grid-cell">
+          <div class="header">
+            <div>Helden</div>
+            <div class="headerButtons">
+              <button (click)="addAllHeroes()">Alle +</button>
+              <button (click)="removeAllHeroes()">Alle -</button>
+            </div>
+          </div>
+          <div *ngFor="let hero of heroes">
+            <combatant
+              [isActive]="false"
+              class="combatant"
+              [usedForGood]="true"
+              [combatant]="hero"
+            ></combatant>
+          </div>
+        </div>
+        <div class="Grid-cell">
+          <div class="header">
+            <div>Andere</div>
+            <button (click)="initNPCGeneration()">NPC anlegen</button>
+          </div>
+          <div class="flex-col">
+            <input
+              class="searchInput"
+              placeholder="Suchbegriff"
+              [value]="combatantSearchTerm"
+              (input)="combatantSearchTerm = $event.target.value"
+            />
+          </div>
+          <div *ngIf="createNPCNow === true">
+            <div class="header">Neuer NPC</div>
+            <div *ngFor="let npcType of npcTypes">{{ npcType.name }}</div>
+          </div>
+
+          <div
+            *ngFor="
+              let npc of npcs | MatchesCombatantSearchTerm : combatantSearchTerm
+            "
+          >
+            <combatant
+              [isActive]="false"
+              class="combatant"
+              [combatant]="npc"
+              [usedForGood]="true"
+            ></combatant>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="fight-setup-step-2" *ngIf="state === 'setup_2'" class="flex-col">
+      <div class="flex-row space-between">
+        <h2>2. Die Bösen</h2>
+        <button (click)="goToStep3()">> 3. Initiative</button>
+      </div>
+      <div class="Grid">
+        <div class="Grid-cell">
+          <div class="header">
+            <div>Andere</div>
+            <button (click)="initNPCGeneration()">NPC anlegen</button>
+          </div>
+          <div class="flex-col">
+            <input
+              class="searchInput"
+              placeholder="Suchbegriff"
+              [value]="combatantSearchTerm"
+              (input)="combatantSearchTerm = $event.target.value"
+            />
+          </div>
+          <div *ngIf="createNPCNow === true">
+            <div class="header">Neuer NPC</div>
+            <div *ngFor="let npcType of npcTypes">{{ npcType.name }}</div>
+          </div>
+
+          <div
+            *ngFor="
+              let npc of npcs
+                | IsGoodFighter : false
+                | MatchesCombatantSearchTerm : combatantSearchTerm
+            "
+          >
+            <combatant
+              [isActive]="false"
+              class="combatant"
+              [combatant]="npc"
+              [usedForGood]="false"
+            ></combatant>
+          </div>
+        </div>
+        <div class="Grid-cell">
+          <div class="header">
+            <div>Helden</div>
+            <div class="headerButtons">
+              <button (click)="addAllHeroes()">Alle +</button>
+              <button (click)="removeAllHeroes()">Alle -</button>
+            </div>
+          </div>
+          <div *ngFor="let hero of heroes | IsGoodFighter : false">
+            <combatant
+              [isActive]="false"
+              class="combatant"
+              [combatant]="hero"
+              [usedForGood]="false"
+            ></combatant>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="fight-setup-step-3"
+      *ngIf="state === 'setup_overview'"
+      class="flex-col"
+    >
+      <div class="flex-row space-between">
+        <h2>3. Initiative</h2>
+        <button (click)="nameIt()" [disabled]="allSet !== true">
+          > 4. Ein Name noch!
+        </button>
+      </div>
+      <button (click)="calculateInititives()">Initiative berechnen</button>
+      <div class="flex-col center">
+        <combatant
+          [isActive]="true"
+          *ngFor="let combatant of combatants"
+          [combatant]="combatant"
+        ></combatant>
+      </div>
+    </div>
+    <div id="fight-setup-step-4" *ngIf="state === 'name'" class="flex-col">
+      <div class="flex-row space-between">
+        <h2>Gib dem Kampf einen Namen</h2>
+        <button (click)="go()" [disabled]="allSet !== true">
+          > 5. Let's go!
+        </button>
+      </div>
+      <input [(ngModel)]="fightName" />
+    </div>
+    <div id="fight" *ngIf="state === 'fight'">
+      <button (click)="nextFighter()">Nächster</button>
+
+      <div class="flex-col center">
+        <combatant
+          [isActive]="true"
+          *ngFor="let combatant of combatants"
+          [combatant]="combatant"
+        ></combatant>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div  class="confirmationButtons flex-col center" >
+  <div class="messageToConfirm" *ngIf="showExternalTemplate !== true">{{confirmationText}}</div>
+  <div class="messageToConfirm">
+    <ng-content></ng-content>
+  </div>
+  <div class="flex-row">
+      <div class="flex-item flex-col confirmationButton center accept" (click)="raiseConfirm()">
+          <i class="fa fa-check"></i>
+      </div>
+      <div class="flex-item flex-col confirmationButton center reject" (click)="raiseCancel()">
+          <i class="fa fa-window-close"></i>
+      </div>
+  </div>
+</div>

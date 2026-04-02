@@ -1,0 +1,17 @@
+<div class="flex-col center">
+  <img src="/assets/scroll.png" class="dialogHeroImage no-border" />
+  <h4 class="titleText">Neue Abenteuerpunkte</h4>
+  <input
+    type="number"
+    placeholder="Die Anzahl deiner neuen Abenteuerpunkte"
+    [(ngModel)]="newPointsToAdd"
+  />
+</div>
+<div class="buttonRow row">
+  <button (click)="raiseCancel()">
+    Aaah, Quatsch, kommt doch nichts dazu.
+  </button>
+  <button (click)="raiseAccept()">
+    <i class="fa fa-magic"></i> Her mit den Punkten!
+  </button>
+</div>

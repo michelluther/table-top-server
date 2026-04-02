@@ -1,0 +1,9 @@
+.skillTitle {
+  width: 140px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.targetValue {
+  margin-right: 0.25rem;
+}

@@ -1,0 +1,32 @@
+<div
+  class="adventureItemContainer flex-col center"
+  *ngFor="let element of elements"
+>
+  <div class="border-dashed connector" height="100px"></div>
+  <div
+    *ngIf="element.type !== 'section'"
+    class="adventureItem {{ element.type }}"
+    (click)="showItem(element)"
+  >
+    <div class="imageContainer no-border">
+      <img src="{{ element.imageUrl }}" class="no-border" />
+    </div>
+    <div class="border title">
+      {{ element.title }}
+    </div>
+  </div>
+  <div class="sectionContainer" *ngIf="element.type === 'section'">
+    <div
+      *ngFor="let sectionElement of element.elements"
+      class="adventureItem {{ sectionElement.type }}"
+      (click)="showItem(sectionElement)"
+    >
+      <div class="imageContainer border">
+        <img src="{{ sectionElement.imageUrl }}" class="no-border" />
+      </div>
+      <div class="border title">
+        {{ sectionElement.title }}
+      </div>
+    </div>
+  </div>
+</div>

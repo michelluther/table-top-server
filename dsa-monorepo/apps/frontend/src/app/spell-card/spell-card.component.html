@@ -1,0 +1,19 @@
+<div class="flex-col center">
+  <button>
+    <div class="flex-row skill">
+      <div class="skillTitle">{{spell.getSpell().name}}</div>
+      <div class="skillBe">
+        <i class="fa fa-wheelchair"></i>{{spell.getSpell().be}}
+      </div>
+      
+      <div class="skillValue">
+        <i class="fa fa-tachometer"></i>{{spell.value}}</div>
+      <div class="dices">
+        <i class="fa fa-cubes"></i>
+        <div class="dice">{{spell.getSpell().dice1}}: {{spell.dice1Value}}</div>
+        <div class="dice">{{spell.getSpell().dice2}}: {{spell.dice2Value}}</div>
+        <div class="dice">{{spell.getSpell().dice3}}: {{spell.dice3Value}}</div>
+      </div>
+    </div>
+  </button>
+</div>

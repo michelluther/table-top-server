@@ -1,0 +1,131 @@
+<div class="page flex-col center">
+  <div class="pageContent">
+    <div class="sheet flex-col center" *ngIf="hero">
+      <h2>Punkte einsetzen</h2>
+      <div>{{ hero.availablePoints }}</div>
+      <div id="firstStep" *ngIf="state === 'initial'" class="flex-col center">
+        <h3>Was möchtest Du mit {{ hero.name }} tun?</h3>
+        <div class="flex-col">
+          <button class="navigationButton" (click)="setState('raiseAttribute')">
+            Eigenschaft steigern
+          </button>
+          <button class="navigationButton" (click)="setState('raiseTalent')">
+            Talent steigern
+          </button>
+          <button
+            class="navigationButton"
+            (click)="setState('raiseMagicTalent')"
+            *ngIf="hero.knowsMagic === true"
+          >
+            Zauberfertigkeit steigern
+          </button>
+        </div>
+      </div>
+      <div
+        id="raiseAttribute"
+        *ngIf="state === 'raiseAttribute'"
+        class="flex-col center"
+      >
+        <h3>Welche Eigenschaft möchtest Du steigern?</h3>
+        <div
+          class="navigationButton flex-item"
+          *ngFor="let attribute of hero.attributes; index as i; keyvalue"
+        >
+          <edit-attribute
+            [attribute]="attribute"
+            [costOfAscension]="getCostOfAttributeAscension(attribute)"
+            [hero]="hero"
+          ></edit-attribute>
+        </div>
+      </div>
+      <div
+        id="raiseTalent"
+        *ngIf="state === 'raiseTalent'"
+        class="flex-col center"
+      >
+        <h3>Welches Talent möchtest Du steigern?</h3>
+        <div class="flex-col flex-item center">
+          <div class="flex-row padded searchContainer center">
+            <input
+              placeholder="Suchbegriff"
+              [value]="talentSearchTerm"
+              (input)="talentSearchTerm = $event.target.value"
+            />
+          </div>
+          <div class="talente padded">
+            <div
+              class="flex-col center"
+              *ngFor="
+                let skillGroup of hero.skillGroups
+                  | MatchesTalentSearchTermChildren : talentSearchTerm
+              "
+            >
+              <div class="skillGroupTitle">
+                {{ skillGroup.skillGroup.name }}
+              </div>
+              <div class="skillGroupEntries">
+                <div
+                  class="skillEntry"
+                  *ngFor="
+                    let skill of skillGroup.skills
+                      | MatchesTalentSearchTerm : talentSearchTerm
+                  "
+                >
+                  <edit-talent
+                    [skill]="skill"
+                    [hero]="hero"
+                    [costOfAscension]="getCostOfSkillAscension(skill)"
+                  ></edit-talent>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="raiseTalent"
+        *ngIf="state === 'raiseMagicTalent'"
+        class="flex-col center"
+      >
+        <h3>Welche Zauberfertigkeit möchtest Du steigern?</h3>
+        <div class="flex-col flex-item center">
+          <div class="flex-row padded searchContainer center">
+            <input
+              placeholder="Suchbegriff"
+              [value]="spellSearchTerm"
+              (input)="spellSearchTerm = $event.target.value"
+            />
+          </div>
+          <div class="talente padded">
+            <div
+              class="flex-col center spellGroup"
+              *ngFor="
+                let spellGroup of hero.spellGroups
+                  | MatchesSpellSearchTermChildren : spellSearchTerm
+              "
+            >
+              <div class="spellGroupTitle">
+                {{ spellGroup.spellGroup.name }}
+              </div>
+              <div class="spellGroupEntries">
+                <div
+                  class="spellEntry"
+                  *ngFor="
+                    let spell of spellGroup.spells
+                      | MatchesSpellSearchTerm : spellSearchTerm
+                  "
+                >
+                  <edit-spell
+                    [spell]="spell"
+                    [hero]="hero"
+                    [costOfAscension]="getCostOfSpellAscension(spell)"
+                  ></edit-spell>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

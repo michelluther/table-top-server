@@ -1,0 +1,31 @@
+<div class="flex-col flex-item">
+  <div class="flex-row padded searchContainer center">
+    <input
+      placeholder="Suchbegriff"
+      [value]="talentSearchTerm"
+      (input)="talentSearchTerm = $event.target.value"
+    />
+  </div>
+  <div class="talente padded">
+    <div
+      class="flex-col center skillGroup"
+      *ngFor="
+        let skillGroup of hero.skillGroups
+          | MatchesTalentSearchTermChildren: talentSearchTerm
+      "
+    >
+      <div class="skillGroupTitle border">{{ skillGroup.skillGroup.name }}</div>
+      <div class="skillGroupEntries">
+        <div
+          class="skillEntry"
+          *ngFor="
+            let skill of skillGroup.skills
+              | MatchesTalentSearchTerm: talentSearchTerm
+          "
+        >
+          <talent-card [skill]="skill"></talent-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

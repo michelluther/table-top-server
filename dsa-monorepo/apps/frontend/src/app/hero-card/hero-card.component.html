@@ -1,0 +1,49 @@
+<div class="hero-entry-container">
+  <div class="heroes-entry comic-shadow border border-3">
+    <div class="headerContainer" (click)="gotoDetail()">
+      <!--  -->
+      <div class="headerContent">
+        <h2>{{ hero.name }}</h2>
+        <span>{{ hero.hero_type.name }}, Stufe {{ hero.level }}</span>
+      </div>
+    </div>
+    <div class="cardContentContainer" (click)="gotoDetail()">
+      <ul *ngIf="hero.currentWeapon && hero.currentWeaponSkillIsMelee()">
+        <li>
+          <div class="label">Attacke:</div>
+          {{ hero.currentAttack }}
+        </li>
+        <li>
+          <div class="label">Parade:</div>
+          {{ hero.currentParade }}
+        </li>
+        <li>
+          <div class="label">Trefferpunkte:</div>
+          {{ hero.currentWeaponDamageText }}
+        </li>
+        <li>
+          <p>Rüstung: {{hero.armorValue}}</p>
+        </li>
+      </ul>
+      <ul *ngIf="hero.currentWeapon && hero.currentWeaponSkillIsLongRange()">
+        <li>
+          <div class="label">Fernkampfwert:</div>
+          {{ hero.currentLongRangeValue }}
+        </li>
+        <li>
+          <div class="label">Trefferpunkte:</div>
+          {{ hero.currentWeaponDamageText }}
+        </li>
+        <li>
+          <p>Rüstung: {{hero.armorValue}}</p>
+        </li>
+      </ul>
+    </div>
+    <div class="actionsContainer">
+      <hero-controls [hero]="hero"> </hero-controls>
+    </div>
+  </div>
+  <div class="heroAvatar" (click)="gotoDetail()">
+    <img class="heroAvatarImage no-border" src="{{ baseUrl }}{{ hero.avatar_small }}" height="100%" />
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="padded flex-col center" *ngIf="timer.running === false">
+  <h1 class="">Timer setzen</h1>
+  <div class="flex-col center">
+    <h3>Presets</h3>
+    <div class="flex-row">
+      <button (click)="setTimer('Kurze Bedenkzeit', 0, 15)">Preset Kurz</button>
+      <button (click)="setTimer('Lange Bedenkzeit', 5, 0)">Preset Lang</button>
+    </div>
+    <h3>Settings</h3>
+    <input [(ngModel)]="timer.title" />
+    <span>Minuten</span>
+    <div class="flex-row">
+      <input [(ngModel)]="timer.minutes" />
+      <button (click)="addToTimerMinutes(1)">
+        <i class="fa fa-plus"></i>
+      </button>
+      <button
+        (click)="subtractFromTimerMinutes(1)"
+        [class.disabled]="timer.minutes < 1"
+      >
+        <i class="fa fa-minus"></i>
+      </button>
+    </div>
+
+    <span>Sekunden</span>
+    <div class="flex-row">
+      <input [(ngModel)]="timer.seconds" />
+      <button (click)="addToTimerSeconds(1)">
+        <i class="fa fa-plus"></i>
+      </button>
+      <button
+        (click)="subtractFromTimerSeconds(1)"
+        [class.disabled]="timer.seconds < 1"
+      >
+        <i class="fa fa-minus"></i>
+      </button>
+    </div>
+    <h3>Go</h3>
+    <button (click)="startTimer()">Timer starten</button>
+  </div>
+</div>
+<div class="padded flex-col center" *ngIf="timer.running === true">
+  <h3>Timer "{{ timer.title }}"</h3>
+
+  <h4>{{ timeRemaining.minutes }}:{{ timeRemaining.secondsString }}</h4>
+  <button (click)="stopTimer()">Sie sind fertig!</button>
+</div>

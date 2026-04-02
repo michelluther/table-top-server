@@ -1,0 +1,94 @@
+.inventoryItem {
+  display: flex;
+  min-height: 30px;
+  max-width: 100%;
+  align-items: center;
+}
+
+.inventoryGroupTitle {
+  margin-top: 3rem;
+  background-size: 5.5rem;
+  padding-left: 7rem;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  height: 5rem;
+  padding-top: 0.8rem;
+}
+
+table {
+  position: relative;
+}
+
+th {
+  padding: 8px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+tr th:first-of-type {
+  text-align: left;
+}
+
+tr td:not(:first-of-type) {
+  text-align: center;
+}
+
+tr td:last-of-type {
+  text-align: right;
+}
+
+.inventoryMoneyTitle {
+  background-image: url("/assets/money-icon.png");
+}
+.inventoryWeaponsTitle {
+  background-image: url("/assets/sword-icon.png");
+  background-size: 3rem;
+  background-position-x: 0.5rem;
+}
+
+.inventoryArmorTitle {
+  background-image: url("/assets/armor-icon.png");
+}
+.inventoryMiscTitle {
+  background-image: url("/assets/bag-icon.png");
+}
+
+.spellGroupTitle {
+  font-size: 24px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+confirmation-sheet {
+  margin-top: -20px;
+  display: block;
+}
+button.addButton {
+  margin-bottom: 8px;
+  z-index: 10;
+}
+
+.addWeaponForm span {
+  display: block;
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+.addButton {
+  width: 300px;
+  max-width: 100%;
+}
+
+.inventoryItemName {
+  width: 200px;
+}
+
+.inventoryDamage,
+.inventoryItemAmount {
+  width: 100px;
+  font-weight: 600;
+}
+
+.inventoryItemAction {
+  padding-left: 20px;
+}

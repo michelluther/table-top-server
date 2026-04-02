@@ -1,0 +1,13 @@
+<div class="flex-col center">
+  <h4><i class="fa fa-trash"></i></h4>
+  <h4 class="titleText">
+    {{ data.title }}
+  </h4>
+</div>
+<p innerHTML="{{ data.text }}"></p>
+<div class="buttonRow row">
+  <button (click)="raiseCancel()">Nee, doch nicht</button>
+  <button class="background-danger" (click)="raiseAccept()">
+    <i class="fa fa-trash"></i> Ja, natürlich
+  </button>
+</div>

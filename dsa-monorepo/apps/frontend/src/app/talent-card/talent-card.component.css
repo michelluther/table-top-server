@@ -1,0 +1,39 @@
+.flex-row.skill {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.skillTitle {
+    width: 140px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.skillBe, .skillValue {
+    width: 60px;
+}
+
+.fightDices {
+    width: 120px;
+    display:flex;
+}
+
+.fightDice {
+    width: 60px;
+}
+
+.dices {
+    display: flex;
+    width: 200px;
+}
+
+.dice {
+    width: 50px
+}
+
+i {
+    margin-right: 5px;
+}

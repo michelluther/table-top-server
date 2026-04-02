@@ -1,0 +1,25 @@
+.flex-row {
+  margin: 0.2rem 0;
+  padding-bottom: 0.2rem;
+}
+
+.attributeLabel {
+  border: 1px solid #aaa;
+  display: flex;
+  background-color: #ffffff;
+  align-items: center;
+  padding: 4px 0;
+  justify-content: center;
+}
+
+.value {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 255, 250, 0.8);
+}
+
+.attribute {
+  width: 35px;
+  /* padding: 5px; */
+}

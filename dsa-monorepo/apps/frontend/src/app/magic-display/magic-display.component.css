@@ -1,0 +1,43 @@
+.mainStatus {	
+	/* ; */
+	/* top: -16px;
+	left: 50%;
+	z-index: 30; */
+}
+
+.statusValueContainer {
+    height: 30px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+	position: relative;
+    /* left: -50%; */
+}
+
+.mainStatusValue {
+	height: 30px;
+	width: 120px;
+	border-radius: 60px;
+	border: 1px solid #bbb;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 2px 0 0 0;
+	font-size: 1.5rem;
+	position: relative;
+}
+
+.statusValueText {
+    z-index: 10;
+}
+
+.control-icon {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+    top: 15px;
+    left: 40px;
+	z-index: 200;
+}

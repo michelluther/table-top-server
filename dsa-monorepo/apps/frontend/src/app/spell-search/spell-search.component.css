@@ -1,0 +1,20 @@
+.searchContainer {
+  justify-content: center;
+}
+
+.spellGroup {
+  position: relative;
+}
+
+.spellGroupTitle {
+  font-size: 24px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  padding: 8px;
+  background-color: #efefef;
+}
+.spellEntry {
+  margin-bottom: 8px;
+}

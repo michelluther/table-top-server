@@ -1,0 +1,74 @@
+<!-- <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose> -->
+<detail-navigation [hero]="hero" (navToArea)="showArea($event)">
+</detail-navigation>
+<!-- </mat-sidenav> -->
+
+<div class="page flex-col center">
+  <div class="pageContent">
+    <div class="sheet">
+      <div class="" *ngIf="hero" style="flex: 1">
+        <div class="headerContainer contentBox">
+          <a class="menuItem" name="Allgemein"></a>
+          <!--  -->
+          <div class="headerContent">
+            <div class="flex-col">
+              <div class="heroBanner flex-col center">
+                <h1>{{hero.name}}</h1>
+                <div class="heroType">{{ hero.hero_type.name }}</div>
+                <div class="heroLevel">{{ hero.level }}</div>
+                <!-- <img style="width: 600px;" src="/assets/banner-hero.png" class="no-border" /> -->
+                <!-- <h1 class="heroName">{{ hero.name }}</h1>
+                <div class="flex-item heroClass">
+                  {{ hero.hero_type.name }}, Stufe {{ hero.level }}
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Grid Grid--full Grid-cell">
+          <div class="actionsContainer Grid-cell">
+            <hero-controls [hero]="hero"> </hero-controls>
+          </div>
+        </div>
+        <div *ngIf="detailArea === 'character'" class="characterDetails">
+          <div class="experienceContainer contentBox padded">
+
+          </div>
+          <div class="flex-col">
+            <div id="propertiesBox" id="mainAttributes" class="contentBox Grid Grid--cols-2">
+              <div id="propertiesContainer" class="Grid-cell flex-item flex-col">
+                <basic-data-display [hero]="hero" class=""></basic-data-display>
+                <attributes-display [hero]="hero" class="attributes-display"></attributes-display>
+              </div>
+              <div id="avatarContainer" class="Grid-cell flex-col center">
+                <div class="heroAvatar large flex-item">
+                  <img class="heroAvatarImage comic-shadow" src="{{ baseUrl }}{{ hero.avatar_small }}" />
+                </div>
+                <experience-display [hero]="hero" [experience]="hero.experience"
+                  [availablePoints]="hero.availablePoints">
+                </experience-display>
+              </div>
+            </div>
+          </div>
+          <div class="contentBox flex-item borderTop" id="combatAttributes">
+            <a id="fightValueContainerAnchor"></a>
+            <combat-data-display [hero]="hero"></combat-data-display>
+          </div>
+        </div>
+        <div *ngIf="detailArea === 'talents'" class="contentBox flex-item flex-row heroTalents">
+          <talent-search mode="viewTalents" [hero]="hero" [searchActive]="searchActive" class="flex-item">
+          </talent-search>
+        </div>
+        <div *ngIf="hero.knowsMagic && detailArea === 'spells'" class="contentBox flex-row heroSpells">
+          <spell-search [hero]="hero" class="flex-item"></spell-search>
+        </div>
+        <div *ngIf="detailArea === 'inventory'" class="inventory">
+          <inventory-display [hero]="hero"></inventory-display>
+        </div>
+        <div *ngIf="detailArea === 'edit'" class="editHeroValues">
+          <edit-dialog [hero]="hero"></edit-dialog>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

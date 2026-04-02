@@ -1,0 +1,13 @@
+.spacer {
+  background: url("/assets/time.png");
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+}
+
+h3,
+h4 {
+  margin: 20px 0;
+}

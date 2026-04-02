@@ -1,0 +1,394 @@
+/** header **/
+
+.heroDetailHeader {
+  /*padding: 20px 20px 0 20px;*/
+  display: flex;
+}
+
+.shadow {
+  /* box-shadow: 0px 4px 8px 2px rgba(0,0,0,0.75); */
+  margin-bottom: 40px !important;
+  /* background-color: rgba(255, 255, 255, 1); */
+  min-height: 500px;
+}
+
+.page {
+  padding-top: 10px;
+  height: 100%;
+  font-size: 1.5rem;
+}
+
+.skillEntry i {
+  margin-right: 5px;
+}
+
+.characterDetailNavButton {
+  color: #fff;
+  font-size: 2rem;
+  flex: 1;
+  padding: 5px;
+}
+
+.headerContent p {
+  margin-top: 0;
+}
+
+.heroBanner {
+  background-image: url("/assets/banner-hero.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 600px;
+  width: 100%;
+  height: 160px;
+  padding: 20px 0;
+  margin-bottom: -40px;
+}
+
+.heroType {
+  font-size: 1rem;
+}
+
+.heroLevel {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 30px;
+}
+
+#combatAttributes {
+  padding-top: 2rem;
+}
+
+.heroName::before,
+.heroName::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -60px;
+  top: 24px;
+  display: block;
+  width: 80px;
+  height: 0px;
+  border: 30px solid #9b2;
+  border-right: 20px solid #791;
+  border-bottom-color: #94b81e;
+  border-left-color: transparent;
+  transform: rotate(-5deg);
+}
+
+.heroName::after {
+  left: auto;
+  right: -60px;
+  border-left: 20px solid #791;
+  border-right: 30px solid transparent;
+  transform: rotate(5deg);
+}
+
+.heroClass {
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid #aaa;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+
+/** content sections **/
+basic-data-display {
+  background-image: url("/assets/hero-icon.png");
+  /* background-image: url("/assets/hero-background_desaturated.jpg"); */
+  background-size: 5.5rem;
+  padding-left: 5rem;
+  background-position: 0 2rem;
+  background-repeat: no-repeat;
+}
+
+attributes-display {
+  background-image: url("/assets/properties-icon.png");
+  /* background-image: url("/assets/hero-background_desaturated.jpg"); */
+  background-size: 5.5rem;
+  padding-left: 5rem;
+  background-position: 0 2rem;
+  background-repeat: no-repeat;
+}
+
+#combatAttributes {
+  /* background-image: url("/assets/sword_drawn_desaturated.jpg"); */
+  background-size: 200px;
+  background-position: right 100px top 50px;
+  background-repeat: no-repeat;
+}
+
+.heroTalents {
+  /* background-image: url("/assets/hero-tavern_desaturated.jpg"); */
+  background-size: 300px;
+  background-position: right 100px top 50px;
+  background-repeat: no-repeat;
+}
+
+.heroSpells {
+  /* background-image: url("/assets/wizard_desaturated.jpg"); */
+  background-size: 500px;
+  background-position: right 10px top 10px;
+  background-repeat: no-repeat;
+}
+
+.inventory {
+  /* background-image: url('/assets/inventory-desaturated.jpg'); */
+  background-size: 500px;
+  background-position: right 10px top 10px;
+  background-repeat: no-repeat;
+}
+
+/** end content sections **/
+
+label.long {
+  width: 150px;
+  display: none;
+}
+
+label.short {
+  width: 40px;
+}
+
+#avatarContainer {
+  order: 1;
+  border-bottom: 1px solid #999;
+  background-color: #fff;
+  /* margin-top: -15px; */
+  margin-right: 5px;
+}
+
+experience-display {
+  margin-top: 5rem;
+}
+
+#propertiesContainer {
+  order: 2;
+}
+
+#attributesContainer {
+  order: 3;
+}
+
+.heroAvatarImage,
+.heroAvatar {
+  height: 150px;
+}
+
+.heroAvatarImage {
+  background-color: white;
+  border-color: #999;
+}
+
+.heroAvatar {
+  margin-top: -15px;
+  margin-bottom: -15px;
+  z-index: 100;
+}
+
+.actionsContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.talente {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.skillGroupEntries {
+  width: 100%;
+  /* display: flex;
+  flex-wrap: wrap; */
+}
+
+.heroName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.talentSearchBox {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  margin: -20px 0 10px 0;
+  padding: 10px;
+}
+
+.skillGroupTitle {
+  padding: 10px 0;
+}
+
+combat-data-display {
+  flex: 1;
+}
+
+.skillEntry,
+.weaponEntry {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  align-items: center;
+  justify-content: stretch;
+  float: left;
+}
+
+talent-card {
+  flex: 1;
+}
+
+.skillContent,
+.weaponEntry {
+  margin: 1px;
+  /* border: 1px solid #ddd; */
+  background-color: #fff;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4px;
+  align-items: center;
+}
+
+.weaponEntry {
+  min-height: 30px;
+  padding-left: 10px;
+}
+
+.skillTitle {
+  width: 150px;
+  padding-left: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.skillBe {
+  width: 60px;
+}
+
+.skillValue {
+  width: 30px;
+  color: #ad2003;
+}
+
+.dices,
+.fightDices {
+  display: flex;
+  flex-direction: row;
+  padding: 0 10px;
+  align-items: center;
+}
+
+.dice {
+  width: 30px;
+  text-align: center;
+}
+
+.fightDice {
+  width: 45px;
+}
+
+/** Search box **/
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
+}
+
+:-ms-input-placeholder {
+  text-align: center;
+}
+
+input.talentSearchInbox {
+  text-align: center;
+  height: 30px;
+  width: 100%;
+}
+
+form.search {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-option.skillOption {
+  height: auto;
+  line-height: 12px;
+}
+
+mat-radio-button {
+  width: 100%;
+}
+
+.weaponChoiceLabel div {
+  float: left;
+  padding-right: 20px;
+}
+
+.weaponChoiceLabel :nth-child(1) {
+  width: 120px;
+}
+
+.inventoryWeaponItem {
+  display: flex;
+}
+
+.inventoryItemName {
+  width: 200px;
+}
+
+.weaponDamage {
+  width: 80px;
+}
+
+.inventoryItemAction {
+  width: 40px;
+}
+
+@media (min-width: 48em) {
+  #avatarContainer {
+    order: 1;
+    background-color: transparent;
+    border-bottom: none;
+  }
+
+  #propertiesContainer {
+    order: 0;
+  }
+
+  #attributesContainer {
+    order: 2;
+  }
+
+  .heroAvatarImage,
+  .heroAvatar {
+    height: 300px;
+  }
+
+  label.long {
+    display: inline;
+  }
+
+  label.short {
+    display: none;
+  }
+
+  .skillEntry {
+    /* width: 50%; */
+    float: left;
+  }
+}

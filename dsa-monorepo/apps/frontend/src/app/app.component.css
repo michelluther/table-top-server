@@ -1,0 +1,41 @@
+
+.pageContainer {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;/*
+	align-items: center;*/
+}
+
+.wrapper {
+	height: 100%;
+}
+
+
+.toolbarCenter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.logo {
+	width: 40px;
+}
+
+h1 {
+	color: #999;
+	font-size: 1rem;
+	margin: 5px;
+}
+
+#appMenuButton {
+	position: fixed;
+	top:20px;
+	left:calc(50%);
+	margin-left: -10px;
+	background-color: #ccc;
+}
+
+.padded {
+	padding: 20px;
+  }

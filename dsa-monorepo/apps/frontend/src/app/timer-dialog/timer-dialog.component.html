@@ -1,0 +1,15 @@
+<div class="flex-col center">
+  <h3>Timer "{{ timerData.timer.title }}"</h3>
+  <div class="spacer">&nbsp;</div>
+  <h4>
+    {{ timerData.timeRemaining.minutes }}:{{
+      timerData.timeRemaining.secondsString
+    }}
+  </h4>
+  <div class="flex-row">
+    <button (click)="raiseCancel()">Mach mal zu den Dialog</button>
+    <button class="" (click)="raiseStopTimer()">
+      <i class="fa fa-brain"></i> Wir haben's!
+    </button>
+  </div>
+</div>

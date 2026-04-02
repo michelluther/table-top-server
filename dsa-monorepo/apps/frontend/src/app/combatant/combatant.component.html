@@ -1,0 +1,48 @@
+<div
+  class="border wrapper"
+  [class.added]="combatant.selectedForFight === true && isActive === false"
+  [class.good]="combatant.isGood === true"
+  [class.evil]="combatant.isGood === false"
+>
+  <div class="header">
+    <div class="isNextIndicator" *ngIf="combatant.nextUp === true"></div>
+    <div>{{ combatant.name }}</div>
+    <div>LE: {{ combatant.currentLife }}</div>
+  </div>
+  <div class="content">
+    <div class="fightValues">
+      <div *ngFor="let fightString of combatant.fightTexts">
+        {{ fightString }}
+      </div>
+    </div>
+    <div>IN: {{ combatant.currentInitiative }}</div>
+  </div>
+  <div class="actions">
+    <button
+      (click)="addToFight()"
+      *ngIf="isActive === false && combatant.selectedForFight !== true"
+    >
+      +
+    </button>
+    <button
+      (click)="removeFromFight()"
+      *ngIf="isActive === false && combatant.selectedForFight !== false"
+    >
+      -
+    </button>
+    <button
+      class="gotHitButton"
+      (click)="gotHit(1)"
+      *ngIf="isActive === true && combatant.isHero === false"
+    >
+      -1
+    </button>
+    <button
+      class="gotHitButton"
+      (click)="gotHit(5)"
+      *ngIf="isActive === true && combatant.isHero === false"
+    >
+      -5
+    </button>
+  </div>
+</div>

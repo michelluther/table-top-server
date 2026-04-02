@@ -1,0 +1,73 @@
+<div class="page">
+  <div class="flex-row" style="flex-wrap: nowrap; align-items: flex-start">
+    <div
+      class="flex-col center navColumn firstNavColumn"
+      [class.activeEntry]="activeMainNavEntry === 'heroes'"
+    >
+      <div
+        class="heroes-banner-container flex-col center flex-item"
+        [ngClass]="{ landingPage: gameStarted === false }"
+      >
+        <h1 *ngIf="gameStarted === true && activeMainNavEntry === 'heroes'">
+          Die Helden
+        </h1>
+        <img
+          src="/assets/winged-shield.png"
+          class="no-border heroes-banner"
+          (click)="activateNavEntry('heroes')"
+        />
+      </div>
+
+      <div
+        class="flex-col center flex-item"
+        *ngIf="successfullyLoaded === false"
+      >
+        <p>Ich lade Deine Helden ....</p>
+        <button [disabled]="currentlyLoading" (click)="loadBasicData()">
+          Hier clicken um es noch mal zu versuchen
+        </button>
+      </div>
+      <div
+        class="flex-col center"
+        *ngIf="gameStarted === false && successfullyLoaded === true"
+      >
+        <p>Das Spiel ist bereit ...</p>
+        <button (click)="startGame()">Los geht's!</button>
+      </div>
+      <div
+        class="heroes-list flex-col flex-item"
+        *ngIf="
+          successfullyLoaded === true &&
+          gameStarted === true &&
+          activeMainNavEntry === 'heroes'
+        "
+        [@inOutAnimation]
+      >
+        <hero-card
+          *ngFor="let hero of heroes"
+          [class.selected]="hero === selectedHero"
+          [hero]="hero"
+        >
+        </hero-card>
+      </div>
+    </div>
+    <div
+      class="flex-col flex-item navColumn secondNavColumn"
+      *ngIf="successfullyLoaded === true && gameStarted === true"
+      [class.activeEntry]="activeMainNavEntry === 'adventure'"
+    >
+      <div class="heroes-banner-container flex-col center flex-item">
+        <h1 *ngIf="activeMainNavEntry === 'adventure'">Der Weg</h1>
+        <!-- <p>{{ activeMainNavEntry }}</p> -->
+        <img
+          src="/assets/kompass-adventure.png"
+          class="no-border heroes-banner"
+          (click)="activateNavEntry('adventure')"
+        />
+        <adventure-display
+          *ngIf="activeMainNavEntry === 'adventure'"
+        ></adventure-display>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="Grid-cell padded">
+  <div class="attributesContainer flex-col">
+    <div *ngFor="let attribute of hero.attributes; index as i; keyvalue" class="flex-row borderBottom">
+      <div class="label">
+        <label>{{attribute.name}}</label>
+      </div>
+      <div class="flex-item">{{attribute.value}}</div>
+      <!-- <div *ngIf="editMode" class="editValue"><input [value]="attribute.value" /></div> -->
+
+    </div>
+  </div>
+</div>

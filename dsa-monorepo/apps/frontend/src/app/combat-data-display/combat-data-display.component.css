@@ -1,0 +1,58 @@
+.weaponEntry {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.weaponName {
+  margin-right: 1rem;
+}
+
+.weaponDices {
+  font-weight: 600;
+}
+
+.form-group .paper-check input + span,
+.form-group .paper-radio input + span {
+  display: flex;
+}
+
+.currentValues {
+  font-weight: 700;
+  padding: 1rem 0;
+}
+
+.currentValues label {
+  /* background-color: #fff; */
+  /* min-width: 4rem; */
+  margin-right: 1rem;
+}
+
+.armor-entry,
+.weapon-entry {
+  padding: 0.875rem;
+}
+
+.currentValues span {
+  margin-right: 3rem;
+}
+
+.currentValues.flex-col {
+  /* background-color: #fffffa; */
+  font-size: x-large;
+  justify-content: flex-start;
+  min-width: 400px;
+}
+
+.kampfwerte {
+  background-image: url("/assets/fight-icon.png");
+  /* background-image: url("/assets/hero-background_desaturated.jpg"); */
+  background-size: 5.5rem;
+  padding-top: 4rem;
+  background-position: top center;
+  background-repeat: no-repeat;
+}

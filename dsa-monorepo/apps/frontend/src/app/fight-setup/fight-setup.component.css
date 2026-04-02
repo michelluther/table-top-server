@@ -1,0 +1,44 @@
+.setupAssistant {
+  display: flex;
+  flex-direction: column;
+}
+
+.addHeroes,
+.addOpponents {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+.Grid-cell {
+  margin: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#fight-setup-step-3 combatant,
+#fight combatant {
+  width: 20rem;
+  max-width: 20rem;
+}
+
+#fight-setup-step-3 button {
+  margin-bottom: 2rem;
+}
+
+combatant.good {
+  margin-left: -1rem;
+}
+combatant.evil {
+  margin-left: 1rem;
+}
+
+.searchInput {
+  margin: 0 0.5rem 0.5rem 0.5rem;
+  justify-self: center;
+}

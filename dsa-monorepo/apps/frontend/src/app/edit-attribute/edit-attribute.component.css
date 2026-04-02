@@ -1,0 +1,16 @@
+.editAttributeContainer {
+    /* background-color: #D1B99D; */
+    padding: 10px 20px 10px 20px;
+}
+
+.attributeName {
+    width: 100px;
+    text-align: left;
+}
+.targetValue, .costOfRaise {
+    width: 40px;
+}
+
+button {
+    z-index: 10;
+}

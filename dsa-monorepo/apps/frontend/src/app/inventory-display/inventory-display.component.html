@@ -1,0 +1,178 @@
+<div class="padded flex-col center">
+  <h4 class="inventoryGroupTitle inventoryMoneyTitle">Geld</h4>
+  <div class="flex-col">
+    <div class="row inventoryItem">
+      <div class="inventoryItemName">Dukaten:</div>
+      <div class="inventoryItemAmount">{{ hero.money.dukaten }}</div>
+      <button (click)="editMoney(hero.money.entries[0])">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+    <div class="row inventoryItem">
+      <div class="inventoryItemName">Silbertaler:</div>
+      <div class="inventoryItemAmount">{{ hero.money.silbertaler }}</div>
+      <button (click)="editMoney(hero.money.entries[1])">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+    <div class="row inventoryItem">
+      <div class="inventoryItemName">Kreuzer:</div>
+      <div class="inventoryItemAmount">{{ hero.money.kreuzer }}</div>
+      <button (click)="editMoney(hero.money.entries[2])">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+    <div class="row inventoryItem">
+      <div class="inventoryItemName">Heller:</div>
+      <div class="inventoryItemAmount">{{ hero.money.heller }}</div>
+      <button (click)="editMoney(hero.money.entries[3])">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </div>
+  </div>
+  <hr />
+  <h4 class="inventoryGroupTitle inventoryWeaponsTitle">Waffen</h4>
+  <button (click)="addWeaponToInventory()" class="addButton">
+    <i class="fa fa-plus-square"></i> Waffe hinzufügen
+  </button>
+  <div class="addInventoryItem" *ngIf="showAddWeaponSheet === true">
+    <confirmation-sheet
+      showExternalTemplate="true"
+      (confirm)="addWeapon()"
+      (cancel)="cancelAddWeaponToInventory()"
+    >
+      <div class="addWeaponForm">
+        <div>Neue Waffe</div>
+        <span>Name</span>
+        <input [(ngModel)]="newWeapon.name" />
+        <span>Trefferpunkte Würfel</span>
+        <input [(ngModel)]="newWeapon.damageDice" />
+        <span>Trefferpunkte Zusatzpunkte</span>
+        <input [(ngModel)]="newWeapon._damageAddPoints" />
+        <span>Körperkraft Zuschlag</span>
+        <input [(ngModel)]="newWeapon.extraPointsFromKk" />
+        <span>Kampftalent</span>
+        <select [(ngModel)]="selectedSkillId">
+          <option
+            *ngFor="let weaponSkill of weaponSkills"
+            [value]="weaponSkill.id"
+          >
+            {{ weaponSkill.name }}
+          </option>
+        </select>
+      </div>
+    </confirmation-sheet>
+  </div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Schaden</th>
+      <th>Talent</th>
+      <th></th>
+    </tr>
+
+    <tr *ngFor="let weapon of hero.weapons" class="">
+      <td class="inventoryItemName">{{ weapon.name }}</td>
+      <td class="inventoryDamage">{{ weapon.damageTextGeneral }}</td>
+      <td class="inventoryDamage">{{ weapon.skill.name }}</td>
+
+      <td class="flex-spaces child-borders">
+        <button (click)="removeWeaponFromInventory(weapon)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+      <input class="modal-state" id="modal-{{ weapon.id }}" type="checkbox" />
+    </tr>
+  </table>
+  <hr />
+
+  <h4 class="inventoryGroupTitle inventoryArmorTitle">Rüstung</h4>
+  <button class="addButton" (click)="addArmorToInventory()">
+    <i class="fa fa-plus-square"></i> Rüstung hinzufügen
+  </button>
+  <div class="addInventoryItem" *ngIf="showAddArmorSheet === true">
+    <confirmation-sheet
+      showExternalTemplate="true"
+      (confirm)="addArmor()"
+      (cancel)="cancelAddArmorToInventory()"
+    >
+      <div class="addWeaponForm">
+        <div>Neue Rüstung</div>
+        <span>Name</span>
+        <input [(ngModel)]="newArmor.name" />
+        <span>Rüstungsschutz</span>
+        <input [(ngModel)]="newArmor.rs" />
+        <span>Behinderung</span>
+        <input [(ngModel)]="newArmor.behinderung" />
+      </div>
+    </confirmation-sheet>
+  </div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Rüstungsschutz</th>
+      <th>Behinderung</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let armor of hero.armor" class="">
+      <td class="inventoryItemName">{{ armor.name }}</td>
+      <td class="inventoryDamage">{{ armor.rs }}</td>
+      <td class="inventoryDamage">{{ armor.behinderung }}</td>
+      <td>
+        <button (click)="removeArmorFromInventory(armor)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <hr />
+  <h4 class="inventoryGroupTitle inventoryMiscTitle">Anderes</h4>
+  <button class="addButton" (click)="addInventoryToInventory()">
+    <i class="fa fa-plus-square"></i> Inventar hinzufügen
+  </button>
+  <div class="addInventoryItem" *ngIf="showAddInventorySheet === true">
+    <confirmation-sheet
+      showExternalTemplate="true"
+      (confirm)="addInventory()"
+      (cancel)="cancelAddInventoryToInventory()"
+    >
+      <div class="addWeaponForm">
+        <div>Neues Ding</div>
+        <span>Name</span>
+        <input [(ngModel)]="newInventoryItem.name" />
+        <span>Menge</span>
+        <input [(ngModel)]="newInventoryItem.amount" />
+        <span>Gewicht</span>
+        <input [(ngModel)]="newInventoryItem.weight" />
+      </div>
+    </confirmation-sheet>
+  </div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Menge</th>
+      <th>Gewicht</th>
+      <th></th>
+    </tr>
+
+    <tr *ngFor="let inventoryItem of hero.inventory">
+      <td class="inventoryItemName">{{ inventoryItem.name }}</td>
+      <td class="inventoryItemAmount">{{ inventoryItem.amount }}</td>
+      <td class="inventoryItemAmount">{{ inventoryItem.weight }}</td>
+      <td>
+        <button (click)="addToInventoryAmount(inventoryItem)">
+          <i class="fa fa-plus"></i>
+        </button>
+        <button
+          (click)="subtractFromInventoryAmount(inventoryItem)"
+          [class.disabled]="inventoryItem.amount < 1"
+        >
+          <i class="fa fa-minus"></i>
+        </button>
+        <button (click)="removeInventoryItemFromInventory(inventoryItem)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

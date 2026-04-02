@@ -1,0 +1,58 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.wrapper.added {
+  background-color: #eee;
+}
+
+.wrapper.good {
+  background-color: aqua;
+  margin-left: -2rem;
+}
+.wrapper.evil {
+  background-color: coral;
+  margin-left: 2rem;
+}
+
+.isNextIndicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  position: absolute;
+  top: -0.25rem;
+  left: -0.25rem;
+  background-color: blue;
+}
+
+.header {
+  min-width: 15rem;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+.fightValues {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.actions {
+  margin-top: -2rem;
+  min-height: 2rem;
+}
+
+.gotHitButton {
+  margin-top: 2rem;
+}

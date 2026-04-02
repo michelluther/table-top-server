@@ -1,0 +1,93 @@
+<div class="kampfwerte flex-item flex-col flex-top">
+  <div class="padded flex-item flex-col">
+    <h4>Basiswerte</h4>
+
+    <div class="flex-row">
+      <div class="flex-item">
+        <label class="long">Attacke:&nbsp;</label> {{ hero.attack_basis }}
+      </div>
+      <div class="flex-item">
+        <label class="long">Parade:&nbsp;</label> {{ hero.parade_basis }}
+      </div>
+      <div class="flex-item">
+        <label class="long">Fernkampf:&nbsp;</label> {{ hero.fernkampf_basis }}
+      </div>
+      <div class="flex-item">
+        <label class="long">Initiative:&nbsp;</label> {{ hero.initiative }}
+      </div>
+    </div>
+  </div>
+  <div class="padded flex-item flex-col">
+    <h4>Aktuelle Werte</h4>
+    <div class="flex-col">
+      <div class="currentValues flex-item flex-row " *ngIf="hero.currentWeapon && hero.currentWeaponSkillIsMelee()">
+        <div class="flex-row">
+          <label>Attacke:&nbsp;</label><span class="currentValue"> {{ hero.currentAttack }}</span>
+        </div>
+        <div class="flex-row">
+          <label>Parade:&nbsp;</label><span class="currentValue"> {{ hero.currentParade }}</span>
+        </div>
+        <div class="flex-row">
+          <label>Trefferpunkte:&nbsp;</label><span class="currentValue">
+            {{ hero.currentWeapon.damageDice }}W6+{{
+            hero.currentWeapon.damageAddPoints
+            }}</span>
+        </div>
+      </div>
+      <div class="currentValues flex-item flex-row" *ngIf="hero.currentWeapon && hero.currentWeaponSkillIsLongRange()">
+        <div class="flex-row">
+          <label>Fernkampfwert:&nbsp;</label><span>{{ hero.currentLongRangeValue }}</span>
+        </div>
+        <div class="flex-row">
+          <label>Trefferpunkte:&nbsp;</label>
+          <span>{{ hero.currentWeapon.damageDice }}W6+{{
+            hero.currentWeapon.damageAddPoints
+            }}</span>
+        </div>
+      </div>
+      <div class="currentValues flex-item flex-row">
+        <label>Rüstungsschutz:&nbsp;</label><span class="currentValue"> {{ hero.armorValue }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-row Grid--top">
+    <div class="padded flex-item flex-col">
+      <h4>Waffen</h4>
+
+      <fieldset class="form-group" *ngFor="let weapon of hero.weapons">
+        <label class="paper-radio">
+          <div class="flex-row border border-primary weapon-entry comic-shadow">
+            <input type="radio" name="selectedWeapon" class="flex-item"
+              [checked]="weapon.name === hero.currentWeapon?.name" value="{{ weapon.name }}"
+              (change)="updateCurrentWeapon(weapon)" />
+            <span class="weaponChoiceLabel flex-row">
+              <div class="flex-row">
+                <div class="weaponName">{{ weapon.name }}</div>
+                <div class="weaponDices">{{ weapon.damageText }}</div>
+              </div>
+            </span>
+          </div>
+        </label>
+      </fieldset>
+    </div>
+    <div class="padded flex-item flex-col ">
+      <h4>Rüstung</h4>
+
+      <fieldset class="form-group" *ngFor="let armor of hero.armor">
+        <label class="paper-radio">
+          <div class="flex-row border border-6 armor-entry comic-shadow">
+            <input type="checkbox" name="selectedArmor" class="flex-item" [checked]="armor.isEquipped"
+              value="{{ armor.name }}" (change)="updateEquippedArmor(armor)" />
+            <span class="weaponChoiceLabel flex-row">
+              <div class="flex-row">
+                <div class="weaponName">{{ armor.name }}</div>
+                <div class="weaponDices">{{ armor.rs }}</div>
+              </div>
+            </span>
+          </div>
+        </label>
+      </fieldset>
+    </div>
+  </div>
+</div>

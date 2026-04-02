@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "baseUrl": ".",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "target": "ES2022",
+    "typeRoots": [
+      "../../node_modules/@types"
+    ],
+    "lib": [
+      "ES2017",
+      "dom"
+    ],
+    "paths": {
+      "@dsa-monorepo/shared-types": ["../../packages/shared-types/src/index.ts"],
+      "@dsa-monorepo/validation": ["../../packages/validation/src/index.ts"],
+      "@dsa-monorepo/constants": ["../../packages/constants/src/index.ts"]
+    },
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitReturns": false,
+    "strict": false
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.buttonRow {
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.titleText {
+    margin-bottom: 20px;
+}

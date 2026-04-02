@@ -1,0 +1,15 @@
+<remote-control #remoteControlMaster></remote-control>
+<remote-control-receiver></remote-control-receiver>
+<div id="adminContent">
+  <div id="adminMenu">
+    <button class="comic-shadow" (click)="showHeroes()">Heroes</button>
+    <button class="comic-shadow" (click)="remoteControlMaster.sendImage('')">
+      Images
+    </button>
+    <button class="comic-shadow" (click)="startFight()">Fight</button>
+    <button class="comic-shadow" (click)="startTimer()">Timer</button>
+  </div>
+  <div id="appContent">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="displaysContainer">
+    <life-display currentLife="{{ hero.currentLife }}" maxLife="{{ hero.life }}" (click)="focusLife()"
+      [ngClass]="lifeClass">
+    </life-display>
+    <magic-display *ngIf="hero.knowsMagic" currentMagicEnergy="{{ hero.currentMagicEnergy }}"
+      maxMagicEnergy="{{ hero.magicEnergy }}" (click)="focusMagic()" [ngClass]="magicClass">
+    </magic-display>
+  </div>
+  <div class="buttons" [class.transparent]="listMode">
+    <button class="lifeChangerButton comic-shadow" (click)="updateValue(-5)">
+      <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+    </button>
+    <button class="lifeChangerButton" (click)="updateValue(-1)">
+      <i class="fa fa-angle-down" aria-hidden="true"></i>
+    </button>
+    <button class="lifeChangerButton" (click)="updateValue(1)">
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </button>
+    <button class="lifeChangerButton" (click)="updateValue(5)">
+      <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="flex-col center">
+  <button (click)="increaseSpell()">
+    <div class="flex-row skill">
+      <div class="skillTitle">{{ spell.getSpell().name }}</div>
+      <div class="targetValue">
+        <i class="fa fa-tachometer"></i> {{ targetValue }}
+      </div>
+      <div class="costOfRaise">
+        <i class="fa fa-dollar"></i> {{ costOfAscension }}
+      </div>
+    </div>
+  </button>
+  <confirmation-sheet
+    *ngIf="state === 'toBeConfirmed'"
+    confirmationText="Zahle {{ costOfAscension }} um {{
+      spell.spell.name
+    }} zu steigern?"
+    (confirm)="confirmIncrease()"
+    (cancel)="cancelIncrease()"
+  ></confirmation-sheet>
+</div>

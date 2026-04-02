@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc/apps/frontend",
+    "module": "es2015",
+    "baseUrl": ".",
+    "types": []
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "app/domain/mock-heroes.ts",
+    "app/splash-screen/splash-screen.component.ts"
+  ]
+}

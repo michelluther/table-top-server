@@ -1,0 +1,17 @@
+.overalContainer {
+  /* position: absolute; */
+  overflow: visible;
+}
+
+.experienceContainer {
+  font-size: 2.5rem;
+}
+
+.overalContainer {
+  background-image: url("/assets/scroll.png");
+  background-repeat: no-repeat;
+  background-size: 5rem;
+  background-position: center 0;
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+}
