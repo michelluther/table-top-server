@@ -10,8 +10,8 @@ import { UrlService } from 'app/url.service';
 @Injectable()
 export class SkillService {
 
-  private skillsUrl = `${UrlService.getBaseUrl()}/skills/`;
-  private skillTypesUrl = `${UrlService.getBaseUrl()}/skillTypes/`;
+  private skillsUrl = `${UrlService.getBaseUrl()}/api/skills`;
+  private skillTypesUrl = `${UrlService.getBaseUrl()}/api/skill-types`;
 
   private skills: Skill[];
 
@@ -47,7 +47,12 @@ export class SkillService {
           return this.skillGroups;
         })
       this.skillGroupsPromise.catch(error => {
-        console.error('error getting skill groups')
+        console.error('[SkillService] Error getting skill groups:', error);
+        console.error('[SkillService] Error details:', {
+          status: error.status,
+          message: error.message,
+          url: this.skillTypesUrl
+        });
       })
     }
     return this.skillGroupsPromise;

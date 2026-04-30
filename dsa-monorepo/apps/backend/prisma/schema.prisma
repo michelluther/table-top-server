@@ -1,0 +1,577 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model auth_group {
+  id                     Int                      @id @default(autoincrement())
+  name                   String                   @unique(map: "sqlite_autoindex_auth_group_1")
+  auth_group_permissions auth_group_permissions[]
+  auth_user_groups       auth_user_groups[]
+}
+
+model auth_group_permissions {
+  id              Int             @id @default(autoincrement())
+  group_id        Int
+  permission_id   Int
+  auth_permission auth_permission @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  auth_group      auth_group      @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([group_id, permission_id], map: "auth_group_permissions_group_id_permission_id_0cd325b0_uniq")
+  @@index([permission_id], map: "auth_group_permissions_permission_id_84c5c92e")
+  @@index([group_id], map: "auth_group_permissions_group_id_b120cbf9")
+}
+
+model auth_permission {
+  id                         Int                          @id @default(autoincrement())
+  content_type_id            Int
+  codename                   String
+  name                       String
+  auth_group_permissions     auth_group_permissions[]
+  django_content_type        django_content_type          @relation(fields: [content_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  auth_user_user_permissions auth_user_user_permissions[]
+
+  @@unique([content_type_id, codename], map: "auth_permission_content_type_id_codename_01ab375a_uniq")
+  @@index([content_type_id], map: "auth_permission_content_type_id_2f476e4b")
+}
+
+model auth_user {
+  id                         Int                          @id @default(autoincrement())
+  password                   String
+  last_login                 DateTime?
+  is_superuser               Boolean
+  username                   String                       @unique(map: "sqlite_autoindex_auth_user_1")
+  last_name                  String
+  email                      String
+  is_staff                   Boolean
+  is_active                  Boolean
+  date_joined                DateTime
+  first_name                 String
+  auth_user_groups           auth_user_groups[]
+  auth_user_user_permissions auth_user_user_permissions[]
+  django_admin_log           django_admin_log[]
+
+  // NextAuth.js relations
+  accounts                   Account[]
+  sessions                   Session[]
+}
+
+model auth_user_groups {
+  id         Int        @id @default(autoincrement())
+  user_id    Int
+  group_id   Int
+  auth_group auth_group @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  auth_user  auth_user  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, group_id], map: "auth_user_groups_user_id_group_id_94350c0c_uniq")
+  @@index([group_id], map: "auth_user_groups_group_id_97559544")
+  @@index([user_id], map: "auth_user_groups_user_id_6a12ed8b")
+}
+
+model auth_user_user_permissions {
+  id              Int             @id @default(autoincrement())
+  user_id         Int
+  permission_id   Int
+  auth_permission auth_permission @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  auth_user       auth_user       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, permission_id], map: "auth_user_user_permissions_user_id_permission_id_14a6b632_uniq")
+  @@index([permission_id], map: "auth_user_user_permissions_permission_id_1fbb5f2c")
+  @@index([user_id], map: "auth_user_user_permissions_user_id_a95ead1b")
+}
+
+model django_admin_log {
+  id                  Int                              @id @default(autoincrement())
+  action_time         DateTime
+  object_id           String?
+  object_repr         String
+  change_message      String
+  content_type_id     Int?
+  user_id             Int
+  action_flag         Int
+  auth_user           auth_user                        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  django_content_type django_content_type?             @relation(fields: [content_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([user_id], map: "django_admin_log_user_id_c564eba6")
+  @@index([content_type_id], map: "django_admin_log_content_type_id_c4bce8eb")
+}
+
+model django_content_type {
+  id               Int                @id @default(autoincrement())
+  app_label        String
+  model            String
+  auth_permission  auth_permission[]
+  django_admin_log django_admin_log[]
+
+  @@unique([app_label, model], map: "django_content_type_app_label_model_76bd3d3b_uniq")
+}
+
+model django_migrations {
+  id      Int      @id @default(autoincrement())
+  app     String
+  name    String
+  applied DateTime
+}
+
+model django_session {
+  session_key  String   @id
+  session_data String
+  expire_date  DateTime
+
+  @@index([expire_date], map: "django_session_expire_date_a5c62663")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dsa_starter_abenteuer_punkte {
+  hero_id          Int
+  abenteuer_punkte Int @default(0)
+
+  @@ignore
+}
+
+model dsa_starter_actualskill {
+  id                    Int                     @id @default(autoincrement())
+  value                 Int
+  skill_id              Int
+  character_id          Int
+  dsa_starter_character dsa_starter_character   @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_skill     dsa_starter_skill       @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([character_id], map: "dsa_starter_actualskill_character_id_3a41a09d")
+  @@index([skill_id], map: "dsa_starter_actualskill_skill_id_4d77e734")
+}
+
+model dsa_starter_actualspellskill {
+  id                    Int                     @id @default(autoincrement())
+  value                 Int
+  character_id          Int
+  spell_id              Int
+  dsa_starter_spell     dsa_starter_spell       @relation(fields: [spell_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_character dsa_starter_character   @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([spell_id], map: "dsa_starter_actualspellskill_spell_id_3e97ade8")
+  @@index([character_id], map: "dsa_starter_actualspellskill_character_id_db1b14d1")
+}
+
+model dsa_starter_adventure {
+  id                             Int                              @id @default(autoincrement())
+  name                           String
+  isActive                       Boolean
+  dsa_starter_adventurecharacter dsa_starter_adventurecharacter[]
+  dsa_starter_adventureimage     dsa_starter_adventureimage[]
+  dsa_starter_adventurelocation  dsa_starter_adventurelocation[]
+  dsa_starter_fight              dsa_starter_fight[]
+}
+
+model dsa_starter_adventurecharacter {
+  id                             Int                             @id @default(autoincrement())
+  sequenceInAdventure            Int
+  adventure_id                   Int
+  isActive                       Boolean
+  character_id                   Int?
+  npc_id                         Int?
+  dsa_starter_nonplayercharacter dsa_starter_nonplayercharacter? @relation(fields: [npc_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_character          dsa_starter_character?          @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_adventure          dsa_starter_adventure           @relation(fields: [adventure_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([npc_id], map: "dsa_starter_adventurecharacter_npc_id_7630a0c5")
+  @@index([character_id], map: "dsa_starter_adventurecharacter_character_id_b396e2dd")
+  @@index([adventure_id], map: "dsa_starter_adventurecharacter_adventure_id_99baa233")
+}
+
+model dsa_starter_adventureimage {
+  id                    Int                     @id @default(autoincrement())
+  caption               String
+  adventure_id          Int
+  image                 String?
+  sequenceInAdventure   Int
+  isActive              Boolean
+  dsa_starter_adventure dsa_starter_adventure   @relation(fields: [adventure_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([adventure_id], map: "dsa_starter_adventureimage_adventure_id_63563f68")
+}
+
+model dsa_starter_adventurelocation {
+  id                    Int                   @id @default(autoincrement())
+  name                  String
+  image                 String?
+  adventure_id          Int
+  isActive              Boolean
+  dsa_starter_adventure dsa_starter_adventure @relation(fields: [adventure_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([adventure_id], map: "dsa_starter_adventurelocation_adventure_id_1668708d")
+}
+
+model dsa_starter_adventuresection {
+  id                  Int                     @id @default(autoincrement())
+  sequenceInAdventure Int
+}
+
+model dsa_starter_armor {
+  id                            Int                             @id @default(autoincrement())
+  name                          String
+  ruestungs_schutz              Int
+  behinderung                   Int
+  dsa_starter_characterhasarmor dsa_starter_characterhasarmor[]
+}
+
+model dsa_starter_ascensions {
+  id     Int                     @id @default(autoincrement())
+  level  Int
+  cost_a Int
+  cost_b Int
+  cost_c Int
+  cost_d Int
+  cost_e Int
+  cost_f Int
+  cost_g Int
+  cost_h Int
+}
+
+model dsa_starter_character {
+  id                                  Int                                   @id @default(autoincrement())
+  created_date                        DateTime
+  name                                String
+  type_id                             Int
+  race_id                             Int
+  experience                          Int
+  life                                Int
+  culture                             String
+  gender                              String
+  size                                Int
+  social_rank                         Int
+  experience_used                     Int
+  life_lost                           Int
+  avatar                              String?
+  avatar_small                        String?
+  magic_energy                        Int
+  magic_energy_lost                   Int
+  armor                               Int
+  money_dukaten                       Int
+  money_heller                        Int
+  money_kreuzer                       Int
+  money_silbertaler                   Int
+  CH                                  Int
+  FF                                  Int
+  GE                                  Int
+  IN                                  Int
+  KL                                  Int
+  KK                                  Int
+  KO                                  Int
+  MU                                  Int
+  hair_color                          String
+  eye_color                           String
+  weight                              Int
+  isHero                              Boolean
+  dsa_starter_actualskill             dsa_starter_actualskill[]
+  dsa_starter_actualspellskill        dsa_starter_actualspellskill[]
+  dsa_starter_adventurecharacter      dsa_starter_adventurecharacter[]
+  dsa_starter_race                    dsa_starter_race                      @relation(fields: [race_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_herotype                dsa_starter_herotype                  @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_characterhasarmor       dsa_starter_characterhasarmor[]
+  dsa_starter_characterhasweapon      dsa_starter_characterhasweapon[]
+  dsa_starter_fightparticipation      dsa_starter_fightparticipation[]
+  dsa_starter_inventoryitem           dsa_starter_inventoryitem[]
+  dsa_starter_weaponskilldistribution dsa_starter_weaponskilldistribution[]
+
+  @@index([race_id], map: "dsa_starter_character_race_id_277cda59")
+  @@index([type_id], map: "dsa_starter_character_type_id_9d42a2dd")
+}
+
+model dsa_starter_characterhasarmor {
+  id                    Int                   @id @default(autoincrement())
+  armor_id              Int
+  character_id          Int
+  dsa_starter_character dsa_starter_character @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_armor     dsa_starter_armor     @relation(fields: [armor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([character_id], map: "dsa_starter_characterhasarmor_character_id_b7eeb87b")
+  @@index([armor_id], map: "dsa_starter_characterhasarmor_armor_id_1e46684c")
+}
+
+model dsa_starter_characterhasweapon {
+  id                    Int                   @id @default(autoincrement())
+  character_id          Int
+  weapon_id             Int
+  dsa_starter_weapon    dsa_starter_weapon    @relation(fields: [weapon_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_character dsa_starter_character @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([weapon_id], map: "dsa_starter_characterhasweapon_weapon_id_aca88a0e")
+  @@index([character_id], map: "dsa_starter_characterhasweapon_character_id_f735db08")
+}
+
+model dsa_starter_fight {
+  id                             Int                              @id @default(autoincrement())
+  name                           String
+  adventure_id                   Int
+  nextUp                         Int
+  dsa_starter_adventure          dsa_starter_adventure            @relation(fields: [adventure_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_fightparticipation dsa_starter_fightparticipation[]
+
+  @@index([adventure_id], map: "dsa_starter_fight_adventure_id_bbb4ca1d")
+}
+
+model dsa_starter_fightparticipation {
+  isGood                         Boolean
+  position                       String
+  character_id                   Int?
+  fight_id                       Int
+  npc_id                         Int?
+  calculatedInitiative           Int
+  id                             Int                             @id @default(autoincrement())
+  dsa_starter_nonplayercharacter dsa_starter_nonplayercharacter? @relation(fields: [npc_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_fight              dsa_starter_fight               @relation(fields: [fight_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_character          dsa_starter_character?          @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([npc_id], map: "dsa_starter_fightparticipation_npc_id_5c94f23e")
+  @@index([fight_id], map: "dsa_starter_fightparticipation_fight_id_268a70f7")
+  @@index([character_id], map: "dsa_starter_fightparticipation_character_id_90f43e05")
+}
+
+model dsa_starter_herotype {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  knowsMagic            Boolean
+  dsa_starter_character dsa_starter_character[]
+}
+
+model dsa_starter_inventoryitem {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  amount                Int
+  character_id          Int
+  unit                  String
+  weight                Int
+  dsa_starter_character dsa_starter_character   @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([character_id], map: "dsa_starter_inventoryitem_character_id_4d83dc5a")
+}
+
+model dsa_starter_nonplayercharacter {
+  id                                      Int                                       @id @default(autoincrement())
+  name                                    String
+  initiative                              Int
+  attack                                  Int
+  parade                                  Int
+  race_id                                 Int
+  knowsMagic                              Boolean
+  life                                    Int
+  magic_energy                            Int
+  ruestung                                Int
+  weapon_1_damage                         String
+  weapon_1_name                           String
+  weapon_2_damage                         String
+  weapon_2_name                           String
+  weapon_1_attack                         Int
+  weapon_1_parade                         Int
+  weapon_2_attack                         Int
+  weapon_2_parade                         Int
+  avatar_small                            String?
+  species_id                              Int
+  dsa_starter_adventurecharacter          dsa_starter_adventurecharacter[]
+  dsa_starter_fightparticipation          dsa_starter_fightparticipation[]
+  dsa_starter_species                     dsa_starter_species                       @relation(fields: [species_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_race                        dsa_starter_race                          @relation(fields: [race_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_nonplayercharacterhasweapon dsa_starter_nonplayercharacterhasweapon[]
+
+  @@index([species_id], map: "dsa_starter_nonplayercharacter_species_id_5bcd89a2")
+  @@index([race_id], map: "dsa_starter_nonplayercharacter_race_id_637bf91a")
+}
+
+model dsa_starter_nonplayercharacterhasweapon {
+  id                             Int                            @id @default(autoincrement())
+  character_id                   Int
+  weapon_id                      Int
+  dsa_starter_weapon             dsa_starter_weapon             @relation(fields: [weapon_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_nonplayercharacter dsa_starter_nonplayercharacter @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([weapon_id], map: "dsa_starter_nonplayercharacterhasweapon_weapon_id_27befbe8")
+  @@index([character_id], map: "dsa_starter_nonplayercharacterhasweapon_character_id_0c66692a")
+}
+
+model dsa_starter_npctype {
+  id               Int                     @id @default(autoincrement())
+  name             String
+  attack           Int
+  parade           Int
+  race_id          Int
+  weapon_1_damage  String
+  weapon_1_name    String
+  weapon_2_damage  String
+  weapon_2_name    String
+  initiative       Int
+  knowsMagic       Boolean
+  life             Int
+  magic_energy     Int
+  ruestung         Int
+  weapon_1_attack  Int
+  weapon_1_parade  Int
+  weapon_2_attack  Int
+  weapon_2_parade  Int
+  dsa_starter_race dsa_starter_race        @relation(fields: [race_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([race_id], map: "dsa_starter_npctype_race_id_7b28e321")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dsa_starter_points_spent {
+  hero_id       Int
+  points_spent  Int
+  activity_json String
+
+  @@ignore
+}
+
+model dsa_starter_race {
+  id                             Int                              @id @default(autoincrement())
+  name                           String
+  dsa_starter_character          dsa_starter_character[]
+  dsa_starter_nonplayercharacter dsa_starter_nonplayercharacter[]
+  dsa_starter_npctype            dsa_starter_npctype[]
+}
+
+model dsa_starter_skill {
+  id                                  Int                                   @id @default(autoincrement())
+  name                                String
+  type_id                             Int
+  behinderung                         String
+  dice1                               String
+  dice2                               String
+  dice3                               String
+  basis                               Boolean
+  weaponSkill                         Boolean
+  dsa_starter_actualskill             dsa_starter_actualskill[]
+  dsa_starter_skilltype               dsa_starter_skilltype                 @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_weapon                  dsa_starter_weapon[]
+  dsa_starter_weaponskilldistribution dsa_starter_weaponskilldistribution[]
+
+  @@index([type_id], map: "dsa_starter_skill_type_id_74925c72")
+}
+
+model dsa_starter_skillgroup {
+  name                  String
+  cost_per_increase     Int
+  title                 String
+  id                    Int                     @id @default(autoincrement())
+  dsa_starter_skilltype dsa_starter_skilltype[]
+  dsa_starter_spell     dsa_starter_spell[]
+}
+
+model dsa_starter_skilltype {
+  skill_group_id         Int
+  name                   String
+  id                     Int                    @id @default(autoincrement())
+  dsa_starter_skill      dsa_starter_skill[]
+  dsa_starter_skillgroup dsa_starter_skillgroup @relation(fields: [skill_group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([skill_group_id], map: "dsa_starter_skilltype_skill_group_id_1350aec5")
+}
+
+model dsa_starter_species {
+  id                             Int                              @id @default(autoincrement())
+  name                           String
+  dsa_starter_nonplayercharacter dsa_starter_nonplayercharacter[]
+}
+
+model dsa_starter_spell {
+  id                           Int                            @id @default(autoincrement())
+  name                         String
+  dice1                        String
+  dice2                        String
+  dice3                        String
+  basis                        Boolean
+  type_id                      Int
+  complexity_id                Int
+  dsa_starter_actualspellskill dsa_starter_actualspellskill[]
+  dsa_starter_skillgroup       dsa_starter_skillgroup         @relation(fields: [complexity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_spelltype        dsa_starter_spelltype          @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([complexity_id], map: "dsa_starter_spell_complexity_id_91fba967")
+  @@index([type_id], map: "dsa_starter_spell_type_id_48e5d7b8")
+}
+
+model dsa_starter_spelltype {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  dsa_starter_spell dsa_starter_spell[]
+}
+
+model dsa_starter_weapon {
+  id                                      Int                                       @id @default(autoincrement())
+  name                                    String
+  hit_dices                               Int
+  hit_add_points                          Int
+  hit_extra_from_kk                       Int
+  skill_id                                Int
+  dsa_starter_characterhasweapon          dsa_starter_characterhasweapon[]
+  dsa_starter_nonplayercharacterhasweapon dsa_starter_nonplayercharacterhasweapon[]
+  dsa_starter_skill                       dsa_starter_skill                         @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([skill_id], map: "dsa_starter_weapon_skill_id_5b73d575")
+}
+
+model dsa_starter_weaponskilldistribution {
+  id                    Int                     @id @default(autoincrement())
+  character_id          Int
+  skill_id              Int
+  attack                Int
+  parade                Int
+  dsa_starter_skill     dsa_starter_skill       @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dsa_starter_character dsa_starter_character   @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([skill_id], map: "dsa_starter_weaponskilldistribution_skill_id_56deed96")
+  @@index([character_id], map: "dsa_starter_weaponskilldistribution_character_id_7c9805d8")
+}
+
+// ============================================================================
+// NextAuth.js Models
+// ============================================================================
+// These models are used by NextAuth.js for authentication and session management.
+// The auth_user table (defined above) is used as the User table.
+
+/// OAuth account model for NextAuth.js
+model Account {
+  id                String    @id @default(cuid())
+  userId            Int       @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String    @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("auth_accounts")
+}
+
+/// Session model for NextAuth.js database sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       Int      @map("user_id")
+  expires      DateTime
+
+  user auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("auth_sessions")
+}
+
+/// Verification token for email verification and password reset
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("auth_verification_tokens")
+}

@@ -15,6 +15,7 @@ import { SkillService } from "./skills.service";
 import { SpellService } from "./spells.service";
 import { Weapon } from './weapon';
 import { WeaponSkillDistribution } from "./weaponSkillDistribution";
+import { CharacterDetailDto } from '../../../../../packages/shared-types/src/dtos/character.dto';
 
 export class Hero implements Combatant {
 
@@ -27,7 +28,7 @@ export class Hero implements Combatant {
   size: number;
   gender: string;
 
-  culture: number;
+  culture: string;
 
   avatar_small: string;
 
@@ -118,30 +119,39 @@ export class Hero implements Combatant {
     this._currentInitiative = initiative
   }
 
-  setData(dataObject: Object): Promise<Hero> {
-     
-    this.attack_basis = dataObject['attack_basis'];
-    this.parade_basis = dataObject['parade_basis'];
-    this.fernkampf_basis = dataObject['fernkampf_basis']
+  // TODO: Refactor to use proper CharacterWithAbilitiesDto type from @dsa-monorepo/shared-types
+  // Currently using Record<string, any> because the method accesses fields that may come in both
+  // snake_case (legacy) and camelCase (new DTOs) formats
+  setData(dataObject: CharacterDetailDto): Promise<Hero> {
 
-    this.life_lost = dataObject['life_lost'];
-    this.avatar_small = dataObject['avatar_small'];
+    // Use camelCase from DTOs, fallback to snake_case for backward compatibility
+    this.attack_basis = dataObject['attackBasis'] ?? dataObject['attack_basis'];
+    this.parade_basis = dataObject['paradeBasis'] ?? dataObject['parade_basis'];
+    this.fernkampf_basis = dataObject['fernkampfBasis'] ?? dataObject['fernkampf_basis']
+
+    this.life_lost = dataObject['lifeLost'] ?? dataObject['life_lost'];
+    this.avatar_small = dataObject['avatarSmall'] ?? dataObject['avatar_small'];
 
     this.culture = dataObject['culture'];
     this.experience = dataObject['experience'];
 
     this.level = Math.floor(Math.sqrt(this.experience / 50 + 0.25) + 0.5)
 
-    this.experience_used = dataObject['experience_used'];
+    this.experience_used = dataObject['experienceUsed'] ?? dataObject['experience_used'];
     this.gender = dataObject['gender'];
-    this.hero_type = dataObject['hero_type'];
+    this.hero_type = dataObject['heroType'] ?? dataObject['hero_type'];
     this.id = dataObject['id'];
-    this._initiative = dataObject['ini_basis'];
-    this.knowsMagic = dataObject['knows_magic'];
+    this._initiative = dataObject['iniBasis'] ?? dataObject['ini_basis'];
+    this.knowsMagic = dataObject['heroType']?.knowsMagic ?? dataObject['knows_magic'];
 
-    this.money = new MoneyInventory(dataObject['money_dukaten'], dataObject['money_silbertaler'], dataObject['money_kreuzer'], dataObject['money_heller'])
-    this.hairColor = dataObject['hair_color']
-    this.eyeColor = dataObject['eye_color']
+    this.money = new MoneyInventory(
+      dataObject['moneyDukaten'] ?? dataObject['money_dukaten'],
+      dataObject['moneySilbertaler'] ?? dataObject['money_silbertaler'],
+      dataObject['moneyKreuzer'] ?? dataObject['money_kreuzer'],
+      dataObject['moneyHeller'] ?? dataObject['money_heller']
+    )
+    this.hairColor = dataObject['hairColor'] ?? dataObject['hair_color']
+    this.eyeColor = dataObject['eyeColor'] ?? dataObject['eye_color']
     this.weight = dataObject['weight']
 
     this.attributes = [
@@ -154,7 +164,7 @@ export class Hero implements Combatant {
       new ActualAttribute(dataObject['KO'], this.attributeService.attributes.get('KO')),
       new ActualAttribute(dataObject['KK'], this.attributeService.attributes.get('KK'))
     ];
-    
+
 
     // Set individual attribute properties
     this.MU = dataObject['MU'];
@@ -165,15 +175,15 @@ export class Hero implements Combatant {
     this.GE = dataObject['GE'];
     this.KO = dataObject['KO'];
     this.KK = dataObject['KK'];
-    
+
     this.life = dataObject['life'];
-    this.magicEnergy = dataObject['magic_energy'];
-    this.magicEnergy_lost = dataObject['magic_energy_lost'];
+    this.magicEnergy = dataObject['magicEnergy'] ?? dataObject['magic_energy'];
+    this.magicEnergy_lost = dataObject['magicEnergyLost'] ?? dataObject['magic_energy_lost'];
     this.magieresistenz = dataObject['magieresistenz'];
     this.name = dataObject['name'];
     this.race = dataObject['race'];
     this.size = dataObject['size'];
-    this.social_rank = dataObject['social_rank']
+    this.social_rank = dataObject['socialRank'] ?? dataObject['social_rank']
 
     this.weapons = []
     this.armor = []
@@ -230,9 +240,9 @@ export class Hero implements Combatant {
         this.addWeapon(new Weapon(
           weapon['id'],
           weapon['name'],
-          weapon['tp_dice'],
-          weapon['tp_add_points'],
-          weapon['extra_tp_from_kk'],
+          weapon['tpDice'] ?? weapon['tp_dice'],
+          weapon['tpAddPoints'] ?? weapon['tp_add_points'],
+          weapon['extraTpFromKk'] ?? weapon['extra_tp_from_kk'],
           find(allSkills, skill => {
             return skill.id === weapon['skill']
           }),

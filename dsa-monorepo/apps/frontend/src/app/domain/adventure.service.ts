@@ -19,11 +19,11 @@ import { UrlService } from 'app/url.service';
 export class AdventureService {
 
 
-    private adventuresUrl = UrlService.getBaseUrl() + '/adventures/';
-    private npcTypesUrl = UrlService.getBaseUrl() + 'npcTypes/';
+    private adventuresUrl = UrlService.getBaseUrl() + '/api/adventures';
+    private npcTypesUrl = UrlService.getBaseUrl() + '/api/npc-types';
     private currentAdventure = 1;
-    private npcsUrl = `${UrlService.getBaseUrl()}/adventures/${this.currentAdventure}/npcs/`;
-    private fightsURL = `${UrlService.getBaseUrl()}/adventures/${this.currentAdventure}/fights/`;
+    private npcsUrl = `${UrlService.getBaseUrl()}/api/adventures/${this.currentAdventure}/npcs`;
+    private fightsURL = `${UrlService.getBaseUrl()}/api/adventures/${this.currentAdventure}/fights`;
     private adventures: Adventure[];
 
     constructor(private http: HttpClient, private skillService: SkillService, private spellService: SpellService, private attributeService: AttributeService) {
@@ -31,10 +31,10 @@ export class AdventureService {
 	}
 
     getAdventures(): Promise<Adventure[]> {
-        return this.http.get<any[]>(this.adventuresUrl)
+        return this.http.get<{ adventures: any[], count: number }>(this.adventuresUrl)
             .toPromise()
             .then(response => {
-                return this.extractAdventures(response);
+                return this.extractAdventures(response.adventures);
             }
         )
     }
@@ -145,11 +145,11 @@ export class Adventure {
     public setData(dataObject) {
         this.id = dataObject.id
         this.name = dataObject.name
-        dataObject.images.forEach(image => {
+        ;(dataObject.images ?? []).forEach(image => {
             let imageObject = new Image(this.buildImageLink(image.url), image.caption, image.sequence)
             this.images.push(imageObject)
         })
-        dataObject.characters.forEach(character => {
+        ;(dataObject.characters ?? []).forEach(character => {
             this.characters.push(new Character(character.name, this.buildImageLink(character.imageUrl), character.sequence))
         })
     }

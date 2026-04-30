@@ -8,7 +8,7 @@ import { AscensionPricing } from './ascensionPricing';
 })
 export class EnhancementPricingService {
 
-  private ascensionsUrl: string = UrlService.getBaseUrl() + '/ascensions/';
+  private ascensionsUrl: string = UrlService.getBaseUrl() + '/api/ascensions';
   private ascensionsPromise: Promise<AscensionPricing[]>;
   private ascensionPricing: Array<AscensionPricing>;
   constructor(private http: HttpClient) { }

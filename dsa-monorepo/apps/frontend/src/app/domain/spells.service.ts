@@ -11,8 +11,8 @@ import { UrlService } from 'app/url.service';
 @Injectable()
 export class SpellService {
 
-  private spellsUrl = `${UrlService.getBaseUrl()}/spells/`;
-  private spellTypesUrl = `${UrlService.getBaseUrl()}/spellTypes/`;
+  private spellsUrl = `${UrlService.getBaseUrl()}/api/spells`;
+  private spellTypesUrl = `${UrlService.getBaseUrl()}/api/spell-types`;
 
   private spells: Spell[];
 

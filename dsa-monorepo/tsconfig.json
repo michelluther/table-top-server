@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/backend-e2e"
+    },
+    {
+      "path": "./apps/backend"
+    },
+    {
+      "path": "./packages/shared-types"
+    },
+    {
+      "path": "./packages/validation"
+    },
+    {
+      "path": "./packages/constants"
+    }
+  ]
+}

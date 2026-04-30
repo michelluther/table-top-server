@@ -1,0 +1,10 @@
+{
+  "name": "@dsa-monorepo/backend-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@dsa-monorepo/backend"
+    ]
+  }
+}

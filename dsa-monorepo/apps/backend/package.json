@@ -1,0 +1,46 @@
+{
+  "name": "@dsa-monorepo/backend",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "start": "NODE_ENV=production tsx server.ts",
+    "build": "next build",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "user:list": "tsx scripts/manage-user.ts list",
+    "user:create": "tsx scripts/manage-user.ts create",
+    "user:reset": "tsx scripts/manage-user.ts reset"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@dsa-monorepo/constants": "*",
+    "@dsa-monorepo/shared-types": "*",
+    "@dsa-monorepo/validation": "*",
+    "@prisma/adapter-better-sqlite3": "^7.6.0",
+    "@prisma/client": "^7.6.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "autoprefixer": "^10.4.27",
+    "better-sqlite3": "^12.8.0",
+    "next": "~16.1.6",
+    "next-auth": "^5.0.0-beta.30",
+    "postcss": "^8.5.8",
+    "prisma": "^7.6.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.5",
+    "socket.io": "^4.8.1",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/ui": "^4.1.2",
+    "dotenv": "^17.3.1",
+    "happy-dom": "^20.8.9",
+    "vitest": "^4.1.2"
+  }
+}

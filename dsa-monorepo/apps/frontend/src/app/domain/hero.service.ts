@@ -8,6 +8,7 @@ import { AttributeService } from './attribute.service';
 import { Hero } from './hero';
 import { SkillService } from './skills.service';
 import { SpellService } from './spells.service';
+import type { CharacterDetailDto } from '@dsa-monorepo/shared-types';
 
 import { UrlService } from 'app/url.service';
 
@@ -30,7 +31,7 @@ export class HeroService {
 				resolve(this._heroes)
 			})
 		} else {
-			const characterGetPromise = this.http.get<{ characters: any[], count: number }>(this.heroesUrl)
+			const characterGetPromise = this.http.get<{ characters: CharacterDetailDto[], count: number }>(this.heroesUrl)
 				.toPromise()
 				.then(async response => {
 					if (!this._heroes) {
@@ -55,7 +56,13 @@ export class HeroService {
 				)
 
 			characterGetPromise.catch(error => {
-				console.error('error getting characters')
+				console.error('[HeroService] Error getting characters:', error);
+				console.error('[HeroService] Error details:', {
+					status: error.status,
+					statusText: error.statusText,
+					message: error.message,
+					url: this.heroesUrl
+				});
 			})
 			return characterGetPromise
 		}
@@ -69,7 +76,7 @@ export class HeroService {
 		}
 	}
 
-	async extractData(body: any[]): Promise<Hero[]> {
+	async extractData(body: CharacterDetailDto[]): Promise<Hero[]> {
 		const heroes = [];
 		for (const heroData of body) {
 			const newHero = new Hero(this.skillService, this.spellService, this.attributeService);

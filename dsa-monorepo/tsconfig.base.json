@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "lib": ["es2022"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2022",
+    "customConditions": ["@dsa-monorepo/source"],
+    "paths": {
+      "@dsa-monorepo/shared-types": ["packages/shared-types/src/index.ts"],
+      "@dsa-monorepo/validation": ["packages/validation/src/index.ts"],
+      "@dsa-monorepo/constants": ["packages/constants/src/index.ts"]
+    }
+  }
+}
