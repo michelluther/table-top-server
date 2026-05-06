@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * CORS configuration
  */
 const CORS_CONFIG = {
-  allowedOrigins: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:4200', 'http://localhost:3000'],
+  allowedOrigins: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:4200', 'http://localhost:3000', 'http://192.168.178.166:4200', 'http://192.168.178.166:3000' ],
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,

@@ -29,7 +29,7 @@ export class InventoryService {
         heroId: hero.id,
         type: 'updateAccountEntry',
         unit: accountEntry.unit.toLowerCase(),
-        amount: newAmountValue
+        amount: Number(newAmountValue)
       })
       resolve(accountEntry)
     })
@@ -41,8 +41,8 @@ export class InventoryService {
         heroId: hero.id,
         type: 'addInventoryItem',
         name: inventoryItem.name,
-        amount: inventoryItem.amount,
-        weight: inventoryItem.weight
+        amount: Number(inventoryItem.amount),
+        weight: Number(inventoryItem.weight)
       })
       resolve(inventoryItem)
     })
@@ -54,7 +54,7 @@ export class InventoryService {
         heroId: hero.id,
         inventoryItemId: inventoryItem.id,
         type: 'updateInventoryItem',
-        amount: amount
+        amount: Number(amount)
       })
       resolve(inventoryItem)
     })

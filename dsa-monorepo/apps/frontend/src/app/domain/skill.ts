@@ -19,10 +19,13 @@ export class Skill {
     this.name = dataObject['name'];
     this.be = dataObject['behinderung'];
     this.isWeaponSkill = dataObject['isWeaponSkill']
+    const diceKey = (raw: unknown): string | undefined =>
+      typeof raw === 'string' ? raw : (raw as { id?: string } | null | undefined)?.id;
+
     if (dataObject['dice1']) {
-      this.dice1 = this.attributeService.attributes.get(dataObject['dice1'].id);
-      this.dice2 = this.attributeService.attributes.get(dataObject['dice2'].id);
-      this.dice3 = this.attributeService.attributes.get(dataObject['dice3'].id);
+      this.dice1 = this.attributeService.attributes.get(diceKey(dataObject['dice1']));
+      this.dice2 = this.attributeService.attributes.get(diceKey(dataObject['dice2']));
+      this.dice3 = this.attributeService.attributes.get(diceKey(dataObject['dice3']));
     }
 
   }

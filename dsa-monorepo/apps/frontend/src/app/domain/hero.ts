@@ -258,8 +258,8 @@ export class Hero implements Combatant {
         this.addArmor(new Armor(
           armor['id'],
           armor['name'],
-          armor['rs'],
-          armor['be'])
+          armor['ruestungsSchutz'] ?? armor['rs'],
+          armor['behinderung'] ?? armor['be'])
         )
       })
     });

@@ -22,8 +22,8 @@ export class ArmorService {
           heroId: hero.id,
           type: 'addArmor',
           armorName: armor.name,
-          armorRS: armor.rs,
-          armorBE: armor.behinderung
+          armorRS: Number(armor.rs),
+          armorBE: Number(armor.behinderung)
       })
       resolve(armor)
   })}

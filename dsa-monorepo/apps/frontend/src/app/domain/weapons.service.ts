@@ -64,11 +64,11 @@ export class WeaponService {
       this.service.sendUpate({
           heroId: hero.id,
           type: 'addWeapon',
-          skill: weapon.skill.id,
+          skill: Number(weapon.skill.id),
           weaponName: weapon.name,
-          damageDice: weapon.damageDice,
-          damageAddPoints: weapon.damageAddPoints,
-          extraPointsFromKk: weapon.extraPointsFromKk
+          damageDice: Number(weapon.damageDice),
+          damageAddPoints: Number(weapon.damageAddPoints),
+          extraPointsFromKk: Number(weapon.extraPointsFromKk)
       })
       resolve(weapon)
   })}

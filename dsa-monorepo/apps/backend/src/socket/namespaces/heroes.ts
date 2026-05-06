@@ -300,6 +300,93 @@ export function setupHeroesNamespace(namespace: Namespace): void {
       }
     });
 
+    // Raise an attribute (e.g. MU, KK). Persists the new value on the character
+    // row and bumps experience_used by the spent price.
+    const ATTRIBUTE_KEYS = ['MU', 'KL', 'IN', 'CH', 'FF', 'GE', 'KO', 'KK'] as const;
+    type AttributeKey = (typeof ATTRIBUTE_KEYS)[number];
+    socket.on('updateAttribute', async (data: { heroId: number; attribute: string; value: number; price: number }) => {
+      try {
+        if (!ATTRIBUTE_KEYS.includes(data.attribute as AttributeKey)) {
+          throw new Error(`Invalid attribute key: ${data.attribute}`);
+        }
+        await prisma.dsa_starter_character.update({
+          where: { id: data.heroId },
+          data: {
+            [data.attribute]: data.value,
+            experience_used: { increment: data.price },
+          },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Attribute ${data.attribute} raised to ${data.value} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error updating attribute:', error);
+        socket.emit('error', { message: 'Failed to update attribute', error });
+      }
+    });
+
+    // Raise a skill. Updates the existing actualskill row when assignmentId is
+    // provided, otherwise creates one. Bumps experience_used.
+    socket.on('updateSkill', async (data: { heroId: number; skillId: number; assignmentId: number | null; value: number; price: number }) => {
+      try {
+        if (data.assignmentId) {
+          await prisma.dsa_starter_actualskill.update({
+            where: { id: data.assignmentId },
+            data: { value: data.value },
+          });
+        } else {
+          await prisma.dsa_starter_actualskill.create({
+            data: {
+              character_id: data.heroId,
+              skill_id: data.skillId,
+              value: data.value,
+            },
+          });
+        }
+        await prisma.dsa_starter_character.update({
+          where: { id: data.heroId },
+          data: { experience_used: { increment: data.price } },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Skill ${data.skillId} raised to ${data.value} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error updating skill:', error);
+        socket.emit('error', { message: 'Failed to update skill', error });
+      }
+    });
+
+    // Raise a spell. Same shape as updateSkill but persists on actualspellskill.
+    // Frontend sends the spell id under `skillId` (legacy field name).
+    socket.on('updateSpell', async (data: { heroId: number; skillId: number; assignmentId: number | null; value: number; price: number }) => {
+      try {
+        if (data.assignmentId) {
+          await prisma.dsa_starter_actualspellskill.update({
+            where: { id: data.assignmentId },
+            data: { value: data.value },
+          });
+        } else {
+          await prisma.dsa_starter_actualspellskill.create({
+            data: {
+              character_id: data.heroId,
+              spell_id: data.skillId,
+              value: data.value,
+            },
+          });
+        }
+        await prisma.dsa_starter_character.update({
+          where: { id: data.heroId },
+          data: { experience_used: { increment: data.price } },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Spell ${data.skillId} raised to ${data.value} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error updating spell:', error);
+        socket.emit('error', { message: 'Failed to update spell', error });
+      }
+    });
+
     // Set next up in fight handler
     socket.on('setNextUp', async (data: { params: { fight: number; nextUp: number } }) => {
       try {
