@@ -42,7 +42,7 @@ export class CombatDataDisplayComponent implements OnInit {
       this.service.sendUpate({
           heroId: this.hero.id,
           type: 'equipArmor',
-          weaponId: armor.id,
+          armorId: armor.id,
           isEquipped: armor.isEquipped
       })
       resolve(armor)

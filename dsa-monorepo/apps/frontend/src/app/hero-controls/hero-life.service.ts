@@ -144,6 +144,23 @@ export class HeroLifeService {
                     hero.deleteArmorById(messageData['armorId']);
                     this.toastr.success(`${hero.name} muss nun aufpassen, er hat weniger Schutz!`, 'Zack!')
                     break;
+                case 'setCurrentWeapon': {
+                    const weapon = hero.weapons.find(w => w.id == messageData['weaponId']);
+                    if (weapon) {
+                        // Triggers the Hero.currentWeapon setter, which recomputes
+                        // currentAttack / currentParade / currentLongRangeValue.
+                        hero.currentWeapon = weapon;
+                    }
+                    break;
+                }
+                case 'equipArmor': {
+                    // Newer clients send `armorId`; legacy ones reuse `weaponId`.
+                    const armorId = messageData['armorId'] ?? messageData['weaponId'];
+                    if (armorId !== undefined) {
+                        hero.equipArmorById(armorId, messageData['isEquipped'] === true);
+                    }
+                    break;
+                }
                 case 'addInventoryItem':
                     hero.addInventoryItem(new InventoryItem(messageData['inventoryId'], messageData['name'], messageData['amount'], messageData['weight']))
                     this.toastr.success(`${hero.name} hat was neues: ${messageData['name']}!`, 'Zack!')

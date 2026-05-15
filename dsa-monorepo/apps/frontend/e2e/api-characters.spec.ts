@@ -61,7 +61,7 @@ test.describe('DSA Cockpit Frontend - Characters API Integration', () => {
 
     const response = await responsePromise;
     const { characters } = (await response.json()) as {
-      characters: { name: string; weapons: { skill: number }[] }[];
+      characters: { name: string; weapons: { skill: number; isEquipped?: boolean }[] }[];
     };
 
     // At least one hero must carry a melee weapon — otherwise the test premise
@@ -70,22 +70,28 @@ test.describe('DSA Cockpit Frontend - Characters API Integration', () => {
     const allSkills = (await skillsResponse.json()) as { id: number; type: number }[];
     const meleeSkillIds = new Set(allSkills.filter((s) => s.type === 1).map((s) => s.id));
 
-    const heroesWithMeleeFirstWeapon = characters.filter(
-      (c) => c.weapons.length > 0 && meleeSkillIds.has(c.weapons[0].skill)
-    );
+    // Mirror Hero.structureSkills: the current weapon is whichever the server
+    // says is equipped, falling back to the first weapon in the list.
+    const currentWeaponOf = (c: { weapons: { skill: number; isEquipped?: boolean }[] }) =>
+      c.weapons.find((w) => w.isEquipped) ?? c.weapons[0];
+
+    const heroesWithMeleeCurrentWeapon = characters.filter((c) => {
+      const current = currentWeaponOf(c);
+      return current !== undefined && meleeSkillIds.has(current.skill);
+    });
     expect(
-      heroesWithMeleeFirstWeapon.length,
-      'fixture data must include at least one hero whose first weapon is melee'
+      heroesWithMeleeCurrentWeapon.length,
+      'fixture data must include at least one hero whose current weapon is melee'
     ).toBeGreaterThan(0);
 
     const startButton = page.getByRole('button', { name: "Los geht's!" });
     await expect(startButton).toBeVisible();
     await startButton.click();
 
-    // For each hero whose first weapon is melee, that hero's card must surface
+    // For each hero whose current weapon is melee, that hero's card must surface
     // Attacke and Parade with numeric values (set in Hero.currentWeapon setter
     // when skillGroupId === 1).
-    for (const hero of heroesWithMeleeFirstWeapon) {
+    for (const hero of heroesWithMeleeCurrentWeapon) {
       const card = page.locator('hero-card').filter({ hasText: hero.name });
       await expect(card).toBeVisible();
 

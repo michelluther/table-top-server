@@ -114,8 +114,8 @@ export function mapCharacterToDetailDto(
     dsa_starter_race: dsa_starter_race;
     dsa_starter_weaponskilldistribution?: dsa_starter_weaponskilldistribution[];
     dsa_starter_inventoryitem?: dsa_starter_inventoryitem[];
-    dsa_starter_characterhasweapon?: Array<{ dsa_starter_weapon: dsa_starter_weapon }>;
-    dsa_starter_characterhasarmor?: Array<{ dsa_starter_armor: dsa_starter_armor }>;
+    dsa_starter_characterhasweapon?: Array<{ dsa_starter_weapon: dsa_starter_weapon; isEquipped: boolean }>;
+    dsa_starter_characterhasarmor?: Array<{ dsa_starter_armor: dsa_starter_armor; isEquipped: boolean }>;
   }
 ): CharacterDetailDto {
   return {
@@ -176,10 +176,10 @@ export function mapCharacterToDetailDto(
       mapWeaponSkillDistributionToDto
     ),
     weapons: (character.dsa_starter_characterhasweapon || []).map(
-      (cw) => mapWeaponToDto(cw.dsa_starter_weapon)
+      (cw) => ({ ...mapWeaponToDto(cw.dsa_starter_weapon), isEquipped: cw.isEquipped })
     ),
     armor: (character.dsa_starter_characterhasarmor || []).map(
-      (ca) => mapArmorToDto(ca.dsa_starter_armor)
+      (ca) => ({ ...mapArmorToDto(ca.dsa_starter_armor), isEquipped: ca.isEquipped })
     ),
     inventoryItems: (character.dsa_starter_inventoryitem || []).map(
       mapInventoryItemToDto

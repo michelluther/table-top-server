@@ -286,6 +286,7 @@ model dsa_starter_characterhasarmor {
   id                    Int                   @id @default(autoincrement())
   armor_id              Int
   character_id          Int
+  isEquipped            Boolean               @default(false)
   dsa_starter_character dsa_starter_character @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dsa_starter_armor     dsa_starter_armor     @relation(fields: [armor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -297,6 +298,7 @@ model dsa_starter_characterhasweapon {
   id                    Int                   @id @default(autoincrement())
   character_id          Int
   weapon_id             Int
+  isEquipped            Boolean               @default(false)
   dsa_starter_weapon    dsa_starter_weapon    @relation(fields: [weapon_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dsa_starter_character dsa_starter_character @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 

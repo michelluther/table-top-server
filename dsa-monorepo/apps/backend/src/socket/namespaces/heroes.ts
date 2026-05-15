@@ -403,10 +403,51 @@ export function setupHeroesNamespace(namespace: Namespace): void {
       }
     });
 
-    // No-op handlers for events that don't persist
-    socket.on('setCurrentWeapon', (data) => {
-      namespace.to('heroes').emit('hero_update', data);
-      console.log(`[/heroes] Current weapon set (no persistence)`);
+    // Switch the character's currently-equipped weapon. Only one weapon can be
+    // marked equipped at a time, so flip the chosen join row to true and the
+    // others to false in a single transaction.
+    socket.on('setCurrentWeapon', async (data: { heroId: number; weaponId: number }) => {
+      try {
+        await prisma.$transaction([
+          prisma.dsa_starter_characterhasweapon.updateMany({
+            where: { character_id: data.heroId, weapon_id: { not: data.weaponId } },
+            data: { isEquipped: false },
+          }),
+          prisma.dsa_starter_characterhasweapon.updateMany({
+            where: { character_id: data.heroId, weapon_id: data.weaponId },
+            data: { isEquipped: true },
+          }),
+        ]);
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Current weapon ${data.weaponId} equipped for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error setting current weapon:', error);
+        socket.emit('error', { message: 'Failed to set current weapon', error });
+      }
+    });
+
+    // Toggle equipped state for one piece of armor. Multiple armor pieces can
+    // be equipped at the same time, so we just update the one join row.
+    socket.on('equipArmor', async (data: { heroId: number; armorId?: number; weaponId?: number; isEquipped: boolean }) => {
+      try {
+        // The frontend currently sends the armor id under `weaponId` (legacy
+        // typo in combat-data-display.component.ts). Accept both keys.
+        const armorId = data.armorId ?? data.weaponId;
+        if (armorId === undefined) {
+          throw new Error('equipArmor requires armorId');
+        }
+        await prisma.dsa_starter_characterhasarmor.updateMany({
+          where: { character_id: data.heroId, armor_id: armorId },
+          data: { isEquipped: data.isEquipped },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Armor ${armorId} equipped=${data.isEquipped} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error equipping armor:', error);
+        socket.emit('error', { message: 'Failed to equip armor', error });
+      }
     });
 
     socket.on('sendImage', (data) => {

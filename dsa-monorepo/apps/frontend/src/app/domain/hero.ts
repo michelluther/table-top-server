@@ -236,7 +236,10 @@ export class Hero implements Combatant {
         this.skillGroups.push(new ActualSkillGroup(skillGroup, skills));
       })
 
-      weapons.forEach(weapon => {
+      // Track which weapon was equipped server-side so we can restore the
+      // selection after rebuilding the local Weapon array.
+      let equippedWeaponIndex = -1;
+      weapons.forEach((weapon, index) => {
         this.addWeapon(new Weapon(
           weapon['id'],
           weapon['name'],
@@ -248,18 +251,22 @@ export class Hero implements Combatant {
           }),
           this.getAttribute('KK').value
         ))
+        if (weapon['isEquipped'] === true && equippedWeaponIndex === -1) {
+          equippedWeaponIndex = index;
+        }
       })
       if (this.weapons.length > 0){
-        this.currentWeapon = this.weapons[0]
+        this.currentWeapon = this.weapons[equippedWeaponIndex >= 0 ? equippedWeaponIndex : 0]
       } else {
         this.currentWeapon = null
-      } 
+      }
       armor.forEach(armor => {
         this.addArmor(new Armor(
           armor['id'],
           armor['name'],
           armor['ruestungsSchutz'] ?? armor['rs'],
-          armor['behinderung'] ?? armor['be'])
+          armor['behinderung'] ?? armor['be'],
+          armor['isEquipped'] === true)
         )
       })
     });
