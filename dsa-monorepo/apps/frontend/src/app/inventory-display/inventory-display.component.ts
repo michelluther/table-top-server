@@ -54,8 +54,8 @@ export class InventoryDisplayComponent implements OnInit {
   ngOnInit() {
     this.skillService.getWeaponSkills().then(weaponSkills => {
       this.weaponSkills = weaponSkills;
-      this.newWeapon = new Weapon(null, 'new weapon', 1, 4, 14, this.weaponSkills[0])
-      this.newArmor = new Armor(null, 'Neue Rüstung', 2, 2),
+      this.newWeapon = new Weapon(null, 'new weapon', 1, 4, 14, this.weaponSkills[0], null, 0)
+      this.newArmor = new Armor(null, 'Neue Rüstung', 2, 2, false, 0),
         this.newInventoryItem = new InventoryItem(null, 'Neues Ding', 1, 1)
     })
 

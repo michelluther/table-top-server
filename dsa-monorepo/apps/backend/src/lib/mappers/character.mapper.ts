@@ -86,6 +86,7 @@ export function mapArmorToDto(
     name: armor.name,
     ruestungsSchutz: armor.ruestungs_schutz,
     behinderung: armor.behinderung,
+    weight: armor.weight,
   };
 }
 
@@ -102,6 +103,7 @@ export function mapWeaponToDto(
     tpAddPoints: weapon.hit_add_points,
     extraTpFromKk: weapon.hit_extra_from_kk,
     skill: weapon.skill_id,
+    weight: weapon.weight,
   };
 }
 

@@ -122,7 +122,9 @@ export class HeroLifeService {
                             messageData['damageDice'],
                             messageData['damageAddPoints'],
                             messageData['extraPointsFromKk'],
-                            skill
+                            skill,
+                            null,
+                            messageData['weight'] ?? 0
                         ))
                         this.toastr.success(`${hero.name} hat eine Waffe mehr!`, 'Bäähm!')
                     })
@@ -137,6 +139,8 @@ export class HeroLifeService {
                         messageData['armorName'],
                         messageData['armorRS'],
                         messageData['armorBE'],
+                        false,
+                        messageData['armorWeight'] ?? 0,
                     ));
                     this.toastr.success(`${hero.name} ist nun besser gerüstet!`, 'Zack!')
                     break;

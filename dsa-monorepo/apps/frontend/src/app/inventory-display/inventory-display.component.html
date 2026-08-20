@@ -51,6 +51,8 @@
         <input [(ngModel)]="newWeapon._damageAddPoints" />
         <span>Körperkraft Zuschlag</span>
         <input [(ngModel)]="newWeapon.extraPointsFromKk" />
+        <span>Gewicht</span>
+        <input [(ngModel)]="newWeapon.weight" />
         <span>Kampftalent</span>
         <select [(ngModel)]="selectedSkillId">
           <option
@@ -68,6 +70,7 @@
       <th>Name</th>
       <th>Schaden</th>
       <th>Talent</th>
+      <th>Gewicht</th>
       <th></th>
     </tr>
 
@@ -75,6 +78,7 @@
       <td class="inventoryItemName">{{ weapon.name }}</td>
       <td class="inventoryDamage">{{ weapon.damageTextGeneral }}</td>
       <td class="inventoryDamage">{{ weapon.skill.name }}</td>
+      <td class="inventoryItemAmount">{{ weapon.weight }}</td>
 
       <td class="flex-spaces child-borders">
         <button (click)="removeWeaponFromInventory(weapon)">
@@ -104,6 +108,8 @@
         <input [(ngModel)]="newArmor.rs" />
         <span>Behinderung</span>
         <input [(ngModel)]="newArmor.behinderung" />
+        <span>Gewicht</span>
+        <input [(ngModel)]="newArmor.weight" />
       </div>
     </confirmation-sheet>
   </div>
@@ -112,12 +118,14 @@
       <th>Name</th>
       <th>Rüstungsschutz</th>
       <th>Behinderung</th>
+      <th>Gewicht</th>
       <th></th>
     </tr>
     <tr *ngFor="let armor of hero.armor" class="">
       <td class="inventoryItemName">{{ armor.name }}</td>
       <td class="inventoryDamage">{{ armor.rs }}</td>
       <td class="inventoryDamage">{{ armor.behinderung }}</td>
+      <td class="inventoryItemAmount">{{ armor.weight }}</td>
       <td>
         <button (click)="removeArmorFromInventory(armor)">
           <i class="fa fa-trash"></i>
@@ -175,4 +183,9 @@
       </td>
     </tr>
   </table>
+  <hr />
+  <div class="row inventoryItem">
+    <div class="inventoryItemName">Gesamtgewicht:</div>
+    <div class="inventoryItemAmount">{{ hero.totalInventoryWeight }}</div>
+  </div>
 </div>

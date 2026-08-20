@@ -249,7 +249,8 @@ export class Hero implements Combatant {
           find(allSkills, skill => {
             return skill.id === weapon['skill']
           }),
-          this.getAttribute('KK').value
+          this.getAttribute('KK').value,
+          weapon['weight'] ?? 0
         ))
         if (weapon['isEquipped'] === true && equippedWeaponIndex === -1) {
           equippedWeaponIndex = index;
@@ -266,7 +267,8 @@ export class Hero implements Combatant {
           armor['name'],
           armor['ruestungsSchutz'] ?? armor['rs'],
           armor['behinderung'] ?? armor['be'],
-          armor['isEquipped'] === true)
+          armor['isEquipped'] === true,
+          armor['weight'] ?? 0)
         )
       })
     });
@@ -304,6 +306,19 @@ export class Hero implements Combatant {
         return previousBehinderungValue + armorEntry.behinderung
       else return previousBehinderungValue
     }, 0)
+  }
+
+  // Derived (not persisted): total weight the hero is carrying across weapons,
+  // armor, and miscellaneous inventory. Inventory items have a per-unit weight,
+  // so multiply by their amount.
+  get totalInventoryWeight(): number {
+    const weaponWeight = (this.weapons ?? []).reduce((sum, w) => sum + (Number(w.weight) || 0), 0);
+    const armorWeight = (this.armor ?? []).reduce((sum, a) => sum + (Number(a.weight) || 0), 0);
+    const itemWeight = (this.inventory ?? []).reduce(
+      (sum, item) => sum + (Number(item.weight) || 0) * (Number(item.amount) || 0),
+      0
+    );
+    return weaponWeight + armorWeight + itemWeight;
   }
 
   equipArmorById(armorId: string, isEquipped: boolean): void {

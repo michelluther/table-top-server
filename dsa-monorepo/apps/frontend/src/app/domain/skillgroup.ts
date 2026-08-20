@@ -30,7 +30,7 @@ export class SkillGroup {
     } else {
       this.isLongRangeWeaponSkill = false;
     }
-    this.skillType = dataObject['skill_group']['name']
+    this.skillType = dataObject['skill_group'] ? dataObject['skill_group']['name'] : null
   }
 
   setSkills(skills: Skill[]) {

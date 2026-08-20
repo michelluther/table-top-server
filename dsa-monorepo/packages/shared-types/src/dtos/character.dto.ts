@@ -140,6 +140,7 @@ export interface ArmorDto {
   name: string;
   ruestungsSchutz: number;  // Armor protection value (rs)
   behinderung: number;       // Encumbrance
+  weight: number;
 }
 
 /**
@@ -152,6 +153,7 @@ export interface WeaponDto {
   tpAddPoints: number;       // hit_add_points
   extraTpFromKk: number;     // hit_extra_from_kk
   skill: number;             // skill_id
+  weight: number;
 }
 
 /**

@@ -201,7 +201,7 @@ export function setupHeroesNamespace(namespace: Namespace): void {
     });
 
     // Add weapon handler
-    socket.on('addWeapon', async (data: { heroId: number; weaponName: string; skill: number; damageDice: number; damageAddPoints: number; extraPointsFromKk: number }) => {
+    socket.on('addWeapon', async (data: { heroId: number; weaponName: string; skill: number; damageDice: number; damageAddPoints: number; extraPointsFromKk: number; weight?: number }) => {
       try {
         const weapon = await prisma.dsa_starter_weapon.create({
           data: {
@@ -210,6 +210,7 @@ export function setupHeroesNamespace(namespace: Namespace): void {
             hit_dices: data.damageDice,
             hit_add_points: data.damageAddPoints,
             hit_extra_from_kk: data.extraPointsFromKk,
+            weight: data.weight ?? 0,
           },
         });
 
@@ -252,13 +253,14 @@ export function setupHeroesNamespace(namespace: Namespace): void {
     });
 
     // Add armor handler
-    socket.on('addArmor', async (data: { heroId: number; armorName: string; armorRS: number; armorBE: number }) => {
+    socket.on('addArmor', async (data: { heroId: number; armorName: string; armorRS: number; armorBE: number; armorWeight?: number }) => {
       try {
         const armor = await prisma.dsa_starter_armor.create({
           data: {
             name: data.armorName,
             ruestungs_schutz: data.armorRS,
             behinderung: data.armorBE,
+            weight: data.armorWeight ?? 0,
           },
         });
 

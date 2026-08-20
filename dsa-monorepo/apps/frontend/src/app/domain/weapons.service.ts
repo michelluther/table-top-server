@@ -68,7 +68,8 @@ export class WeaponService {
           weaponName: weapon.name,
           damageDice: Number(weapon.damageDice),
           damageAddPoints: Number(weapon.damageAddPoints),
-          extraPointsFromKk: Number(weapon.extraPointsFromKk)
+          extraPointsFromKk: Number(weapon.extraPointsFromKk),
+          weight: Number(weapon.weight) || 0
       })
       resolve(weapon)
   })}

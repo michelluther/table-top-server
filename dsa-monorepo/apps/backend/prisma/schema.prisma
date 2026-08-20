@@ -216,6 +216,7 @@ model dsa_starter_armor {
   name                          String
   ruestungs_schutz              Int
   behinderung                   Int
+  weight                        Int                             @default(0)
   dsa_starter_characterhasarmor dsa_starter_characterhasarmor[]
 }
 
@@ -509,6 +510,7 @@ model dsa_starter_weapon {
   hit_add_points                          Int
   hit_extra_from_kk                       Int
   skill_id                                Int
+  weight                                  Int                                       @default(0)
   dsa_starter_characterhasweapon          dsa_starter_characterhasweapon[]
   dsa_starter_nonplayercharacterhasweapon dsa_starter_nonplayercharacterhasweapon[]
   dsa_starter_skill                       dsa_starter_skill                         @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

@@ -23,7 +23,8 @@ export class ArmorService {
           type: 'addArmor',
           armorName: armor.name,
           armorRS: Number(armor.rs),
-          armorBE: Number(armor.behinderung)
+          armorBE: Number(armor.behinderung),
+          armorWeight: Number(armor.weight) || 0
       })
       resolve(armor)
   })}
