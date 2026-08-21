@@ -1,4 +1,14 @@
-<h3 mat-dialog-title>{{ data.caption }}</h3>
-<div mat-dialog-content>
-  <img [src]="data.url" />
+<div class="fullscreen-viewer" (click)="close()">
+  <button
+    type="button"
+    class="close-button"
+    (click)="close(); $event.stopPropagation()"
+    aria-label="Schließen"
+  >
+    &times;
+  </button>
+  <div class="viewer-content" (click)="$event.stopPropagation()">
+    <img [src]="data.url" [alt]="data.caption" />
+    <div class="caption" *ngIf="data.caption">{{ data.caption }}</div>
+  </div>
 </div>

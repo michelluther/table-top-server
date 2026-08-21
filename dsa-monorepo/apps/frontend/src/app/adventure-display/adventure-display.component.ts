@@ -34,12 +34,14 @@ export class AdventureDisplayComponent implements OnInit {
 
   public showItem(element:AdventureElement){
     const dialogRef = this.dialog.open(ImagePopupComponent, {
-      // width: '90%',
-      maxHeight: '100%',
-      height: '90%',
-      data: { 
-        url: element.imageUrl, 
-        caption: element.title 
+      panelClass: 'fullscreen-image-dialog',
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: {
+        url: element.imageUrl,
+        caption: element.title
       }
     });
 

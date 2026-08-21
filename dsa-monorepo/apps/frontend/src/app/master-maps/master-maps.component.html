@@ -1,0 +1,62 @@
+<div class="padded flex-col center masterMapsContainer">
+  <h1>Karten</h1>
+
+  <div class="flex-row center adventureSelect" *ngIf="adventures.length > 0">
+    <label for="adventureSelect">Abenteuer</label>
+    <select
+      id="adventureSelect"
+      [(ngModel)]="selectedAdventureId"
+      (change)="onAdventureChange()"
+    >
+      <option *ngFor="let adventure of adventures" [value]="adventure.id">
+        {{ adventure.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="flex-row center uploadForm">
+    <input type="text" placeholder="Bildunterschrift" [(ngModel)]="caption" />
+    <input type="number" placeholder="Reihenfolge (optional)" [(ngModel)]="sequence" class="sequenceInput" />
+    <input type="file" accept="image/png,image/jpeg,image/webp" (change)="onFileSelected($event)" />
+    <button
+      class="comic-shadow"
+      [disabled]="!selectedFile || isUploading"
+      (click)="upload()"
+    >
+      {{ isUploading ? 'Lädt hoch…' : 'Hochladen' }}
+    </button>
+  </div>
+  <div class="errorMessage" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="mapGrid">
+    <div class="mapCard" *ngFor="let image of images" [class.inactive]="!image.isActive">
+      <div class="imageContainer" (click)="showImage(image)">
+        <img [src]="image.url" [alt]="image.caption" />
+      </div>
+      <label class="fieldLabel">
+        Reihenfolge
+        <input type="number" [(ngModel)]="image.sequence" class="sequenceInput" />
+      </label>
+      <label class="fieldLabel">
+        Bildunterschrift
+        <input type="text" [(ngModel)]="image.caption" />
+      </label>
+      <div class="mapCardActions flex-row center">
+        <button
+          class="comic-shadow"
+          [disabled]="savingImageId === image.id"
+          (click)="saveDetails(image)"
+        >
+          Speichern
+        </button>
+        <button class="comic-shadow" (click)="toggleActive(image)">
+          {{ image.isActive ? 'Für Helden verbergen' : 'Für Helden anzeigen' }}
+        </button>
+        <button class="comic-shadow" (click)="remove(image)">Löschen</button>
+      </div>
+    </div>
+    <div class="noMaps" *ngIf="images.length === 0">
+      Noch keine Karten für dieses Abenteuer hochgeladen.
+    </div>
+  </div>
+</div>

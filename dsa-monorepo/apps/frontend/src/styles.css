@@ -372,6 +372,21 @@ textarea:focus {
   padding: 0;
 }
 
+.fullscreen-image-dialog .mat-mdc-dialog-container,
+.fullscreen-image-dialog .mdc-dialog__surface,
+.fullscreen-image-dialog .mat-dialog-container {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.fullscreen-image-dialog .mat-mdc-dialog-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-height: 100vh !important;
+}
+
 /* toastr */
 
 /* based on angular-toastr css https://github.com/Foxandxss/angular-toastr/blob/cb508fe6801d6b288d3afc525bb40fee1b101650/dist/angular-toastr.css */

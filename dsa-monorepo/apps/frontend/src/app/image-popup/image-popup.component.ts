@@ -23,4 +23,8 @@ export class ImagePopupComponent implements OnInit {
   ngOnInit() {
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
 }

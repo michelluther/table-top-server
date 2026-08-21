@@ -127,6 +127,58 @@ export class AdventureService {
         })
     }
 
+    getAdventureImages(adventureId: string): Promise<AdventureImageAdmin[]> {
+        return this.http.get<{ images: any[] }>(this.adventureImagesUrl(adventureId))
+            .toPromise()
+            .then(response => response.images.map(image => this.toAdventureImageAdmin(image)))
+    }
+
+    uploadAdventureImage(adventureId: string, file: File, caption: string, sequence?: number): Promise<AdventureImageAdmin> {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('caption', caption);
+        if (sequence !== null && sequence !== undefined) {
+            formData.append('sequence', String(sequence));
+        }
+        return this.http.post<{ image: any }>(this.adventureImagesUrl(adventureId), formData)
+            .toPromise()
+            .then(response => this.toAdventureImageAdmin(response.image))
+    }
+
+    updateAdventureImage(adventureId: string, imageId: number, changes: { isActive?: boolean, caption?: string, sequence?: number }): Promise<AdventureImageAdmin> {
+        return this.http.patch<{ image: any }>(`${this.adventureImagesUrl(adventureId)}/${imageId}`, changes)
+            .toPromise()
+            .then(response => this.toAdventureImageAdmin(response.image))
+    }
+
+    deleteAdventureImage(adventureId: string, imageId: number): Promise<void> {
+        return this.http.delete<void>(`${this.adventureImagesUrl(adventureId)}/${imageId}`)
+            .toPromise()
+            .then(() => {})
+    }
+
+    private adventureImagesUrl(adventureId: string): string {
+        return `${this.adventuresUrl}/${adventureId}/images`
+    }
+
+    private toAdventureImageAdmin(image: any): AdventureImageAdmin {
+        return {
+            id: image.id,
+            url: image.url ? Adventure.buildImageLink(image.url) : null,
+            caption: image.caption,
+            sequence: image.sequence,
+            isActive: image.isActive,
+        }
+    }
+
+}
+
+export interface AdventureImageAdmin {
+    id: number;
+    url: string;
+    caption: string;
+    sequence: number;
+    isActive: boolean;
 }
 
 export class Adventure {
@@ -146,11 +198,11 @@ export class Adventure {
         this.id = dataObject.id
         this.name = dataObject.name
         ;(dataObject.images ?? []).forEach(image => {
-            let imageObject = new Image(this.buildImageLink(image.url), image.caption, image.sequence)
+            let imageObject = new Image(Adventure.buildImageLink(image.url), image.caption, image.sequence)
             this.images.push(imageObject)
         })
         ;(dataObject.characters ?? []).forEach(character => {
-            this.characters.push(new Character(character.name, this.buildImageLink(character.imageUrl), character.sequence))
+            this.characters.push(new Character(character.name, Adventure.buildImageLink(character.imageUrl), character.sequence))
         })
     }
 
@@ -190,7 +242,7 @@ export class Adventure {
         return allElementsGrouped
     } 
     
-    buildImageLink(absolutePath:string):string {
+    static buildImageLink(absolutePath:string):string {
         return `${UrlService.getBaseUrl()}${absolutePath}`
     }
 

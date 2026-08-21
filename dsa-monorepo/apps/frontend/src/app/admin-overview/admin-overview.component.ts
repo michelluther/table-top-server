@@ -23,8 +23,8 @@ export class AdminOverviewComponent implements OnInit {
   ngOnInit() {
   }
 
-  public sendImage(): void {
-
+  public showImages(): void {
+    this.router.navigate(['master/images']);
   }
 
   public startFight(): void {
