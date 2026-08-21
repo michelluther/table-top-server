@@ -6,12 +6,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { isAllowedOrigin, defaultOrigin } from './cors-origin';
 
 /**
  * CORS configuration
  */
 const CORS_CONFIG = {
-  allowedOrigins: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:4200', 'http://localhost:3000', 'http://192.168.178.166:4200', 'http://192.168.178.166:3000' ],
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
@@ -26,11 +26,10 @@ const CORS_CONFIG = {
  * @returns The response with CORS headers added
  */
 export function addCorsHeaders(response: NextResponse, request?: NextRequest): NextResponse {
-  const origin = request?.headers.get('origin') || '*';
+  const origin = request?.headers.get('origin');
 
   // Check if origin is allowed
-  const isAllowedOrigin = CORS_CONFIG.allowedOrigins.includes(origin) || CORS_CONFIG.allowedOrigins.includes('*');
-  const allowOrigin = isAllowedOrigin ? origin : CORS_CONFIG.allowedOrigins[0];
+  const allowOrigin = isAllowedOrigin(origin) ? origin! : defaultOrigin;
 
   response.headers.set('Access-Control-Allow-Origin', allowOrigin);
   response.headers.set('Access-Control-Allow-Methods', CORS_CONFIG.allowedMethods.join(', '));

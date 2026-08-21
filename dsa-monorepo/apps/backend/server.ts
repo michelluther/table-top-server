@@ -13,6 +13,7 @@ import next from 'next';
 import { parse } from 'url';
 import { Server as SocketIOServer } from 'socket.io';
 import { setupSocketIO } from './src/socket/setup';
+import { isAllowedOrigin, defaultOrigin } from './src/lib/cors-origin';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = process.env.HOSTNAME || 'localhost';
@@ -43,7 +44,9 @@ async function main() {
     // Setup Socket.IO
     const io = new SocketIOServer(httpServer, {
       cors: {
-        origin: process.env.CORS_ORIGIN || '*',
+        origin: (origin, callback) => {
+          callback(null, isAllowedOrigin(origin) ? origin : defaultOrigin);
+        },
         methods: ['GET', 'POST'],
         credentials: true,
       },
