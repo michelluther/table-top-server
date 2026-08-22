@@ -21,7 +21,6 @@ export class RemoteControlReceiverService {
   private operationsMap: Map<string, Function> = new Map()
 
 
-  private baseUrl: string
   private serverUrl = UrlService.getSocketIOUrl();
   public wsClientId = Math.random().toString(36).substring(7);
   private socket: Socket;
@@ -31,17 +30,27 @@ export class RemoteControlReceiverService {
 
   private currentlyConnected: boolean = false;
   private timerDialogRef: MatDialogRef<TimerDialogComponent>
+  private openImageDialogRef: MatDialogRef<ImagePopupComponent>
   private timerToaster: ActiveToast<Toast>;
 
   constructor(private http: HttpClient, public dialog: MatDialog, private toastr: ToastrService, private timerService:TimerService) {
 
-    this.baseUrl = UrlService.getBaseUrl();
     this.createSocketConnection()
 
     this.operationsMap.set(operationTypes.openImage, (openImageOperation: RemoteControlOperation) => {
-      const dialogRef = this.dialog.open(ImagePopupComponent, {
-        // width: '250px',
-        data: { url: this.baseUrl + openImageOperation.getParameter('url') }
+      if (this.openImageDialogRef) {
+        this.openImageDialogRef.close()
+      }
+      this.openImageDialogRef = this.dialog.open(ImagePopupComponent, {
+        panelClass: 'fullscreen-image-dialog',
+        width: '100vw',
+        height: '100vh',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        data: {
+          url: openImageOperation.getParameter('url'),
+          caption: openImageOperation.getParameter('caption')
+        }
       })
     })
 

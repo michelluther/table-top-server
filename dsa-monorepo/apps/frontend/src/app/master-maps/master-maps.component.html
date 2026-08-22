@@ -52,6 +52,13 @@
         <button class="comic-shadow" (click)="toggleActive(image)">
           {{ image.isActive ? 'Für Helden verbergen' : 'Für Helden anzeigen' }}
         </button>
+        <button
+          class="comic-shadow"
+          title="Zeigt die Karte allen Helden sofort an, egal wo sie in der App gerade sind"
+          (click)="showImageToHeroes(image)"
+        >
+          Jetzt an Helden senden
+        </button>
         <button class="comic-shadow" (click)="remove(image)">Löschen</button>
       </div>
     </div>

@@ -38,4 +38,8 @@ export class AdminOverviewComponent implements OnInit {
     this.router.navigate(['master/startTimer'])
   }
 
+  public showQrCode(): void {
+    this.router.navigate(['master/qr']);
+  }
+
 }

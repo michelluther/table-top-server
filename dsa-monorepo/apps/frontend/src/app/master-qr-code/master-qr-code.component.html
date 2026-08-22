@@ -1,0 +1,16 @@
+<div class="padded flex-col center qrCodeContainer">
+  <h1>Beitreten</h1>
+  <p>Diesen QR-Code mit dem Smartphone scannen, um die App zu öffnen:</p>
+
+  <div class="qrCodeImage" *ngIf="qrCodeDataUrl">
+    <img [src]="qrCodeDataUrl" alt="QR-Code zur Helden-App" />
+  </div>
+
+  <div class="errorMessage" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <p class="playerUrl">{{ playerUrl }}</p>
+
+  <button class="comic-shadow" (click)="copyUrl()">
+    {{ copied ? 'Kopiert!' : 'Link kopieren' }}
+  </button>
+</div>

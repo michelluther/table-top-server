@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Adventure, AdventureImageAdmin, AdventureService } from './../domain/adventure.service';
 import { ImagePopupComponent } from './../image-popup/image-popup.component';
+import { OperationFactory, operationTypes } from './../domain/remoteControlOperation';
+import { RemoteControlService } from './../remote-control/remote-control.service';
 
 @Component({
     selector: 'app-master-maps',
     templateUrl: './master-maps.component.html',
     styleUrls: ['./master-maps.component.css'],
-    providers: [AdventureService],
+    providers: [AdventureService, RemoteControlService],
     standalone: false
 })
 export class MasterMapsComponent implements OnInit {
@@ -22,7 +24,11 @@ export class MasterMapsComponent implements OnInit {
   public errorMessage: string = null;
   public savingImageId: number = null;
 
-  constructor(private adventureService: AdventureService, private dialog: MatDialog) { }
+  constructor(
+    private adventureService: AdventureService,
+    private dialog: MatDialog,
+    private remoteControlService: RemoteControlService
+  ) { }
 
   ngOnInit() {
     this.adventureService.getAdventures().then(adventures => {
@@ -71,10 +77,23 @@ export class MasterMapsComponent implements OnInit {
   }
 
   toggleActive(image: AdventureImageAdmin): void {
-    this.adventureService.updateAdventureImage(this.selectedAdventureId, image.id, { isActive: !image.isActive })
+    const makeActive = !image.isActive;
+    this.adventureService.updateAdventureImage(this.selectedAdventureId, image.id, { isActive: makeActive })
       .then(updated => {
         image.isActive = updated.isActive;
+        if (image.isActive) {
+          this.showImageToHeroes(image);
+        }
       });
+  }
+
+  showImageToHeroes(image: AdventureImageAdmin): void {
+    this.remoteControlService.sendRemoteControlInstruction(
+      OperationFactory.createOperation(operationTypes.openImage, 'all', {
+        url: image.url,
+        caption: image.caption,
+      })
+    );
   }
 
   saveDetails(image: AdventureImageAdmin): void {

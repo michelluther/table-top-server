@@ -58,6 +58,7 @@ import { LifeDisplayComponent } from './life-display/life-display.component';
 import { MagicDisplayComponent } from './magic-display/magic-display.component';
 import { MasterComponent } from './master/master.component';
 import { MasterMapsComponent } from './master-maps/master-maps.component';
+import { MasterQrCodeComponent } from './master-qr-code/master-qr-code.component';
 import { Menu } from './menu/menu.component';
 import { PlayerComponent } from './player/player.component';
 import { RemoteControlReceiverComponent } from './remote-control-receiver/remote-control-receiver.component';
@@ -89,7 +90,8 @@ const routes: Routes = [
       { path: 'hero/:id', component: HeroDetailComponent },
       { path: 'fight/start', component: FightSetupComponent },
       { path: 'startTimer', component: AdminTimerComponent },
-      { path: 'images', component: MasterMapsComponent }
+      { path: 'images', component: MasterMapsComponent },
+      { path: 'qr', component: MasterQrCodeComponent }
     ]
   },
   {
@@ -132,6 +134,7 @@ const routes: Routes = [
         PlayerComponent,
         MasterComponent,
         MasterMapsComponent,
+        MasterQrCodeComponent,
         ImagePopupComponent,
         ChooseImageComponent,
         LifeDisplayComponent,

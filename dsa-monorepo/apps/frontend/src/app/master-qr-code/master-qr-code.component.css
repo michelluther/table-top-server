@@ -1,0 +1,21 @@
+.qrCodeContainer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.qrCodeImage {
+  margin: 1rem 0;
+}
+
+.qrCodeImage img {
+  max-width: 100%;
+}
+
+.playerUrl {
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.errorMessage {
+  color: #b00020;
+}
