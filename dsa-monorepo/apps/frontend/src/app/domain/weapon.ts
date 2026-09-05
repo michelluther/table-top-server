@@ -1,7 +1,7 @@
 import { Skill } from "./skill";
 export class Weapon {
 
-    constructor(public id: string, public name: string, public damageDice: number, private _damageAddPoints: number, public extraPointsFromKk: number, public skill: Skill = null, public heroKk: number = null, public weight: number = 0) {
+    constructor(public id: string, public name: string, public damageDice: number, private _damageAddPoints: number, public extraPointsFromKk: number, public skill: Skill = null, public heroKk: number = null, public weight: number = 0, public isCarried: boolean = true) {
 
     }
 

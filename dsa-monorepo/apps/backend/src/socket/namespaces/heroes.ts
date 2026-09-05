@@ -170,11 +170,15 @@ export function setupHeroesNamespace(namespace: Namespace): void {
     });
 
     // Update inventory item handler
-    socket.on('updateInventoryItem', async (data: { heroId: number; inventoryItemId: number; amount: number }) => {
+    socket.on('updateInventoryItem', async (data: { heroId: number; inventoryItemId: number; amount?: number; isCarried?: boolean }) => {
       try {
+        const updateData: { amount?: number; isCarried?: boolean } = {};
+        if (data.amount !== undefined) updateData.amount = data.amount;
+        if (data.isCarried !== undefined) updateData.isCarried = data.isCarried;
+
         await prisma.dsa_starter_inventoryitem.update({
           where: { id: data.inventoryItemId },
-          data: { amount: data.amount },
+          data: updateData,
         });
 
         namespace.to('heroes').emit('hero_update', data);
@@ -449,6 +453,39 @@ export function setupHeroesNamespace(namespace: Namespace): void {
       } catch (error) {
         console.error('[/heroes] Error equipping armor:', error);
         socket.emit('error', { message: 'Failed to equip armor', error });
+      }
+    });
+
+    // Toggle carried state for one weapon (owned but not necessarily equipped
+    // weapons can still be carried on the hero's body vs. left behind).
+    socket.on('updateWeaponCarried', async (data: { heroId: number; weaponId: number; isCarried: boolean }) => {
+      try {
+        await prisma.dsa_starter_characterhasweapon.updateMany({
+          where: { character_id: data.heroId, weapon_id: data.weaponId },
+          data: { isCarried: data.isCarried },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Weapon ${data.weaponId} carried=${data.isCarried} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error updating weapon carried state:', error);
+        socket.emit('error', { message: 'Failed to update weapon carried state', error });
+      }
+    });
+
+    // Toggle carried state for one piece of armor (mirrors updateWeaponCarried).
+    socket.on('updateArmorCarried', async (data: { heroId: number; armorId: number; isCarried: boolean }) => {
+      try {
+        await prisma.dsa_starter_characterhasarmor.updateMany({
+          where: { character_id: data.heroId, armor_id: data.armorId },
+          data: { isCarried: data.isCarried },
+        });
+
+        namespace.to('heroes').emit('hero_update', data);
+        console.log(`[/heroes] Armor ${data.armorId} carried=${data.isCarried} for character ${data.heroId}`);
+      } catch (error) {
+        console.error('[/heroes] Error updating armor carried state:', error);
+        socket.emit('error', { message: 'Failed to update armor carried state', error });
       }
     });
 

@@ -193,7 +193,7 @@ export class Hero implements Combatant {
     })
 
     this.inventory = dataObject['inventoryItems'].map(inventoryItem => {
-      return new InventoryItem(inventoryItem.id, inventoryItem.name, inventoryItem.amount, inventoryItem.weight)
+      return new InventoryItem(inventoryItem.id, inventoryItem.name, inventoryItem.amount, inventoryItem.weight, inventoryItem['isCarried'] ?? true)
     });
     
     // Wait for async initialization to complete before returning
@@ -250,7 +250,8 @@ export class Hero implements Combatant {
             return skill.id === weapon['skill']
           }),
           this.getAttribute('KK').value,
-          weapon['weight'] ?? 0
+          weapon['weight'] ?? 0,
+          weapon['isCarried'] ?? true
         ))
         if (weapon['isEquipped'] === true && equippedWeaponIndex === -1) {
           equippedWeaponIndex = index;
@@ -268,7 +269,8 @@ export class Hero implements Combatant {
           armor['ruestungsSchutz'] ?? armor['rs'],
           armor['behinderung'] ?? armor['be'],
           armor['isEquipped'] === true,
-          armor['weight'] ?? 0)
+          armor['weight'] ?? 0,
+          armor['isCarried'] ?? true)
         )
       })
     });
@@ -321,8 +323,55 @@ export class Hero implements Combatant {
     return weaponWeight + armorWeight + itemWeight;
   }
 
+  // Derived (not persisted): like totalInventoryWeight, but weapons, armor,
+  // and inventory items marked as stashed (isCarried === false) are excluded -
+  // only weight the hero actually has on them.
+  get carriedWeight(): number {
+    const weaponWeight = (this.weapons ?? []).reduce(
+      (sum, w) => sum + (w.isCarried ? Number(w.weight) || 0 : 0),
+      0
+    );
+    const armorWeight = (this.armor ?? []).reduce(
+      (sum, a) => sum + (a.isCarried ? Number(a.weight) || 0 : 0),
+      0
+    );
+    const itemWeight = (this.inventory ?? []).reduce(
+      (sum, item) => sum + (item.isCarried ? (Number(item.weight) || 0) * (Number(item.amount) || 0) : 0),
+      0
+    );
+    return weaponWeight + armorWeight + itemWeight;
+  }
+
+  // Item weights are stored in Unzen (1 Stein = 40 Unzen).
+  get carriedWeightInStein(): number {
+    return Math.round((this.carriedWeight / 40) * 100) / 100;
+  }
+
+  // House rule: a hero can carry up to KK Stein.
+  get tragkraft(): number {
+    return this.getAttribute('KK')?.value ?? 0;
+  }
+
+  get isOverloaded(): boolean {
+    return this.carriedWeightInStein > this.tragkraft;
+  }
+
   equipArmorById(armorId: string, isEquipped: boolean): void {
     this.getArmorById(armorId).isEquipped = isEquipped
+  }
+
+  updateArmorCarriedById(armorId: string, isCarried: boolean): void {
+    this.getArmorById(armorId).isCarried = isCarried
+  }
+
+  getWeaponById(weaponId: string): Weapon {
+    return this.weapons.find(weapon => {
+      return weapon.id === weaponId;
+    })
+  }
+
+  updateWeaponCarriedById(weaponId: string, isCarried: boolean): void {
+    this.getWeaponById(weaponId).isCarried = isCarried
   }
 
   addWeapon(weapon: Weapon): void {
@@ -356,6 +405,10 @@ export class Hero implements Combatant {
 
   updateInventoryItemAmount(inventoryItemId: number, amount) {
     this.getInventoryItemById(inventoryItemId).amount = amount
+  }
+
+  updateInventoryItemCarried(inventoryItemId: number, isCarried: boolean) {
+    this.getInventoryItemById(inventoryItemId).isCarried = isCarried
   }
 
   structureSpells(actualSpellsOfHero: Array<Object>): void {

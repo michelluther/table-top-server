@@ -1,4 +1,12 @@
 <div class="padded flex-col center">
+  <div class="row inventoryItem carriedWeightSummary" [class.overloaded]="hero.isOverloaded">
+    <div class="inventoryItemName">Getragenes Gewicht (Tragkraft):</div>
+    <div class="inventoryItemAmount">{{ hero.carriedWeightInStein }} / {{ hero.tragkraft }} Stein</div>
+    <div class="overloadWarning" *ngIf="hero.isOverloaded">
+      <i class="fa fa-exclamation-triangle"></i> Überladen!
+    </div>
+  </div>
+  <hr />
   <h4 class="inventoryGroupTitle inventoryMoneyTitle">Geld</h4>
   <div class="flex-col">
     <div class="row inventoryItem">
@@ -81,6 +89,15 @@
       <td class="inventoryItemAmount">{{ weapon.weight }}</td>
 
       <td class="flex-spaces child-borders">
+        <button
+          class="carriedToggle"
+          [class.carried]="weapon.isCarried"
+          [class.stashed]="!weapon.isCarried"
+          (click)="toggleWeaponCarried(weapon)"
+          [title]="weapon.isCarried ? 'Wird am Körper getragen - klicken, um zu verstauen' : 'Ist verstaut - klicken, um mitzunehmen'"
+        >
+          <i class="fa" [class.fa-male]="weapon.isCarried" [class.fa-archive]="!weapon.isCarried"></i>
+        </button>
         <button (click)="removeWeaponFromInventory(weapon)">
           <i class="fa fa-trash"></i>
         </button>
@@ -127,6 +144,15 @@
       <td class="inventoryDamage">{{ armor.behinderung }}</td>
       <td class="inventoryItemAmount">{{ armor.weight }}</td>
       <td>
+        <button
+          class="carriedToggle"
+          [class.carried]="armor.isCarried"
+          [class.stashed]="!armor.isCarried"
+          (click)="toggleArmorCarried(armor)"
+          [title]="armor.isCarried ? 'Wird am Körper getragen - klicken, um zu verstauen' : 'Ist verstaut - klicken, um mitzunehmen'"
+        >
+          <i class="fa" [class.fa-male]="armor.isCarried" [class.fa-archive]="!armor.isCarried"></i>
+        </button>
         <button (click)="removeArmorFromInventory(armor)">
           <i class="fa fa-trash"></i>
         </button>
@@ -168,6 +194,15 @@
       <td class="inventoryItemAmount">{{ inventoryItem.amount }}</td>
       <td class="inventoryItemAmount">{{ inventoryItem.weight }}</td>
       <td>
+        <button
+          class="carriedToggle"
+          [class.carried]="inventoryItem.isCarried"
+          [class.stashed]="!inventoryItem.isCarried"
+          (click)="toggleInventoryItemCarried(inventoryItem)"
+          [title]="inventoryItem.isCarried ? 'Wird am Körper getragen - klicken, um zu verstauen' : 'Ist verstaut - klicken, um mitzunehmen'"
+        >
+          <i class="fa" [class.fa-male]="inventoryItem.isCarried" [class.fa-archive]="!inventoryItem.isCarried"></i>
+        </button>
         <button (click)="addToInventoryAmount(inventoryItem)">
           <i class="fa fa-plus"></i>
         </button>

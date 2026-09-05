@@ -33,7 +33,7 @@ export const PATCH = withAuth(
       }
 
       const body = await request.json();
-      const { name, amount, unit, weight } = body;
+      const { name, amount, unit, weight, isCarried } = body;
 
       // Check if item exists and belongs to this character
       const existingItem = await prisma.dsa_starter_inventoryitem.findFirst({
@@ -63,6 +63,9 @@ export const PATCH = withAuth(
       }
       if (weight !== undefined && typeof weight === 'number' && weight >= 0) {
         updateData.weight = weight;
+      }
+      if (isCarried !== undefined && typeof isCarried === 'boolean') {
+        updateData.isCarried = isCarried;
       }
 
       if (Object.keys(updateData).length === 0) {

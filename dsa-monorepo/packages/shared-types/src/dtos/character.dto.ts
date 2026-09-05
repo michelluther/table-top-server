@@ -165,6 +165,7 @@ export interface InventoryItemDto {
   amount: number;
   unit: string;
   weight: number;
+  isCarried: boolean;
 }
 
 /**

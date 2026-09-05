@@ -60,6 +60,18 @@ export class InventoryService {
     })
   }
 
+  setInventoryItemCarried(inventoryItem: InventoryItem, hero: Hero, isCarried: boolean): Promise<InventoryItem> {
+    return new Promise(resolve => {
+      this.service.sendUpate({
+        heroId: hero.id,
+        inventoryItemId: inventoryItem.id,
+        type: 'updateInventoryItem',
+        isCarried
+      })
+      resolve(inventoryItem)
+    })
+  }
+
   deleteInventory(inventoryItem: InventoryItem, hero: Hero): void {
     new Promise((resolve, reject) => {
       this.service.sendUpate({

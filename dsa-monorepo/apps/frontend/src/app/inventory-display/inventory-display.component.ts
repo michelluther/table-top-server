@@ -109,6 +109,10 @@ export class InventoryDisplayComponent implements OnInit {
     this.deletionDialogRef.close();
   }
 
+  toggleWeaponCarried(weapon: Weapon): void {
+    this.weaponService.setWeaponCarried(weapon, this.hero, !weapon.isCarried)
+  }
+
   /** armor maintenance*/
 
   addArmorToInventory(): void {
@@ -134,6 +138,10 @@ export class InventoryDisplayComponent implements OnInit {
   deleteArmor(): void {
     this.armorService.deleteArmor(this._armorToDelete, this.hero);
     this.deletionDialogRef.close();
+  }
+
+  toggleArmorCarried(armor: Armor): void {
+    this.armorService.setArmorCarried(armor, this.hero, !armor.isCarried)
   }
 
   /** general inventory maintenance */
@@ -170,6 +178,10 @@ export class InventoryDisplayComponent implements OnInit {
 
   addToInventoryAmount(inventoryItem: InventoryItem): void {
     this.inventoryService.setInventoryItemAmount(inventoryItem, this.hero, inventoryItem.amount + 1)
+  }
+
+  toggleInventoryItemCarried(inventoryItem: InventoryItem): void {
+    this.inventoryService.setInventoryItemCarried(inventoryItem, this.hero, !inventoryItem.isCarried)
   }
 
   cancelDeletion(): void {

@@ -39,5 +39,17 @@ export class ArmorService {
       resolve(armor)
     })
   }
-  
+
+  setArmorCarried(armor: Armor, hero: Hero, isCarried: boolean): Promise<Armor> {
+    return new Promise(resolve => {
+      this.service.sendUpate({
+          heroId: hero.id,
+          type: 'updateArmorCarried',
+          armorId: armor.id,
+          isCarried
+      })
+      resolve(armor)
+    })
+  }
+
 }

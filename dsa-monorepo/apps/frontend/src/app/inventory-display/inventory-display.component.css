@@ -92,3 +92,47 @@ button.addButton {
 .inventoryItemAction {
   padding-left: 20px;
 }
+
+.carriedWeightSummary {
+  font-weight: 700;
+  font-size: 1.1rem;
+  justify-content: center;
+  gap: 12px;
+}
+
+.carriedWeightSummary.overloaded {
+  color: #a94442;
+}
+
+.overloadWarning {
+  background-color: #f2dede;
+  border: 1px solid #a94442;
+  color: #a94442;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 0.9rem;
+}
+
+.carriedToggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #999;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.carriedToggle.carried {
+  background-color: #dff0d8;
+  border-color: #3c763d;
+  color: #3c763d;
+}
+
+.carriedToggle.stashed {
+  background-color: #f0f0f0;
+  border-color: #777;
+  color: #555;
+}

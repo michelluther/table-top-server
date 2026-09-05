@@ -165,8 +165,14 @@ export class HeroLifeService {
                     }
                     break;
                 }
+                case 'updateWeaponCarried':
+                    hero.updateWeaponCarriedById(messageData['weaponId'], messageData['isCarried'] === true);
+                    break;
+                case 'updateArmorCarried':
+                    hero.updateArmorCarriedById(messageData['armorId'], messageData['isCarried'] === true);
+                    break;
                 case 'addInventoryItem':
-                    hero.addInventoryItem(new InventoryItem(messageData['inventoryId'], messageData['name'], messageData['amount'], messageData['weight']))
+                    hero.addInventoryItem(new InventoryItem(messageData['inventoryId'], messageData['name'], messageData['amount'], messageData['weight'], messageData['isCarried'] ?? true))
                     this.toastr.success(`${hero.name} hat was neues: ${messageData['name']}!`, 'Zack!')
                     break;
                 case 'deleteInventoryItem':
@@ -175,7 +181,12 @@ export class HeroLifeService {
                     this.toastr.success(`${hero.name} hat etwas abgegeben: ${itemName}!`, 'Zack!')
                     break;
                 case 'updateInventoryItem':
-                    hero.updateInventoryItemAmount(messageData['inventoryItemId'], messageData['amount']);
+                    if (messageData['amount'] !== undefined) {
+                        hero.updateInventoryItemAmount(messageData['inventoryItemId'], messageData['amount']);
+                    }
+                    if (messageData['isCarried'] !== undefined) {
+                        hero.updateInventoryItemCarried(messageData['inventoryItemId'], messageData['isCarried']);
+                    }
                     break;
                 case 'addExperiencePoints':
                     hero.experience = hero.experience + messageData['additionalPoints'];
